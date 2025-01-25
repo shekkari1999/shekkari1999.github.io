@@ -30,6 +30,20 @@
             font-weight: 600;
             color: #4a4a4a;
         }
+        .back-home {
+            margin-top: 15px;
+            display: inline-block;
+            background: #007aff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .back-home:hover {
+            background: #0056b3;
+        }
         .projects {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -52,6 +66,7 @@
         }
         .project-card img {
             width: 100%;
+            height: auto;
             border-radius: 8px;
             margin-bottom: 15px;
         }
@@ -72,103 +87,102 @@
         .project-card button:hover {
             background: #0056b3;
         }
-       <style>
-    /* Modal Styling */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .modal-content {
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        border-radius: 20px;
-        padding: 40px;
-        width: 80%;
-        max-width: 800px;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        animation: fadeIn 0.3s ease;
-        text-align: left;
-    }
-    .modal-content h2 {
-        margin-top: 0;
-        color: #007aff;
-        font-size: 2em;
-    }
-    .modal-content p, .modal-content ul {
-        line-height: 1.8;
-        color: #555;
-        font-size: 1.1em;
-    }
-    .modal-content ul {
-        margin: 20px 0;
-        padding-left: 20px;
-    }
-    .modal-content ul li {
-        margin-bottom: 10px;
-    }
-    .modal-content .buttons {
-        margin-top: 30px;
-        display: flex;
-        gap: 10px;
-    }
-    .modal-content .buttons a {
-        background: #007aff;
-        color: white;
-        padding: 12px 20px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-size: 1em;
-        transition: background 0.3s ease;
-    }
-    .modal-content .buttons a:hover {
-        background: #0056b3;
-    }
-    .close-btn {
-        background: none;
-        border: none;
-        font-size: 2rem;
-        color: #007aff;
-        cursor: pointer;
-        position: absolute;
-        top: 15px;
-        right: 20px;
-    }
-    .back-btn {
-        background: #f5f5f5;
-        color: #007aff;
-        border: 1px solid #007aff;
-        padding: 10px 20px;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 1em;
-        margin-top: 20px;
-        transition: background 0.3s ease, color 0.3s ease;
-    }
-    .back-btn:hover {
-        background: #007aff;
-        color: white;
-    }
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
-        to {
-            opacity: 1;
+        .modal-content {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 40px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease;
+            text-align: left;
         }
-    }
-</style>
+        .modal-content h2 {
+            margin-top: 0;
+            color: #007aff;
+            font-size: 2em;
+        }
+        .modal-content p, .modal-content ul {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.1em;
+        }
+        .modal-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        .modal-content ul li {
+            margin-bottom: 10px;
+        }
+        .modal-content .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+        }
+        .modal-content .buttons a {
+            background: #007aff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+        .modal-content .buttons a:hover {
+            background: #0056b3;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #007aff;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+        .back-btn {
+            background: #f5f5f5;
+            color: #007aff;
+            border: 1px solid #007aff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .back-btn:hover {
+            background: #007aff;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Projects</h1>
+        <a href="index.html" class="back-home">Back to Home</a>
     </header>
     <div class="projects">
         <div class="project-card">
@@ -183,27 +197,22 @@
         </div>
     </div>
 
-   <div id="project1-modal" class="modal">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeModal('project1')">&times;</button>
-        <h2>Project 1</h2>
-        <p>
-            This is a detailed description of Project 1. Here you can add the tools used, challenges faced, 
-            and other project highlights. For example, this project implements an advanced machine learning 
-            pipeline and visualization dashboard to monitor real-time performance metrics.
-        </p>
-        <ul>
-            <li><strong>Tools Used:</strong> Python, TensorFlow, Flask</li>
-            <li><strong>Technologies:</strong> Docker, AWS</li>
-            <li><strong>Challenges Solved:</strong> Scalability, Real-time Performance Monitoring</li>
-        </ul>
-        <div class="buttons">
-            <a href="https://github.com/username/project1" target="_blank">GitHub</a>
-            <a href="https://example.com/project1" target="_blank">Execute Project</a>
+    <div id="project1-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project1')">&times;</button>
+            <h2>Project 1</h2>
+            <p>
+                This is a detailed description of Project 1. Here you can add the tools used, challenges faced, 
+                and other project highlights.
+            </p>
+            <div class="buttons">
+                <a href="https://github.com/username/project1" target="_blank">GitHub</a>
+                <a href="https://example.com/project1" target="_blank">Execute Project</a>
+            </div>
+            <button class="back-btn" onclick="closeModal('project1')">Back</button>
         </div>
-        <button class="back-btn" onclick="closeModal('project1')">Back</button>
     </div>
-</div>
+
     <script>
         function openModal(projectId) {
             document.getElementById(`${projectId}-modal`).style.display = 'flex';
