@@ -256,6 +256,16 @@
         nav a.projects-link:hover {
             color: #218838;  /* Darker green on hover */
         }
+
+        /* Update the papers-link styling to violet */
+        nav a.papers-link {
+            color: #9400D3;  /* Keep the violet color */
+            transition: color 0.3s ease;
+        }
+
+        nav a.papers-link:hover {
+            color: #7B1FA2;  /* Keep the hover color */
+        }
     </style>
 </head>
 <body>
@@ -265,6 +275,7 @@
             <a href="#about"><i class="fas fa-user"></i>About</a>
             <a href="projects.html" class="projects-link"><i class="fas fa-code"></i>Projects</a>
             <a href="blogs.html" class="medium-link"><i class="fab fa-medium"></i>Medium</a>
+            <a href="papers.html" class="papers-link"><i class="fas fa-trophy"></i> Achievements</a>
             <a href="akhilshekkaris.pdf" class="resume-link"><i class="fas fa-file-alt"></i>Resume</a>
             <a href="#contact" class="contact-link"><i class="fas fa-envelope"></i>Contact</a>
         </nav>
@@ -292,9 +303,12 @@
                 and <strong>Customer Support Applications</strong>, showcasing my ability to merge theoretical knowledge with practical solutions. 
                 I'm driven by the potential of AI to solve real-world problems and aspire to push the boundaries of what's possible in <strong>Machine Learning</strong> and <strong>Artificial Intelligence</strong>.
             </p>
-            <p>
-                <a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" style="color: #007aff; font-weight: 600; text-decoration: none;">
-                    Connect with me on LinkedIn
+            <p style="display: flex; gap: 15px; justify-content: flex-start; align-items: center;">
+                <a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" style="color: #007aff; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                    <i class="fab fa-linkedin"></i> Connect with me on LinkedIn
+                </a>
+                <a href="timeline.html" style="background: #000000; color: #ffffff; padding: 8px 15px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.3s ease;">
+                    <i class="fas fa-briefcase"></i> View My Timeline
                 </a>
             </p>
         </div>
