@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs | Your Name</title>
+    <title>Blogs | Akhil Shekkari</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -12,66 +13,181 @@
             padding: 0;
             background: linear-gradient(135deg, #e3f2fd, #e1bee7);
             color: #333;
+            overflow-x: hidden;
         }
+
         header {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
             padding: 20px;
             text-align: center;
             border-radius: 12px;
             margin: 20px auto;
             max-width: 90%;
-        }
-        header h1 {
-            margin: 0;
-        }
-        header a {
-            color: #007aff;
-            text-decoration: none;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        .blog {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            padding: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-        .blog h3 {
-            margin-top: 0;
+
+        header h1 {
+            margin: 0;
+            font-weight: 600;
+            color: #4a4a4a;
         }
-        .blog a {
+
+        .back-home {
+            margin-top: 15px;
+            display: inline-block;
+            background: #007aff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
             text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: #0056b3;
+        }
+
+        .blogs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .blog-card h3 {
+            margin: 10px 0;
             color: #007aff;
+            font-size: 1.4em;
+        }
+
+        .blog-card p {
+            color: #666;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #000000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .read-more:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .read-more i {
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            margin-top: 40px;
+            border-radius: 12px;
+            color: #333;
+            font-size: 14px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: #007aff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            color: #0056b3;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Blogs</h1>
-        <a href="index.html">&larr; Back to Home</a>
+        <a href="index.html" class="back-home">Back to Home</a>
     </header>
-    <div class="container">
-        <div class="blog">
-            <h3>Blog 1</h3>
-            <p>Description of Blog 1.</p>
-            <a href="https://medium.com/@username/blog1" target="_blank">Read More</a>
+
+    <div class="blogs">
+        <div class="blog-card">
+            <img src="outlier.jpg" alt="LLM Blog">
+            <h3>Are you an outlier?</h3>
+            <p>A blog on how to identify outliers in your data and how to handle them.</p>
+            <a href="https://medium.com/@akhil.masters21/are-you-an-outlier-7a6bd807eea8" target="_blank" class="read-more">
+                <i class="fab fa-medium"></i> Read on Medium
+            </a>
         </div>
-        <div class="blog">
-            <h3>Blog 2</h3>
-            <p>Description of Blog 2.</p>
-            <a href="https://medium.com/@username/blog2" target="_blank">Read More</a>
+
+        <div class="blog-card">
+            <img src="imbalance.jpg" alt="RAG Blog">
+            <h3>Embracing the Imbalance - Part 1</h3>
+            <p>Blog on how to handle imbalanced data in your dataset.</p>
+            <a href="https://medium.com/@akhil.masters21/embracing-the-imbalance-04969db08dc3" target="_blank" class="read-more">
+                <i class="fab fa-medium"></i> Read on Medium
+            </a>
         </div>
-        <div class="blog">
-            <h3>Blog 3</h3>
-            <p>Description of Blog 3.</p>
-            <a href="https://medium.com/@username/blog3" target="_blank">Read More</a>
+
+        <div class="blog-card">
+            <img src="imbalance.jpg" alt="Azure ML Blog">
+            <h3>Embracing the Imbalance - Part 2</h3>
+            <p>Continuing from the previous blog, this blog covers the second part of the imbalance problem.</p>
+            <a href="https://medium.com/@akhil.masters21/embracing-the-imbalance-part-2-8bdd93a210f5" target="_blank" class="read-more">
+                <i class="fab fa-medium"></i> Read on Medium
+            </a>
+        </div>
+        <div class="blog-card">
+            <img src="metrics.jpg" alt="Azure ML Blog">
+            <h3>Performance Metrics</h3>
+            <p>Blog on how to evaluate the performance of your model.</p>
+            <a href="https://medium.com/@akhil.masters21/performance-metrics-will-be-updated-4d52ba1b446d" target="_blank" class="read-more">
+                <i class="fab fa-medium"></i> Read on Medium
+            </a>
         </div>
     </div>
+
+  
+</div>
+
+    <footer>
+        <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
+    </footer>
 </body>
 </html>
