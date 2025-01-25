@@ -33,20 +33,32 @@
             color: #4a4a4a;
         }
 
-        .back-home {
-            margin-top: 15px;
-            display: inline-block;
-            background: #007aff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 12px;
+        .back-arrow {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #007aff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
-            font-weight: 600;
-            transition: background 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
 
-        .back-home:hover {
-            background: #0056b3;
+        .back-arrow:hover {
+            transform: translateX(-5px);
+            background: #007aff;
+            color: white;
+        }
+
+        .back-home {
+            display: none;
         }
 
         .blogs {
@@ -142,8 +154,10 @@
 </head>
 <body>
     <header>
+        <a href="index.html" class="back-arrow">
+            <i class="fas fa-arrow-left"></i>
+        </a>
         <h1>Blogs</h1>
-        <a href="index.html" class="back-home">Back to Home</a>
     </header>
 
     <div class="blogs">
