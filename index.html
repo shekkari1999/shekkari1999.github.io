@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Name | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4fZ3zu5PClhxxBoeNq1mV2S59HvoZQK0zljlH/SBqchN+OaIlqfFtGGV/B4YHnjQf7o6w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -57,6 +58,9 @@
         #projects {
             background: rgba(220, 245, 255, 0.8);
         }
+        #blogs {
+            background: rgba(240, 230, 255, 0.8);
+        }
         #publications {
             background: rgba(240, 255, 240, 0.8);
         }
@@ -70,6 +74,10 @@
             margin-top: 0;
             font-weight: 600;
             color: #333;
+        }
+        .section i {
+            color: #007aff;
+            margin-right: 8px;
         }
         .projects {
             display: grid;
@@ -156,22 +164,23 @@
     <header>
         <h1>Your Name</h1>
         <nav>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#publications">Publications</a>
-            <a href="#interests">Interests</a>
-            <a href="#contact">Contact</a>
+            <a href="#about"><i class="fas fa-user"></i>About</a>
+            <a href="#projects"><i class="fas fa-code"></i>Projects</a>
+            <a href="#blogs"><i class="fas fa-blog"></i>Blogs</a>
+            <a href="#publications"><i class="fas fa-book"></i>Publications</a>
+            <a href="#interests"><i class="fas fa-heart"></i>Interests</a>
+            <a href="#contact"><i class="fas fa-envelope"></i>Contact</a>
         </nav>
     </header>
 
     <div class="container">
         <section id="about" class="section">
-            <h2>About Me</h2>
+            <h2><i class="fas fa-user"></i>About Me</h2>
             <p>Hi, I'm [Your Name], a [Your Profession]. I specialize in [Your Expertise] and have a passion for [Your Interests].</p>
         </section>
 
         <section id="projects" class="section">
-            <h2>Projects</h2>
+            <h2><i class="fas fa-code"></i>Projects</h2>
             <div class="projects">
                 <div class="project">
                     <h3>Project 1</h3>
@@ -191,8 +200,17 @@
             </div>
         </section>
 
+        <section id="blogs" class="section">
+            <h2><i class="fas fa-blog"></i>Blogs</h2>
+            <ul>
+                <li><a href="https://medium.com/@username/blog1" target="_blank">Blog 1</a> - A short description of Blog 1.</li>
+                <li><a href="https://medium.com/@username/blog2" target="_blank">Blog 2</a> - A short description of Blog 2.</li>
+                <li><a href="https://medium.com/@username/blog3" target="_blank">Blog 3</a> - A short description of Blog 3.</li>
+            </ul>
+        </section>
+
         <section id="publications" class="section publications">
-            <h2>Publications</h2>
+            <h2><i class="fas fa-book"></i>Publications</h2>
             <ul>
                 <li><a href="https://example.com/publication1" target="_blank">Publication 1</a> - Brief summary or title of the publication.</li>
                 <li><a href="https://example.com/publication2" target="_blank">Publication 2</a> - Brief summary or title of the publication.</li>
@@ -200,16 +218,17 @@
         </section>
 
         <section id="interests" class="section">
-            <h2>Interests</h2>
+            <h2><i class="fas fa-heart"></i>Interests</h2>
             <p>I enjoy exploring topics such as [Interest 1], [Interest 2], and [Interest 3]. In my free time, I love [Hobby or Activity].</p>
         </section>
 
         <section id="contact" class="section contact">
-            <h2>Contact</h2>
+            <h2><i class="fas fa-envelope"></i>Contact</h2>
             <ul>
-                <li>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></li>
-                <li>GitHub: <a href="https://github.com/username" target="_blank">github.com/username</a></li>
-                <li>LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></li>
+                <li><i class="fas fa-envelope"></i> Email: <a href="mailto:youremail@example.com">youremail@example.com</a></li>
+                <li><i class="fab fa-github"></i> GitHub: <a href="https://github.com/username" target="_blank">github.com/username</a></li>
+                <li><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></li>
+                <li><i class="fab fa-medium"></i> Medium: <a href="https://medium.com/@username" target="_blank">medium.com/@username</a></li>
             </ul>
         </section>
     </div>
