@@ -178,6 +178,27 @@
                 opacity: 1;
             }
         }
+        footer {
+    text-align: center;
+    padding: 10px 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    margin-top: 40px;
+    border-radius: 12px;
+    color: #333;
+    font-size: 14px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+    color: #007aff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+footer a:hover {
+    color: #0056b3;
+}
     </style>
 </head>
 <body>
@@ -223,5 +244,8 @@
             document.getElementById(`${projectId}-modal`).style.display = 'none';
         }
     </script>
+    <footer>
+    <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
+</footer>
 </body>
 </html>
