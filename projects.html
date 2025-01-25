@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | Your Name</title>
+    <title>Projects | Akhil Shekkari</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pQwiVsMEcBrxLK3CwQaZqU72QsdsUJzYQeDJsa/KsmQL8kF2Th/+o6B0Pq6m8KqILgJLe6x2mDKpBl6hc2lJcQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -12,66 +13,181 @@
             padding: 0;
             background: linear-gradient(135deg, #e3f2fd, #e1bee7);
             color: #333;
+            overflow-x: hidden;
         }
         header {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
             padding: 20px;
             text-align: center;
             border-radius: 12px;
             margin: 20px auto;
             max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         header h1 {
             margin: 0;
+            font-weight: 600;
+            color: #4a4a4a;
         }
-        header a {
-            color: #007aff;
-            text-decoration: none;
-            margin-top: 10px;
-            display: inline-block;
-        }
-        .container {
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
-        .project {
-            background: rgba(255, 255, 255, 0.8);
+        .project-card {
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 12px;
-            margin-bottom: 20px;
-            padding: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .project h3 {
-            margin-top: 0;
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-        .project a {
-            text-decoration: none;
+        .project-card img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .project-card h3 {
+            margin: 10px 0;
             color: #007aff;
+        }
+        .project-card button {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .project-card button:hover {
+            background: #0056b3;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content h2 {
+            margin-top: 0;
+            color: #007aff;
+        }
+        .modal-content p {
+            line-height: 1.6;
+            color: #555;
+        }
+        .modal-content .buttons {
+            margin-top: 20px;
+        }
+        .modal-content .buttons a {
+            background: #007aff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: background 0.3s ease;
+        }
+        .modal-content .buttons a:hover {
+            background: #0056b3;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #007aff;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Projects</h1>
-        <a href="index.html">&larr; Back to Home</a>
     </header>
-    <div class="container">
-        <div class="project">
+    <div class="projects">
+        <div class="project-card">
+            <img src="project1.jpg" alt="Project 1">
             <h3>Project 1</h3>
-            <p>Description of Project 1.</p>
-            <a href="https://github.com/username/project1" target="_blank">View on GitHub</a>
+            <button onclick="openModal('project1')">Read More</button>
         </div>
-        <div class="project">
+        <div class="project-card">
+            <img src="project2.jpg" alt="Project 2">
             <h3>Project 2</h3>
-            <p>Description of Project 2.</p>
-            <a href="https://github.com/username/project2" target="_blank">View on GitHub</a>
-        </div>
-        <div class="project">
-            <h3>Project 3</h3>
-            <p>Description of Project 3.</p>
-            <a href="https://github.com/username/project3" target="_blank">View on GitHub</a>
+            <button onclick="openModal('project2')">Read More</button>
         </div>
     </div>
+
+    <!-- Modal Template -->
+    <div id="project1-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project1')">&times;</button>
+            <h2>Project 1</h2>
+            <p>This is a detailed description of Project 1. Here you can add the tools used, challenges faced, and other project highlights.</p>
+            <div class="buttons">
+                <a href="https://github.com/username/project1" target="_blank">GitHub</a>
+                <a href="https://example.com/project1" target="_blank">Execute Project</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="project2-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project2')">&times;</button>
+            <h2>Project 2</h2>
+            <p>This is a detailed description of Project 2. Here you can add the tools used, challenges faced, and other project highlights.</p>
+            <div class="buttons">
+                <a href="https://github.com/username/project2" target="_blank">GitHub</a>
+                <a href="https://example.com/project2" target="_blank">Execute Project</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(projectId) {
+            document.getElementById(`${projectId}-modal`).style.display = 'flex';
+        }
+
+        function closeModal(projectId) {
+            document.getElementById(`${projectId}-modal`).style.display = 'none';
+        }
+    </script>
 </body>
 </html>
