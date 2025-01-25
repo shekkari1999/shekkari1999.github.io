@@ -16,7 +16,7 @@
             overflow-x: hidden;
         }
         header {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
             padding: 20px;
             text-align: center;
@@ -54,24 +54,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             animation: fadeIn 1s ease;
         }
-        #about {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        #projects {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        #blogs {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        #publications {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        #interests {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        #contact {
-            background: rgba(255, 255, 255, 0.5);
-        }
         .section h2 {
             margin-top: 0;
             font-weight: 600;
@@ -81,12 +63,12 @@
             color: #007aff;
             margin-right: 8px;
         }
-        .projects {
+        .projects, .blogs {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
-        .project {
+        .project, .blog {
             background: rgba(255, 255, 255, 0.7);
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -95,44 +77,32 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .project:hover {
+        .project:hover, .blog:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-        .project a {
+        .project a, .blog a {
             text-decoration: none;
             color: #007aff;
             font-weight: 600;
             transition: color 0.3s ease;
         }
-        .project a:hover {
+        .project a:hover, .blog a:hover {
             color: #0056b3;
         }
-        .publications ul, .contact ul {
-            list-style: none;
-            padding: 0;
-        }
-        .publications li, .contact li {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .publications li:hover, .contact li:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        .publications a, .contact a {
-            color: #007aff;
+        .view-more {
+            margin-top: 20px;
+            display: inline-block;
+            background: #007aff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: bold;
+            transition: background 0.3s ease;
         }
-        .publications a:hover, .contact a:hover {
-            color: #0056b3;
+        .view-more:hover {
+            background: #0056b3;
         }
         footer {
             text-align: center;
@@ -152,14 +122,6 @@
         footer a:hover {
             color: #0056b3;
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
@@ -167,9 +129,8 @@
         <h1>Your Name</h1>
         <nav>
             <a href="#about"><i class="fas fa-user"></i>About</a>
-            <a href="projects.html"><i class="fas fa-code"></i>Projects</a>
-            <a href="#medium"><i class="fab fa-medium"></i>Medium</a>
-            <a href="#certifications"><i class="fas fa-certificate"></i>Certifications</a>
+            <a href="#projects"><i class="fas fa-code"></i>Projects</a>
+            <a href="#blogs"><i class="fab fa-medium"></i>Medium</a>
             <a href="#contact"><i class="fas fa-envelope"></i>Contact</a>
         </nav>
     </header>
@@ -177,7 +138,7 @@
     <div class="container">
         <section id="about" class="section">
             <h2><i class="fas fa-user"></i>About Me</h2>
-            <p>Hi, I’m [Your Name], a software engineer with a vision to transition into software architecture. My journey revolves around understanding the intricacies of system design, scalability, and optimization. With a strong foundation in problem-solving and development, I’m now focusing on mastering architectural patterns, distributed systems, and cloud-native technologies.</p>
+            <p>Hi, I’m [Your Name], a software engineer with a vision to transition into software architecture. My journey revolves around understanding the intricacies of system design, scalability, and optimization.</p>
         </section>
 
         <section id="projects" class="section">
@@ -199,56 +160,34 @@
                     <a href="https://github.com/username/project3" target="_blank">View Project</a>
                 </div>
             </div>
+            <a href="projects.html" class="view-more">View More...</a>
         </section>
 
-          <section id="medium" class="section">
+        <section id="blogs" class="section">
             <h2><i class="fab fa-medium"></i>Medium</h2>
             <div class="blogs">
                 <div class="blog">
                     <h3>Blog 1</h3>
-                    <p>A short description of Blog 1.</p>
+                    <p>A brief description of Blog 1.</p>
                     <a href="https://medium.com/@username/blog1" target="_blank">Read More</a>
                 </div>
                 <div class="blog">
                     <h3>Blog 2</h3>
-                    <p>A short description of Blog 2.</p>
+                    <p>A brief description of Blog 2.</p>
                     <a href="https://medium.com/@username/blog2" target="_blank">Read More</a>
                 </div>
                 <div class="blog">
                     <h3>Blog 3</h3>
-                    <p>A short description of Blog 3.</p>
+                    <p>A brief description of Blog 3.</p>
                     <a href="https://medium.com/@username/blog3" target="_blank">Read More</a>
                 </div>
             </div>
             <a href="blogs.html" class="view-more">View More...</a>
         </section>
-
-        <section id="publications" class="section publications">
-            <h2><i class="fas fa-book"></i>Publications</h2>
-            <ul>
-                <li><a href="https://example.com/publication1" target="_blank">Publication 1</a> - Brief summary or title of the publication.</li>
-                <li><a href="https://example.com/publication2" target="_blank">Publication 2</a> - Brief summary or title of the publication.</li>
-            </ul>
-        </section>
-
-        <section id="interests" class="section">
-            <h2><i class="fas fa-heart"></i>Interests</h2>
-            <p>I enjoy exploring topics such as scalable systems, distributed computing, and cloud architecture. In my free time, I love hiking, experimenting with new technologies, and writing about architecture trends.</p>
-        </section>
-
-        <section id="contact" class="section contact">
-            <h2><i class="fas fa-envelope"></i>Contact</h2>
-            <ul>
-                <li><i class="fas fa-envelope"></i> Email: <a href="mailto:youremail@example.com">youremail@example.com</a></li>
-                <li><i class="fab fa-github"></i> GitHub: <a href="https://github.com/username" target="_blank">github.com/username</a></li>
-                <li><i class="fab fa-linkedin"></i> LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></li>
-                <li><i class="fab fa-medium"></i> Medium: <a href="https://medium.com/@username" target="_blank">medium.com/@username</a></li>
-            </ul>
-        </section>
     </div>
 
     <footer>
-        <p>&copy; 2025 Your Name | <a href="https://github.com/username" target="_blank">GitHub</a></p>
+        <p>&copy; 2025 Your Name</p>
     </footer>
 </body>
 </html>
