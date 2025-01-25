@@ -175,40 +175,76 @@
 </section>
 
         <section id="skills" class="section skills">
-            <h2><i class="fas fa-lightbulb"></i>Skills</h2>
-            <div class="skill-grid">
-                <div class="skill">
-                    <i class="fas fa-cogs"></i>
-                    <h3>System Design</h3>
-                    <p>Expertise in designing scalable and efficient systems using architectural patterns and best practices.</p>
-                </div>
-                <div class="skill">
-                    <i class="fas fa-code"></i>
-                    <h3>Programming</h3>
-                    <p>Proficient in Python, Java, C++, and JavaScript with a focus on clean and efficient code.</p>
-                </div>
-                <div class="skill">
-                    <i class="fas fa-cloud"></i>
-                    <h3>Cloud Computing</h3>
-                    <p>Experience with AWS, Azure, and GCP for cloud-native application development and deployment.</p>
-                </div>
-                <div class="skill">
-                    <i class="fas fa-database"></i>
-                    <h3>Database Management</h3>
-                    <p>Skilled in SQL and NoSQL databases, optimizing queries, and designing schemas.</p>
-                </div>
-                <div class="skill">
-                    <i class="fas fa-network-wired"></i>
-                    <h3>Distributed Systems</h3>
-                    <p>Knowledge of distributed architecture and event-driven systems for large-scale applications.</p>
-                </div>
-                <div class="skill">
-                    <i class="fas fa-tools"></i>
-                    <h3>DevOps</h3>
-                    <p>Hands-on experience with CI/CD pipelines, containerization, and infrastructure as code.</p>
-                </div>
-            </div>
-        </section>
+    <h2><i class="fas fa-lightbulb"></i>Skills</h2>
+    <div class="skill-grid">
+        <div class="skill">
+            <h3>Programming & Libraries</h3>
+            <p>
+                <span class="highlight">Python</span>, <span class="highlight">SQL</span>, <span class="highlight">Scikit-Learn</span>, 
+                <span class="highlight">TensorFlow</span>, <span class="highlight">PyTorch</span>, 
+                <span class="highlight">Hugging Face</span>, <span class="highlight">FAISS</span>, <span class="highlight">Keras</span>
+            </p>
+        </div>
+        <div class="skill">
+            <h3>Tools & Platforms</h3>
+            <p>
+                <span class="highlight">Docker</span>, <span class="highlight">AWS (Sagemaker)</span>, <span class="highlight">Snowflake</span>, 
+                <span class="highlight">GitHub</span>, <span class="highlight">LangChain</span>, 
+                <span class="highlight">Power-BI</span>, <span class="highlight">SpaCy</span>, 
+                <span class="highlight">Azure ML</span>, <span class="highlight">AWS Bedrock</span>, <span class="highlight">PaperSpace</span>
+            </p>
+        </div>
+        <div class="skill">
+            <h3>Focus Areas</h3>
+            <p>
+                <span class="highlight">NLP</span>, <span class="highlight">NLTK</span>, <span class="highlight">Computer Vision</span>, 
+                <span class="highlight">Data Preprocessing</span>, <span class="highlight">Deep Learning Methods</span>, 
+                <span class="highlight">Feature Engineering</span>, <span class="highlight">Statistics</span>
+            </p>
+        </div>
+    </div>
+    <style>
+        .skills .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .skill {
+            background: linear-gradient(135deg, #fff7e6, #ffe4c4);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        .skill h3 {
+            margin-top: 0;
+            font-size: 1.3em;
+            color: #007aff;
+            margin-bottom: 10px;
+        }
+        .skill p {
+            font-size: 1em;
+            color: #555;
+            line-height: 1.6;
+        }
+        .highlight {
+            background: rgba(0, 122, 255, 0.2);
+            padding: 3px 6px;
+            border-radius: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .highlight:hover {
+            background: #007aff;
+            color: #fff;
+        }
+    </style>
+</section>
 
         <section id="contact" class="section contact">
             <h2><i class="fas fa-envelope"></i>Contact</h2>
