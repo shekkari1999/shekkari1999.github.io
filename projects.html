@@ -61,8 +61,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
        .project-card img {
             width: 100%; 
@@ -95,21 +95,26 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
         }
         .modal-content {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             border-radius: 20px;
-            padding: 40px;
-            width: 80%;
+            padding: 30px;
+            width: 90%;
             max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             animation: fadeIn 0.3s ease;
-            text-align: left;
+            position: relative;
+            margin: auto;
         }
         .modal-content h2 {
             margin-top: 0;
@@ -173,9 +178,11 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
+                transform: translateY(0);
             }
         }
         footer {
@@ -199,6 +206,205 @@ footer a {
 footer a:hover {
     color: #0056b3;
 }
+
+.modal-content {
+    position: relative;
+    max-width: 800px;
+    width: 90%;
+    padding: 30px;
+}
+
+.project-details {
+    margin-top: 20px;
+}
+
+.modal-img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.key-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.key-features li {
+    margin: 15px 0;
+    display: flex;
+    align-items: start;
+    line-height: 1.6;
+    color: #333;
+    transition: transform 0.3s ease, padding-left 0.3s ease;
+    cursor: default;
+    position: relative;
+    padding-left: 25px;
+}
+
+.key-features li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #007aff;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.key-features li:hover::before {
+    transform: translateX(5px);
+}
+
+.key-features li i {
+    color: #007aff;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+    font-size: 1.1em;
+}
+
+.key-features li:hover {
+    transform: translateX(10px);
+    color: #007aff;
+    background: rgba(0, 122, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px 15px 10px 35px;
+}
+
+.tech-stack {
+    margin: 25px 0;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tag {
+    background: rgba(0, 122, 255, 0.1);
+    color: #007aff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.tag:hover {
+    background: #007aff;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 122, 255, 0.2);
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.buttons a {
+    background: #007aff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.buttons a:hover {
+    background: #0056b3;
+}
+
+.buttons a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.buttons a:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.back-btn {
+    margin-top: 20px;
+    background: transparent;
+    border: 1px solid #007aff;
+    color: #007aff;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #007aff;
+    color: white;
+}
+
+h3 {
+    color: #007aff;
+    margin-bottom: 15px;
+}
+
+/* Update skill heading alignment */
+.skill h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #007aff;
+    line-height: 1;
+}
+
+.skill h3 i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    width: 24px;
+    height: 24px;
+}
+
+/* Update individual skill tag alignment */
+.skill-tags .tag {
+    padding: 8px 12px;
+    font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    margin: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    gap: 6px;  /* Consistent spacing between icon and text */
+}
+
+.skill-tags .tag i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    width: 16px;
+    height: 16px;
+}
     </style>
 </head>
 <body>
@@ -208,30 +414,241 @@ footer a:hover {
     </header>
     <div class="projects">
         <div class="project-card">
-            <img src="AI-Resume-Analyzer-Final-Year-Project.png" alt="Project 1">
-            <h3>Project 1</h3>
+            <img src="AI-Resume-Analyzer-Final-Year-Project.png" alt="AI Resume Analyzer">
+            <h3>AI Resume Analyzer</h3>
             <button onclick="openModal('project1')">Read More</button>
         </div>
         <div class="project-card">
-            <img src="project2.jpg" alt="Project 2">
-            <h3>Project 2</h3>
+            <img src="mobile-app-customer-support.jpeg" alt="Customer Support Application">
+            <h3>Customer Support Application</h3>
             <button onclick="openModal('project2')">Read More</button>
+        </div>
+        <div class="project-card">
+            <img src="multi.png" alt="Multimodal RAG Application">
+            <h3>Multimodal RAG Application</h3>
+            <button onclick="openModal('project3')">Read More</button>
+        </div>
+        <div class="project-card">
+            <img src="fraud.jpg" alt="Credit Card Fraud Detection">
+            <h3>Credit Card Fraud Detection</h3>
+            <button onclick="openModal('project4')">Read More</button>
         </div>
     </div>
 
     <div id="project1-modal" class="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal('project1')">&times;</button>
-            <h2>Project 1</h2>
-            <p>
-                This is a detailed description of Project 1. Here you can add the tools used, challenges faced, 
-                and other project highlights.
-            </p>
-            <div class="buttons">
-                <a href="https://github.com/username/project1" target="_blank">GitHub</a>
-                <a href="https://example.com/project1" target="_blank">Execute Project</a>
+            <h2>AI Resume Analyzer</h2>
+            <div class="project-details">
+                <img src="AI-Resume-Analyzer-Final-Year-Project.png" alt="Resume Analyzer Project" class="modal-img">
+                <div class="key-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-robot"></i> 
+                            Smart Resume Analysis powered by OpenAI's advanced language models
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            Precise job matching using embedding-based similarity scoring
+                        </li>
+                        <li>
+                            <i class="fas fa-comments"></i>
+                            Actionable feedback with specific improvement suggestions
+                        </li>
+                        <li>
+                            <i class="fas fa-cloud"></i>
+                            Cloud-powered scalability through Azure deployment
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt"></i>
+                            Secure processing with enterprise-grade infrastructure
+                        </li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-tags">
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">Azure ML</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Embeddings</span>
+                        <span class="tag">NLP</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="https://github.com/shekkari1999/resume-analyzer" target="_blank">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                    <!-- <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a> -->
+                </div>
             </div>
             <button class="back-btn" onclick="closeModal('project1')">Back</button>
+        </div>
+    </div>
+
+    <div id="project2-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project2')">&times;</button>
+            <h2>Customer Support Application</h2>
+            <div class="project-details">
+                <img src="mobile-app-customer-support.jpeg" alt="Customer Support Application" class="modal-img">
+                <div class="key-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-brain"></i> 
+                            Advanced LLM-powered ticket categorization and response generation
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-pie"></i>
+                            Intelligent sentiment analysis for customer feedback
+                        </li>
+                        <li>
+                            <i class="fas fa-database"></i>
+                            RAG framework implementation with FAISS vector database
+                        </li>
+                        <li>
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            Scalable deployment using Azure ML pipelines
+                        </li>
+                        <li>
+                            <i class="fas fa-sync-alt"></i>
+                            Automated workflow with OpenAI embeddings integration
+                        </li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-tags">
+                        <span class="tag">Azure ML</span>
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">FAISS</span>
+                        <span class="tag">RAG</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">LangChain</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="https://github.com/shekkari1999/customer-support" target="_blank">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                    <!-- <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a> -->
+                </div>
+            </div>
+            <button class="back-btn" onclick="closeModal('project2')">Back</button>
+        </div>
+    </div>
+
+    <div id="project3-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project3')">&times;</button>
+            <h2>Multimodal RAG Application</h2>
+            <div class="project-details">
+                <img src="multi.png" alt="Multimodal RAG Application" class="modal-img">
+                <div class="key-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-layer-group"></i> 
+                            Multimodal RAG system combining text and image processing
+                        </li>
+                        <li>
+                            <i class="fas fa-utensils"></i>
+                            Restaurant app with personalized food recommendations
+                        </li>
+                        <li>
+                            <i class="fab fa-aws"></i>
+                            AWS Bedrock integration for robust processing
+                        </li>
+                        <li>
+                            <i class="fas fa-database"></i>
+                            FAISS vector database for efficient retrieval
+                        </li>
+                        <li>
+                            <i class="fas fa-robot"></i>
+                            Claude-Sonnet AI model implementation
+                        </li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-tags">
+                        <span class="tag">AWS Bedrock</span>
+                        <span class="tag">FAISS</span>
+                        <span class="tag">Claude-Sonnet</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">RAG</span>
+                        <span class="tag">LangChain</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="https://github.com/shekkari1999/restaurent-app" target="_blank">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                    <!-- <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a> -->
+                </div>
+            </div>
+            <button class="back-btn" onclick="closeModal('project3')">Back</button>
+        </div>
+    </div>
+
+    <div id="project4-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project4')">&times;</button>
+            <h2>Credit Card Fraud Detection</h2>
+            <div class="project-details">
+                <img src="fraud-.jpg" alt="Credit Card Fraud Detection" class="modal-img">
+                <div class="key-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-shield-alt"></i> 
+                            Machine learning-based fraud detection system
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            High accuracy transaction classification
+                        </li>
+                        <li>
+                            <i class="fas fa-filter"></i>
+                            Reduced false positives in detection
+                        </li>
+                        <li>
+                            <i class="fas fa-money-bill-wave"></i>
+                            Minimized financial loss prevention
+                        </li>
+                        <li>
+                            <i class="fas fa-cogs"></i>
+                            Supervised learning algorithm implementation
+                        </li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Scikit-learn</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Data Analysis</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <!-- GitHub button removed until repository is ready -->
+                    <!-- <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a> -->
+                </div>
+            </div>
+            <button class="back-btn" onclick="closeModal('project4')">Back</button>
         </div>
     </div>
 
