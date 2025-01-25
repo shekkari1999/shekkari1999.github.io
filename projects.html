@@ -155,31 +155,27 @@
         </div>
     </div>
 
-    <!-- Modal Template -->
-    <div id="project1-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('project1')">&times;</button>
-            <h2>Project 1</h2>
-            <p>This is a detailed description of Project 1. Here you can add the tools used, challenges faced, and other project highlights.</p>
-            <div class="buttons">
-                <a href="https://github.com/username/project1" target="_blank">GitHub</a>
-                <a href="https://example.com/project1" target="_blank">Execute Project</a>
-            </div>
+   <div id="project1-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal('project1')">&times;</button>
+        <h2>Project 1</h2>
+        <p>
+            This is a detailed description of Project 1. Here you can add the tools used, challenges faced, 
+            and other project highlights. For example, this project implements an advanced machine learning 
+            pipeline and visualization dashboard to monitor real-time performance metrics.
+        </p>
+        <ul>
+            <li><strong>Tools Used:</strong> Python, TensorFlow, Flask</li>
+            <li><strong>Technologies:</strong> Docker, AWS</li>
+            <li><strong>Challenges Solved:</strong> Scalability, Real-time Performance Monitoring</li>
+        </ul>
+        <div class="buttons">
+            <a href="https://github.com/username/project1" target="_blank">GitHub</a>
+            <a href="https://example.com/project1" target="_blank">Execute Project</a>
         </div>
+        <button class="back-btn" onclick="closeModal('project1')">Back</button>
     </div>
-
-    <div id="project2-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal('project2')">&times;</button>
-            <h2>Project 2</h2>
-            <p>This is a detailed description of Project 2. Here you can add the tools used, challenges faced, and other project highlights.</p>
-            <div class="buttons">
-                <a href="https://github.com/username/project2" target="_blank">GitHub</a>
-                <a href="https://example.com/project2" target="_blank">Execute Project</a>
-            </div>
-        </div>
-    </div>
-
+</div>
     <script>
         function openModal(projectId) {
             document.getElementById(`${projectId}-modal`).style.display = 'flex';
