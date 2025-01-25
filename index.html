@@ -20,13 +20,13 @@
         header {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
-            padding: 20px;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-radius: 12px;
             margin: 20px auto;
-            max-width: 90%;
+            max-width: 1200px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         header h1 {
@@ -53,11 +53,11 @@
         .container {
             max-width: 1200px;
             margin: 20px auto;
-            padding: 0 20px;
+            padding: 0;
         }
         .section {
             margin-bottom: 40px;
-            padding: 20px;
+            padding: 30px 40px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
@@ -265,6 +265,21 @@
 
         nav a.papers-link:hover {
             color: #7B1FA2;  /* Keep the hover color */
+        }
+
+        /* Add responsive padding */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+            
+            .section {
+                padding: 20px;
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
         }
     </style>
 </head>
