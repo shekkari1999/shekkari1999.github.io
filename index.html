@@ -19,7 +19,9 @@
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
             padding: 20px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-radius: 12px;
             margin: 20px auto;
             max-width: 90%;
@@ -30,10 +32,13 @@
             font-weight: 600;
             color: #4a4a4a;
         }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
         nav a {
             color: #007aff;
             text-decoration: none;
-            margin: 0 15px;
             font-weight: 600;
             transition: color 0.3s ease;
         }
@@ -58,6 +63,17 @@
             margin-top: 0;
             font-weight: 600;
             color: #333;
+        }
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .about-content img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .skills {
             text-align: center;
@@ -130,7 +146,13 @@
     <div class="container">
         <section id="about" class="section">
             <h2><i class="fas fa-user"></i>About Me</h2>
-            <p>Hi, I’m [Your Name], a software engineer with a vision to transition into software architecture. My journey revolves around understanding the intricacies of system design, scalability, and optimization. With a strong foundation in problem-solving and development, I’m now focusing on mastering architectural patterns, distributed systems, and cloud-native technologies.</p>
+            <div class="about-content">
+                <img src="your-photo.jpg" alt="Your Photo">
+                <div>
+                    <p>Hi, I’m [Your Name], a software engineer with a vision to transition into software architecture. My journey revolves around understanding the intricacies of system design, scalability, and optimization. With a strong foundation in problem-solving and development, I’m now focusing on mastering architectural patterns, distributed systems, and cloud-native technologies.</p>
+                    <p><a href="https://linkedin.com/in/yourprofile" target="_blank" style="color: #007aff; font-weight: 600; text-decoration: none;">Connect with me on LinkedIn</a></p>
+                </div>
+            </div>
         </section>
 
         <section id="skills" class="section skills">
