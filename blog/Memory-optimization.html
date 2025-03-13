@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Optimization in Deep Learning | Akhil Shekkari</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            document.querySelectorAll('pre, code').forEach(el => {
+                el.style.fontSize = '11px';
+                el.style.fontFamily = 'Consolas, Monaco, "Courier New", monospace';
+            });
+        });
+    </script>
+</head>
+<body>
+    <a href="../blogs.html" class="back-link">← Back to Blog</a>
+
+    <article>
+        <h1>Understanding Quantization in Deep Learning</h1>
+        
+        <p class="blog-meta">Mar 13th, 2024 · 15 min read</p>
+        <hr class="section-break">
+
+        <h2>Understanding Memory Footprint</h2>
+        
+        <p>
+            When working with deep learning models, understanding memory usage is crucial. 
+            The total memory consumption can be broken down into two main components:
+        </p>
+
+        <div class="code-example">
+Total memory = Training memory + Inference memory
+
+Training memory = Weights + Gradient memory + Optimizer memory + Activations
+Inference memory = Weights + Activation memory (forward pass)</div>
+
+        <h3>Example: Calculating Model Memory</h3>
+        
+        <div class="code-example">
+Let's calculate memory for a simple neural network:
+- Input layer: 784 neurons (28x28 image)
+- Hidden layer: 512 neurons
+- Output layer: 10 neurons (digits 0-9)
+
+Weights memory:
+- Layer 1: <span class="calculation">784 × 512 = 401,408 parameters</span>
+- Layer 2: <span class="calculation">512 × 10 = 5,120 parameters</span>
+<span class="result">Total parameters: 406,528</span>
+
+Using float32 (4 bytes):
+- Weights: <span class="calculation">406,528 × 4 = 1.6 MB</span>
+- Gradients: <span class="calculation">1.6 MB</span>
+- Optimizer (Adam, 2 states): <span class="calculation">3.2 MB</span>
+- Activations (batch size 32): <span class="calculation">~0.2 MB</span>
+
+<span class="result">Total Training Memory: ~6.6 MB</span>
+<span class="result">Inference Memory: ~1.8 MB</span></div>
+
+        <h2>Memory Optimization Techniques</h2>
+
+        <p>
+            Let's explore key techniques for reducing memory usage in deep learning models, starting with an important but often overlooked approach:
+        </p>
+
+        <h3>1. Gradient Checkpointing</h3>
+        
+        <p>
+            Gradient checkpointing is a powerful technique that trades computation time for memory savings. Instead of storing 
+            all activations in memory during the forward pass, we do the following:
+        </p>
+        
+        <p>
+            <strong>Strategy:</strong>
+        </p>
+        <ol>
+            <li>Store activations at checkpoints only</li>
+            <li>Recompute intermediate activations when needed</li>
+            <li>Free memory after gradients are computed</li>
+        </ol>
+        
+        <p>
+            <strong>Trade-offs:</strong>
+        </p>
+        <ul class="trade-offs">
+            <li class="benefit">✓ Reduced memory footprint</li>
+            <li class="drawback">✗ Increased training time (recomputation)</li>
+        </ul>
+
+        <h3>Basics and Lookup Table</h3>
+        
+        <div class="code-example">
+ Floating Point Formats Comparison:
+ 
+ Format    Bytes    Precision    Common Use Case
+ ─────────────────────────────────────────────
+ FP64      8        15-17 dec    Scientific Computing (rare in DL)
+ FP32      4        6-9 dec      Training (standard)
+ FP16      2        3-4 dec      Inference/Training
+ INT8      1        256 levels   Quantized Inference
+ INT4      0.5      16 levels    Extreme Compression
+ INT1      0.125    2 levels     Experimental (e.g., Blackwell)</div>
+
+        <h4>Understanding INT4 Range</h4>
+        
+        <p>
+            When we say INT4 (4-bit integer) has a range of -8 to 7, we're describing the minimum and maximum 
+            values that can be represented using 4 bits in signed integer format. Let's break this down:
+        </p>
+        
+        <div class="code-example">
+  1. 4 Bits = 4 Binary Digits
+  • Each bit can be either 0 or 1
+  • So, 4 bits can represent 2⁴ = 16 unique values
+  
+  2. Signed vs. Unsigned
+  • Unsigned INT4: represents positive values only
+    Range: 0 to 15
+  
+  • Signed INT4 (common in ML quantization)
+    Uses Two's Complement representation
+    Range: -8 to 7
+
+  Binary Representation of INT4 (Signed):
+  Binary    Decimal
+  ─────────────────
+  1000      -8      (Most negative)
+  1111      -1
+  0000       0
+  0001       1
+  0111       7      (Most positive)</div>
+        
+        <div class="note-block">
+            <strong>Key Points:</strong>
+            <ul>
+                <li>Signed integers reserve one bit for the sign (positive/negative)</li>
+                <li>Two's Complement allows efficient hardware implementation</li>
+                <li>The range is asymmetric around zero (-8 to +7) due to Two's Complement</li>
+            </ul>
+        </div>
+
+        <div class="note-block">
+            <strong>Important Note:</strong> While reducing precision can significantly decrease memory usage, it can also introduce 
+            numerical errors. Always validate model performance after precision reduction.
+        </div>
+
+        <h3>2. Understanding Quantization</h3>
+        
+        <div class="diagram-container">
+            <img src="../images/memory-optimization/Quant.png" alt="Quantization Impact Diagram" class="diagram">
+            <div class="diagram-caption">Figure: Quantization can be applied to four key areas: Weights, Training Time, Inference Time, and Activations</div>
+        </div>
+
+        <p>From the figure, we now understand that:</p>
+        <ol>
+            <li>Quantization can be applied to weights, Activations.</li>
+            <li>It can also be applied in Inference time and Training time.</li>
+        </ol>
+        
+        <p>Let's see one by one.</p>
+
+        <h4>1. Quantizing Weights (Static and Stable)</h4>
+        
+        <p>
+            Weights are ideal candidates for quantization because they change less frequently. Once trained, 
+            weights remain constant unless the model is fine-tuned, making them perfect for one-time quantization.
+        </p>
+
+        <div class="code-example">
+ Original Weights (FP32):
+ [0.45, -0.23, 0.89, -0.75]
+ 
+ The range of weights: min = -0.75, max = 0.89
+ 
+ Quantization Process:
+ • The INT8 range is from -128 to 127
+ • Calculate the scaling factor (S):
+   S = (Max - Min) / 255 = (0.89 - (-0.75)) / 255 ≈ 0.00647
+ 
+ Quantized weights (INT8) using:
+ Q = round((Original - Min) / S) - 128</div>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Original Weight</th>
+                        <th>Quantized Value (INT8)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0.45</td>
+                        <td>92</td>
+                    </tr>
+                    <tr>
+                        <td>-0.23</td>
+                        <td>35</td>
+                    </tr>
+                    <tr>
+                        <td>0.89</td>
+                        <td>127</td>
+                    </tr>
+                    <tr>
+                        <td>-0.75</td>
+                        <td>-128</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note-block">
+            <strong>Key Benefits:</strong>
+            <ul>
+                <li>Weights only need to be quantized once after training</li>
+                <li>Quantized model can be used repeatedly without re-quantization</li>
+                <li>More predictable impact on model performance</li>
+            </ul>
+        </div>
+
+        <h4>2. Quantizing Activations (Dynamic Values)</h4>
+        
+        <p>
+            Unlike weights, activations change with every inference because they depend on the input data. This makes activation 
+            quantization more challenging and requires careful consideration of the dynamic range.
+        </p>
+        
+        <div class="code-example">
+ Example: ReLU Activation Values for Different Inputs:
+ 
+ Input Image 1 (digit 7):
+ [0.0, 4.2, 0.0, 3.1, 0.0]    Range: 0.0 to 4.2
+ 
+ Input Image 2 (digit 4):
+ [2.1, 0.0, 5.7, 0.0, 1.9]    Range: 0.0 to 5.7
+ 
+ Input Image 3 (digit 1):
+ [0.0, 0.0, 7.2, 0.0, 0.0]    Range: 0.0 to 7.2
+ 
+ Observation:
+ • Activation ranges vary significantly between inputs
+ • Need dynamic scaling for effective quantization
+ • Common to use running statistics for range estimation</div>
+
+        <div class="note-block">
+            <strong>Challenges with Activation Quantization:</strong>
+            <ul>
+                <li>Dynamic range varies with each input</li>
+                <li>Requires runtime quantization/dequantization</li>
+                <li>May need batch-wise statistics for better accuracy</li>
+                <li>More sensitive to quantization errors than weights</li>
+            </ul>
+        </div>
+
+        <h3>Inference Time Quantization</h3>
+        
+        <p>
+            Inference time quantization focuses on serving the model in low precision to accelerate computation. 
+            Modern approaches have moved beyond simple quantization to mixed precision strategies, which offer a better 
+            balance between performance and accuracy.
+        </p>
+        
+        <p>
+            In a typical mixed precision setup:
+        </p>
+        <ul>
+            <li>Model weights are stored in FP16 or FP8 format for memory efficiency</li>
+            <li>Activations and gradients use FP32 or FP16 for better numerical stability</li>
+            <li>Critical operations may dynamically switch between precisions as needed</li>
+        </ul>
+
+        <h3>Quantization-Aware Training (QAT)</h3>
+        
+        <p>
+            QAT is a training-time technique designed to maintain high accuracy when models are deployed with 
+            low-bit quantization (like INT8, INT4). Unlike post-training quantization, QAT allows the model to adapt 
+            to quantization effects during the training process itself.
+        </p>
+
+        <h4>How QAT Works</h4>
+        
+        <div class="diagram-container">
+            <img src="../images/memory-optimization/quant-2.png" alt="Quantization-Aware Training Process" class="diagram">
+            <div class="diagram-caption">Figure: The QAT process showing fake quantization during training and real quantization for deployment</div>
+        </div>
+
+        <p>The QAT process involves four key steps:</p>
+        
+        <h5>1. Simulate Quantization During Training</h5>
+        <p>
+            During the forward pass, weights and activations are "fake quantized" to simulate deployment conditions. 
+            This involves rounding and clipping values based on the target precision (like INT8), helping the model 
+            learn to work within quantization constraints.
+        </p>
+        
+        <div class="code-example">
+Simple Example of How Learning Happens:
+
+1. Original Weight (FP32):
+   W = 0.45
+
+2. Fake Quantized (during forward pass to INT8):
+   • Using a scale of 0.1, the quantized value becomes:
+   Q = round(0.45/0.1) = 4
+
+   • Dequantized back for calculations:
+   Q_dequantized = 4 × 0.1 = 0.4
+
+3. Forward Pass Calculation (with Quantization Noise):
+   • Let's say the model predicts an output based on 0.4 and calculates a loss
+
+4. Loss Function Result:
+   Loss = 0.2</div>
+        
+        <h5>2. Backpropagate Using High Precision</h5>
+        <p>
+            The backward pass maintains high-precision gradients (typically FP32) to ensure accurate learning. 
+            This dual approach allows stable gradient updates while still preparing the model for quantized deployment.
+        </p>
+        
+        <div class="code-example">
+ Example: High-Precision Gradient Calculation
+ 
+ Given from previous step:
+ • Original weight (W) = 0.45
+ • Quantized forward value = 0.4
+ • Loss = 0.2
+ 
+ Backward Pass (in FP32):
+ • Gradient = ∂Loss/∂W = -0.15
+ • Learning rate (η) = 0.01
+ 
+ Weight Update:
+ W_new = W - η × gradient
+ W_new = 0.45 - 0.01 × (-0.15)
+ W_new = 0.4515  (kept in FP32 during training)</div>
+
+        <div class="note-block">
+            <strong>Key Insights:</strong>
+            <ul>
+                <li>The model adapts during training to minimize the accuracy loss that might occur from quantization</li>
+                <li>It learns to "expect" the noise from quantization and adjusts accordingly</li>
+                <li>Once training is complete, the model weights are actually quantized to low-bit precision for deployment</li>
+            </ul>
+        </div>
+
+        <h4>Common Challenges</h4>
+        <p>
+            When implementing QAT, teams typically face several challenges:
+        </p>
+        <ul>
+            <li>Balancing training time with quantization accuracy</li>
+            <li>Choosing appropriate quantization parameters</li>
+            <li>Handling layers with different sensitivity to quantization</li>
+            <li>Managing the increased complexity of the training pipeline</li>
+        </ul>
+
+        <h3>What's Next?</h3>
+        <p>
+            In our next article, we'll explore advanced memory-efficient techniques like LoRA (Low-Rank Adaptation) 
+            and other parameter-efficient fine-tuning methods that are revolutionizing how we train large language models.
+        </p>
+        
+        <div class="note-block">
+            <p>
+                Did you find this article helpful? Have questions about implementing these techniques? 
+                I'd love to hear your thoughts and experiences in the comments below! Your feedback helps 
+                make these explanations better for everyone.
+            </p>
+        </div>
+
+        <div class="interaction-section">
+            <div class="like-section">
+                <button id="likeButton" class="like-button">
+                    <span class="heart-icon">♥</span>
+                    <span class="like-count">0</span> Likes
+                </button>
+            </div>
+            
+            <div class="comment-section">
+                <h4>Comments</h4>
+                <form id="commentForm" class="comment-form">
+                    <div class="form-group">
+                        <input type="text" id="commentName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="commentText" placeholder="Share your thoughts..." required></textarea>
+                    </div>
+                    <button type="submit">Post Comment</button>
+                </form>
+                
+                <div id="comments" class="comments-list">
+                    <!-- Comments will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    <footer>
+        <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a></p>
+    </footer>
+
+    <script>
+        Prism.highlightAll();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButton = document.getElementById('likeButton');
+            const commentForm = document.getElementById('commentForm');
+            const commentsContainer = document.getElementById('comments');
+            let likeCount = 0;
+            
+            // Update initial like count
+            document.querySelector('.like-count').textContent = likeCount;
+            
+            // Handle likes
+            likeButton.addEventListener('click', function() {
+                likeCount++;
+                document.querySelector('.like-count').textContent = likeCount;
+                
+                // Notify about the like
+                fetch('https://formspree.io/f/akhil.masters21@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'like',
+                        blogPost: 'Memory Optimization in Deep Learning',
+                        count: likeCount
+                    })
+                });
+            });
+            
+            // Handle comments
+            commentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('commentName').value;
+                const comment = document.getElementById('commentText').value;
+                const timestamp = new Date().toLocaleString();
+                
+                // Add comment to the page
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-header">
+                        <strong>${name}</strong>
+                        <span class="comment-date">${timestamp}</span>
+                    </div>
+                    <div class="comment-body">${comment}</div>
+                `;
+                commentsContainer.prepend(commentElement);
+                
+                // Send notification email
+                fetch('https://formspree.io/f/akhil.masters21@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'comment',
+                        blogPost: 'Memory Optimization in Deep Learning',
+                        name: name,
+                        comment: comment,
+                        timestamp: timestamp
+                    })
+                });
+                
+                // Clear form
+                commentForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+ 
+
+
+

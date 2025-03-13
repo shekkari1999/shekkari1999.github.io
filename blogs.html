@@ -3,205 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs | Akhil Shekkari</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Blog | Akhil Shekkari</title>
     <style>
+        @font-face {
+            font-family: 'Europa Grotesk';
+            src: url('fonts/EuropaGroteskSH-Med.woff2') format('woff2'),
+                 url('fonts/EuropaGroteskSH-Med.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Europa Grotesk';
+            src: url('fonts/EuropaGroteskSH-Reg.woff2') format('woff2'),
+                 url('fonts/EuropaGroteskSH-Reg.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #e3f2fd, #e1bee7);
-            color: #333;
-            overflow-x: hidden;
+            margin: 0 auto;
+            padding: 2rem;
+            max-width: 900px;
+            font-family: 'Europa Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6;
+            color: #222;
+            background: #fff;
+            font-size: 16px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         header {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            text-align: center;
-            border-radius: 12px;
-            margin: 20px auto;
-            max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
         }
 
         header h1 {
+            font-size: 2em;
             margin: 0;
-            font-weight: 600;
-            color: #4a4a4a;
+            font-weight: 500;
+            letter-spacing: -0.01em;
         }
 
-        .back-arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            color: #007aff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .back-arrow:hover {
-            transform: translateX(-5px);
-            background: #007aff;
-            color: white;
-        }
-
-        .back-home {
-            display: none;
-        }
-
-        .blogs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .blog-card {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .blog-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .blog-card h3 {
-            margin: 10px 0;
-            color: #007aff;
-            font-size: 1.4em;
-        }
-
-        .blog-card p {
+        header p {
             color: #666;
-            margin: 15px 0;
-            line-height: 1.6;
-        }
-
-        .read-more {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #000000;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .read-more:hover {
-            background: #333333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .read-more i {
+            margin-top: 0.5rem;
             font-size: 1.1em;
         }
 
+        nav {
+            margin: 1.5rem 0;
+        }
+
+        nav a {
+            color: #0366d6;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            font-size: 0.95em;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .blog-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .blog-item {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .blog-item:last-child {
+            border-bottom: none;
+        }
+
+        .blog-title {
+            font-size: 1.4em;
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .blog-title a {
+            color: #222;
+            text-decoration: none;
+        }
+
+        .blog-title a:hover {
+            color: #0366d6;
+        }
+
+        .blog-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin: 0.5rem 0;
+        }
+
+        .blog-excerpt {
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .tags {
+            margin-top: 0.75rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #f6f8fa;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.85em;
+            color: #666;
+            margin-right: 0.5rem;
+        }
+
+        .read-more {
+            color: #0366d6;
+            text-decoration: none;
+            font-size: 0.95em;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-bottom: 2rem;
+            display: inline-block;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .back-link:hover {
+            border-bottom-color: #666;
+        }
+
+        .header-text {
+            font-size: 2.8em;
+            font-weight: 600;
+            color: #2c3e50;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin: 2rem 0;
+            font-family: 'Europa Grotesk', Georgia, serif;
+        }
+
         footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
             text-align: center;
-            padding: 10px 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            margin-top: 40px;
-            border-radius: 12px;
-            color: #333;
-            font-size: 14px;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            color: #666;
+            font-size: 0.9em;
         }
 
         footer a {
-            color: #007aff;
+            color: #0366d6;
             text-decoration: none;
-            font-weight: 600;
         }
 
         footer a:hover {
-            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 920px) {
+            body {
+                padding: 1.5rem;
+                font-size: 15px;
+            }
+
+            header {
+                margin-bottom: 2rem;
+            }
+
+            .blog-item {
+                margin-bottom: 2rem;
+                padding-bottom: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="back-arrow">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1>Blogs</h1>
-    </header>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+        
+        <header>
+            <h1 class="header-text">My AI Engineering Journal</h1>
+        </header>
 
-    <div class="blogs">
-        <div class="blog-card">
-            <img src="outlier.jpg" alt="LLM Blog">
-            <h3>Are you an outlier?</h3>
-            <p>A blog on how to identify outliers in your data and how to handle them.</p>
-            <a href="https://medium.com/@akhil.masters21/are-you-an-outlier-7a6bd807eea8" target="_blank" class="read-more">
-                <i class="fab fa-medium"></i> Read on Medium
-            </a>
-        </div>
+        <main>
+            <div class="blog-list">
+                <div class="blog-item">
+                    <h2 class="blog-title">
+                        <a href="blog/Memory-optimization.html" class="blog-link">Understanding Quantization in Deep Learning</a>
+                    </h2>
+                    <div class="blog-meta">
+                        Mar 13th, 2024 · 15 min read
+                    </div>
+                    <p class="blog-excerpt">
+                        A comprehensive guide to memory optimization in deep learning, focusing on quantization techniques 
+                        and their practical implementation in modern neural networks.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag">Optimization</span>
+                        <span class="tag">Neural Networks</span>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-        <div class="blog-card">
-            <img src="imbalance.jpg" alt="RAG Blog">
-            <h3>Embracing the Imbalance - Part 1</h3>
-            <p>Blog on how to handle imbalanced data in your dataset.</p>
-            <a href="https://medium.com/@akhil.masters21/embracing-the-imbalance-04969db08dc3" target="_blank" class="read-more">
-                <i class="fab fa-medium"></i> Read on Medium
-            </a>
-        </div>
-
-        <div class="blog-card">
-            <img src="imbalance.jpg" alt="Azure ML Blog">
-            <h3>Embracing the Imbalance - Part 2</h3>
-            <p>Continuing from the previous blog, this blog covers the second part of the imbalance problem.</p>
-            <a href="https://medium.com/@akhil.masters21/embracing-the-imbalance-part-2-8bdd93a210f5" target="_blank" class="read-more">
-                <i class="fab fa-medium"></i> Read on Medium
-            </a>
-        </div>
-        <div class="blog-card">
-            <img src="metrics.jpg" alt="Azure ML Blog">
-            <h3>Performance Metrics</h3>
-            <p>Blog on how to evaluate the performance of your model.</p>
-            <a href="https://medium.com/@akhil.masters21/performance-metrics-will-be-updated-4d52ba1b446d" target="_blank" class="read-more">
-                <i class="fab fa-medium"></i> Read on Medium
-            </a>
-        </div>
+        <footer>
+            <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a> · <a href="https://www.linkedin.com/in/akhilshekkari/">LinkedIn</a></p>
+        </footer>
     </div>
-
-  
-</div>
-
-    <footer>
-        <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
-    </footer>
 </body>
 </html>
