@@ -18,7 +18,7 @@ h1, h2, h3 {
     font-family: Helvetica, Arial, sans-serif;
     font-weight: 700;
     letter-spacing: -0.01em;
-    margin-top: 2em;
+    margin-top: 0.5em;
     margin-bottom: 0.5em;
 }
 
@@ -141,6 +141,10 @@ footer {
         font-size: 10px;
         padding: 1em;
     }
+
+    .diagram {
+        max-width: 100%;
+    }
 }
 
 /* Code blocks - Jupyter Style */
@@ -149,7 +153,7 @@ footer {
     padding: 1em 1.5em;
     border-radius: 4px;
     margin: 1.5em 0;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.6;
     font-family: Consolas, Monaco, "Courier New", monospace;
     white-space: pre;
@@ -181,4 +185,263 @@ footer {
     content: "";
     display: block;
     height: 1em;
+}
+
+/* Diagram styling */
+.diagram-container {
+    margin: 2em 0;
+    text-align: center;
+}
+
+.diagram {
+    max-width: 600px;
+    height: auto;
+    border-radius: 8px;
+    background: transparent;
+    padding: 1em;
+}
+
+.diagram-caption {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 1em;
+    font-style: italic;
+}
+
+/* Note blocks */
+.note-block {
+    background: #fff8dc;
+    border-left: 4px solid #f0ad4e;
+    padding: 1em 1.5em;
+    margin: 1.5em 0;
+    border-radius: 4px;
+}
+
+.note-block strong {
+    color: #885d0f;
+}
+
+/* Trade-offs list */
+.trade-offs {
+    list-style: none;
+    padding-left: 1em;
+    margin: 1em 0;
+}
+
+.trade-offs .benefit {
+    color: #2da44e;
+    font-weight: 500;
+}
+
+.trade-offs .drawback {
+    color: #cf222e;
+    font-weight: 500;
+}
+
+/* Comparison table */
+.comparison-table {
+    display: flex;
+    gap: 2em;
+    margin: 1.5em 0;
+    padding: 1.5em;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.comparison-column {
+    flex: 1;
+}
+
+.comparison-column h5 {
+    margin: 0 0 1em 0;
+    color: #495057;
+    font-size: 1.1em;
+}
+
+.comparison-column ul {
+    margin: 0;
+    padding-left: 1.2em;
+    color: #495057;
+}
+
+.comparison-result {
+    text-align: center;
+    margin-top: 1em;
+    color: #495057;
+}
+
+/* Memory calculation styling */
+.code-example .formula {
+    color: #0550ae;
+    font-weight: 500;
+}
+
+.code-example .component {
+    color: #0a3069;
+}
+
+.code-example .calculation {
+    color: #1a7f37;
+}
+
+.code-example .result {
+    color: #cf222e;
+    font-weight: 500;
+}
+
+/* Section break */
+.section-break {
+    border: 0;
+    height: 1px;
+    background: #e1e1e1;
+    margin: 2em 0;
+    width: 100%;
+}
+
+/* Quantization table */
+.quantization-table {
+    margin: 2em 0;
+    overflow-x: auto;
+}
+
+.quantization-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.quantization-table th,
+.quantization-table td {
+    padding: 0.8em 1.2em;
+    text-align: left;
+    border: 1px solid #e1e1e1;
+}
+
+.quantization-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.quantization-table td {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+/* Process steps */
+.process-steps {
+    margin: 2em 0;
+}
+
+.process-steps .step {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.2em;
+    margin-bottom: 1em;
+}
+
+.process-steps h5 {
+    color: #0366d6;
+    margin: 0 0 0.8em 0;
+    font-size: 1.1em;
+}
+
+.process-steps ul {
+    margin: 0;
+    padding-left: 1.2em;
+}
+
+.process-steps li {
+    color: #495057;
+    margin-bottom: 0.5em;
+}
+
+/* Interaction section */
+.interaction-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+/* Like button */
+.like-button {
+    background: none;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.like-button:hover {
+    background: #f3f4f6;
+}
+
+.heart-icon {
+    color: #e25555;
+    margin-right: 4px;
+}
+
+/* Comment section */
+.comment-section {
+    margin-top: 2rem;
+}
+
+.comment-form {
+    margin: 1rem 0 2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.comment {
+    padding: 1rem;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+}
+
+.comment-date {
+    color: #666;
+}
+
+.comment-body {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Blog preview links */
+.blog-link {
+    text-decoration: none;
+    color: #0366d6;
+}
+
+.blog-link:hover {
+    color: #0246a2;
 } 

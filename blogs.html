@@ -153,6 +153,16 @@
             border-bottom-color: #666;
         }
 
+        .header-text {
+            font-size: 2.8em;
+            font-weight: 600;
+            color: #2c3e50;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin: 2rem 0;
+            font-family: 'Europa Grotesk', Georgia, serif;
+        }
+
         footer {
             margin-top: 4rem;
             padding-top: 2rem;
@@ -193,71 +203,29 @@
         <a href="index.html" class="back-link">← Back to Portfolio</a>
         
         <header>
-            <h1>Blog</h1>
-            <p>Thoughts on Machine Learning, AI, and Software Engineering</p>
-            <nav>
-                <a href="#machine-learning">Machine Learning</a>
-                <a href="#deep-learning">Deep Learning</a>
-                <a href="#tutorials">Tutorials</a>
-            </nav>
+            <h1 class="header-text">My AI Engineering Journal</h1>
         </header>
 
         <main>
-            <ul class="blog-list">
-                <li class="blog-item">
+            <div class="blog-list">
+                <div class="blog-item">
                     <h2 class="blog-title">
-                        <a href="blog/fine-tuning-llms.html">Understanding Fine-tuning in Large Language Models</a>
+                        <a href="blog/Memory-optimization.html" class="blog-link">Understanding Quantization in Deep Learning</a>
                     </h2>
                     <div class="blog-meta">
-                        March 15, 2024 · 20 min read
+                        Mar 13th, 2024 · 15 min read
                     </div>
                     <p class="blog-excerpt">
-                        A comprehensive guide to fine-tuning LLMs, exploring the challenges, memory implications, 
-                        and practical considerations before choosing to fine-tune your models...
+                        A comprehensive guide to memory optimization in deep learning, focusing on quantization techniques 
+                        and their practical implementation in modern neural networks.
                     </p>
                     <div class="tags">
-                        <span class="tag">LLMs</span>
-                        <span class="tag">Fine-tuning</span>
-                        <span class="tag">MLOps</span>
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag">Optimization</span>
+                        <span class="tag">Neural Networks</span>
                     </div>
-                </li>
-
-                <li class="blog-item">
-                    <h2 class="blog-title">
-                        <a href="blog/outliers-in-machine-learning.html">Understanding Outliers in Machine Learning</a>
-                    </h2>
-                    <div class="blog-meta">
-                        February 15, 2024 · 15 min read
-                    </div>
-                    <p class="blog-excerpt">
-                        A deep dive into the nature of outliers in datasets, their impact on machine learning models, 
-                        and various strategies for handling them effectively...
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Data Preprocessing</span>
-                        <span class="tag">Statistics</span>
-                    </div>
-                </li>
-
-                <li class="blog-item">
-                    <h2 class="blog-title">
-                        <a href="blog/handling-imbalanced-datasets.html">Embracing the Imbalance: Part 1</a>
-                    </h2>
-                    <div class="blog-meta">
-                        January 20, 2024 · 12 min read
-                    </div>
-                    <p class="blog-excerpt">
-                        An exploration of techniques and strategies for handling imbalanced datasets in machine learning, 
-                        focusing on sampling methods and algorithmic approaches...
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Data Science</span>
-                        <span class="tag">Classification</span>
-                    </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </main>
 
         <footer>

@@ -39,7 +39,21 @@
 - Images in images/
 - Keep paths relative
 
-5. FORMATTING
+5. IMAGE STYLING
+- Save screenshots/diagrams as PNG with transparency
+- Max width: 600px for desktop
+- Responsive on mobile
+- No background, border or shadow
+- Center aligned with caption
+- Image container:
+  * margin: 2em 0
+  * text-align: center
+- Caption style:
+  * color: #666
+  * font-size: 0.9em
+  * font-style: italic
+
+6. FORMATTING
 - Use proper indentation
 - Keep code clean and readable
 - Add comments for clarity
