@@ -453,6 +453,9 @@ Options for Running Large Models:
         <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a></p>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="../js/config.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const likeButton = document.getElementById('likeButton');
@@ -461,16 +464,6 @@ Options for Running Large Models:
             const commentsDiv = document.getElementById('comments');
             
             // Use Firebase for real-time database
-            const firebaseConfig = {
-                apiKey: "AIzaSyDEz8df3mBTvXoV6Wl7RcBiLDxqzi4bMYw",
-                authDomain: "blog-interactions.firebaseapp.com",
-                projectId: "blog-interactions",
-                storageBucket: "blog-interactions.firebasestorage.app",
-                messagingSenderId: "802204100800",
-                appId: "1:802204100800:web:827bf266067a8089a9e525"
-            };
-            
-            firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
             
             // Rate limiting for likes using localStorage
@@ -550,8 +543,6 @@ Options for Running Large Models:
             });
         });
     </script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </body>
 </html> 
 
