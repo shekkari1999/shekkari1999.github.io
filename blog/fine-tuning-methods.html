@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fine-tuning Methods in LLMs: Part 1 | Akhil Shekkari</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+</head>
+<body>
+    <a href="../blogs.html" class="back-link">← Back to Blog</a>
+
+    <div class="newsletter-signup">
+        <h4>Stay Updated</h4>
+        <p>Get notified about new articles on AI and Deep Learning</p>
+        <form id="newsletterForm" action="https://formspree.io/f/akhil.masters21@gmail.com" method="POST">
+            <input type="email" name="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+
+    <article>
+        <h1>Fine-tuning Methods in LLMs: Part 1</h1>
+        
+        <p class="blog-meta">Mar 14th, 2024 · 20 min read</p>
+        <hr class="section-break">
+
+        <p>
+            This blog explores various fine-tuning methods for Large Language Models. For a better understanding 
+            of the motivation behind these techniques, I recommend first reading my article on 
+            <a href="Memory-optimization.html">Memory Optimization in Deep Learning</a>.
+        </p>
+
+        <h2>Understanding Fine-tuning vs Training</h2>
+        
+        <div class="note-block">
+            <p>
+                <strong>Key Distinction:</strong> Training involves starting with random weights, while fine-tuning 
+                starts with pre-trained model weights. This fundamental difference shapes our approach to model adaptation.
+            </p>
+        </div>
+
+        <h2>The Memory Challenge</h2>
+        
+        <p>
+            When running large models on available hardware, you typically have two main options:
+        </p>
+        
+        <div class="code-example">
+Options for Running Large Models:
+
+1. Reduce Memory Footprint
+   • Quantization
+   • Parameter-efficient methods
+   • Gradient checkpointing
+
+2. Distribute Computation
+   • CPU offloading with DeepSpeed
+   • Model parallelism
+   • Pipeline parallelism</div>
+
+        <h2>Evolution of Fine-tuning Approaches</h2>
+
+        <h3>1. Full Fine-tuning</h3>
+        
+        <div class="diagram-container">
+            <img src="../images/fine-tuning-1/ft-1.png" alt="Full Fine-tuning Diagram" class="diagram">
+            <div class="diagram-caption">Figure 1: Traditional full fine-tuning approach where all model parameters are updated</div>
+        </div>
+
+        <p>
+            In the early days of deep learning, when models had fewer parameters, full fine-tuning was the standard approach. 
+            This method updates all model weights during the adaptation process.
+        </p>
+
+        <h3>2. Partial Fine-tuning</h3>
+        
+        <p>
+            As models grew larger, researchers began experimenting with partial fine-tuning, freezing about 10% of the model 
+            weights. While this reduced memory footprint, the performance benefits were limited. Meaningful improvements 
+            typically required fine-tuning at least 30% of the model parameters.
+        </p>
+
+        <blockquote>
+            <p>
+                The critical question emerged: Could we achieve significant performance improvements while updating 
+                only a tiny fraction of parameters? This led to the development of Parameter-Efficient Fine-Tuning (PEFT) methods.
+            </p>
+        </blockquote>
+
+        <div class="diagram-container">
+            <img src="../images/fine-tuning-1/ft-2.png" alt="PEFT Methods Overview" class="diagram">
+            <div class="diagram-caption">Figure 2: Overview of Parameter-Efficient Fine-Tuning approaches</div>
+        </div>
+
+        <div class="interaction-section">
+            <div class="like-section">
+                <button id="likeButton" class="like-button">
+                    <span class="heart-icon">♥</span>
+                    <span class="like-count">0</span> Likes
+                </button>
+            </div>
+            
+            <div class="comment-section">
+                <h4>Comments</h4>
+                <form id="commentForm" class="comment-form">
+                    <div class="form-group">
+                        <input type="text" id="commentName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="commentText" placeholder="Share your thoughts..." required></textarea>
+                    </div>
+                    <button type="submit">Post Comment</button>
+                </form>
+                
+                <div id="comments" class="comments-list">
+                    <!-- Comments will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <footer>
+        <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a></p>
+    </footer>
+
+    <script>
+        // Like and comment functionality (same as Memory-optimization.html)
+    </script>
+</body>
+</html> 
+
+[remove whatever content you have posted as place holder above]
+
+
+
+This blog explains Fine-Tuning methods . But to better get the flavour and motivation, I suggest you to 
+read <link of Memory-optimization blog>
+
+TO run a model on a given hardware, you have two options;
+1. you either reduce memory footprint
+2. You do CPU offloading (DeepSpeed)
+(check for the correctness of the above two statements)
+
+Fit this statement somewhere --> (Training is where you start from random weights. Fine tuning is where you start from model weights)
+Now that you have understood, how much memory intensive task fine tuning can be, lets 
+deep dive into some methods. Back in those days, since we used to have models with less
+number of parameters, performing full finetuning woudn't hurt much.
+
+<Insert the diagram here name it as ft-1> 
+Then people started going for Partial Finetuning. where they would freeze around 10% 
+of the model weights of few layers.This for sure decreased memory footprint, but there was no 
+comparable performance. To see any kind of improvements, we still needed to use around 30% of the model
+parameters.
+
+[put the below statement in block quote]
+Now the question arises, can we use very fewer parameters and still get huge performance
+improvements ?? The Answer for that was PEFT.
+
+<Insert ft-2 image here>
+

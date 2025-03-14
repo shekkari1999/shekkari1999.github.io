@@ -195,10 +195,12 @@ footer {
 
 .diagram {
     max-width: 600px;
+    max-height: 300px;
     height: auto;
     border-radius: 8px;
     background: transparent;
     padding: 1em;
+    object-fit: contain;
 }
 
 .diagram-caption {
@@ -444,4 +446,54 @@ footer {
 
 .blog-link:hover {
     color: #0246a2;
+}
+
+/* Newsletter signup */
+.newsletter-signup {
+    margin: 1.5rem 0;
+    max-width: 400px;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e8;
+}
+
+.newsletter-signup h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1em;
+    color: #2c3e50;
+}
+
+.newsletter-signup p {
+    margin: 0 0 1rem 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.newsletter-signup form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.newsletter-signup input[type="email"] {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.newsletter-signup button {
+    background: #0366d6;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.newsletter-signup button:hover {
+    background: #0246a2;
 } 
