@@ -425,22 +425,47 @@ Simple Example of How Learning Happens:
             // Update initial like count
             document.querySelector('.like-count').textContent = likeCount;
             
-            // Handle likes
-            likeButton.addEventListener('click', function() {
-                likeCount++;
-                document.querySelector('.like-count').textContent = likeCount;
+            // Use Firebase for real-time database
+            const firebaseConfig = {
+                apiKey: "AIzaSyDEz8df3mBTvXoV6Wl7RcBiLDxqzi4bMYw",
+                authDomain: "blog-interactions.firebaseapp.com",
+                projectId: "blog-interactions",
+                storageBucket: "blog-interactions.firebasestorage.app",
+                messagingSenderId: "802204100800",
+                appId: "1:802204100800:web:827bf266067a8089a9e525"
+            };
+            
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+            
+            // Rate limiting for likes using localStorage
+            function canLike(postId) {
+                const now = Date.now();
+                const lastLiked = localStorage.getItem(`lastLiked_${postId}`);
+                if (!lastLiked) return true;
                 
-                // Notify about the like
-                fetch('https://formspree.io/f/akhil.masters21@gmail.com', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        type: 'like',
-                        blogPost: 'Memory Optimization in Deep Learning',
-                        count: likeCount
-                    })
+                // 24 hour cooldown
+                return (now - parseInt(lastLiked)) > 24 * 60 * 60 * 1000;
+            }
+            
+            // Listen for likes
+            db.ref('likes/memory-optimization').on('value', (snapshot) => {
+                const likes = snapshot.val() || 0;
+                likeCount = likes;
+                document.querySelector('.like-count').textContent = likes;
+            });
+            
+            // Handle likes with rate limiting
+            likeButton.addEventListener('click', () => {
+                if (!canLike('memory-optimization')) {
+                    alert('You can only like once every 24 hours!');
+                    return;
+                }
+                
+                const likesRef = db.ref('likes/memory-optimization');
+                likesRef.transaction(currentLikes => {
+                    localStorage.setItem('lastLiked_memory-optimization', Date.now().toString());
+                    return (currentLikes || 0) + 1;
                 });
             });
             
