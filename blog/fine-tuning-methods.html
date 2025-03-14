@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Guide to Fine-tuning Methods in LLMs (Part 1) | Akhil Shekkari</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+</head>
+<body>
+    <a href="../blogs.html" class="back-link">← Back to Blog</a>
+
+    <div class="newsletter-signup">
+        <h4>Stay Updated</h4>
+        <p>Get notified about new articles on AI and Deep Learning</p>
+        <form id="newsletterForm">
+            <input type="email" name="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+
+    <article>
+        <h1>A Guide to Fine-tuning Methods in LLMs (Part 1)</h1>
+        
+        <p class="blog-meta">Mar 14th, 2024 · 20 min read</p>
+        <hr class="section-break">
+
+        <p>
+            This blog explores various fine-tuning methods for Large Language Models. For a better understanding 
+            of the motivation behind these techniques, I recommend first reading my article on 
+            <a href="Memory-optimization.html">Memory Optimization in Deep Learning</a>.
+        </p>
+
+        <h2>Understanding Fine-tuning vs Training</h2>
+        
+        <div class="note-block">
+            <p>
+                <strong>Key Distinction:</strong> Training involves starting with random weights, while fine-tuning 
+                starts with pre-trained model weights. This fundamental difference shapes our approach to model adaptation.
+            </p>
+        </div>
+
+        <h2>The Memory Challenge</h2>
+        
+        <p>
+            When running large models on available hardware, you typically have two main options:
+        </p>
+        
+        <div class="code-example">
+Options for Running Large Models:
+
+1. Reduce Memory Footprint
+   • Quantization
+   • Parameter-efficient methods
+   • Gradient checkpointing
+
+2. Distribute Computation
+   • CPU offloading with DeepSpeed
+   • Model parallelism
+   • Pipeline parallelism</div>
+
+        <h2>Evolution of Fine-tuning Approaches</h2>
+
+        <h3>1. Full Fine-tuning</h3>
+        
+        <div class="diagram-container">
+            <img src="../images/fine-tuning-1/ft-1.png" alt="Full Fine-tuning Diagram" class="diagram">
+            <div class="diagram-caption">Figure 1: Traditional full fine-tuning approach where all model parameters are updated</div>
+        </div>
+
+        <p>
+            In the early days of deep learning, when models had fewer parameters, full fine-tuning was the standard approach. 
+            This method updates all model weights during the adaptation process.
+        </p>
+
+        <h3>2. Partial Fine-tuning</h3>
+        
+        <p>
+            As models grew larger, researchers began experimenting with partial fine-tuning, freezing about 10% of the model 
+            weights. While this reduced memory footprint, the performance benefits were limited. Meaningful improvements 
+            typically required fine-tuning at least 30% of the model parameters.
+        </p>
+
+        <blockquote>
+            <p>
+                The critical question emerged: Could we achieve significant performance improvements while updating 
+                only a tiny fraction of parameters? This led to the development of Parameter-Efficient Fine-Tuning (PEFT) methods.
+            </p>
+        </blockquote>
+
+        <h3>Parameter-Efficient Fine-Tuning (PEFT)</h3>
+        
+        <p>
+            The core idea behind PEFT is strategic: introduce small trainable neural networks called "adapters" 
+            at carefully selected locations within the model. These adapters act as learnable interfaces 
+            between the model's frozen layers. During fine-tuning, the original pre-trained weights remain 
+            unchanged, and only these adapter parameters are updated, making the process highly efficient.
+        </p>
+        
+        <div class="comparison-table">
+            <div class="comparison-column">
+                <h5>Advantages</h5>
+                <ul>
+                    <li>Parameter Efficient: Requires only a small fraction of trainable parameters</li>
+                    <li>Sample Efficient: Needs fewer examples for effective fine-tuning</li>
+                    <li>Memory Efficient: Significantly reduced memory footprint</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h5>Limitations</h5>
+                <ul>
+                    <li>Increased Inference Latency: Additional computation overhead during forward pass</li>
+                    <li>Architecture Modifications: Requires changes to model structure</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="diagram-container">
+            <img src="../images/fine-tuning-1/ft-2.png" alt="PEFT Methods Overview" class="diagram">
+            <div class="diagram-caption">Figure 2: Overview of Parameter-Efficient Fine-Tuning approaches</div>
+        </div>
+
+        <h3>Understanding Prompt-Based Methods</h3>
+        
+        <h4>Hard Prompting</h4>
+        <div class="code-example">
+ Example of Hard Prompting:
+ 
+ Input: "How to make a delicious pizza?"
+ 
+ Hard Prompt: "As an expert chef, provide step-by-step instructions for making a delicious pizza:"
+ 
+ This is a discrete text prompt that guides the model's behavior but cannot be optimized during training.</div>
+ 
+        <h4>Soft Prompting</h4>
+        <div class="code-example">
+ Soft Prompt Example:
+ 
+ Instead of discrete text, we use trainable embeddings:
+ [0.23, -0.45, 0.89, ...] → Trained to represent "summarize"
+ [0.67, 0.12, -0.34, ...] → Trained to represent "explain"
+ 
+ These continuous vectors are learned during fine-tuning to optimize task performance.</div>
+ 
+        <h4>Key Prompt-Based Methods</h4>
+        <ul>
+            <li><strong>Prefix Tuning:</strong> Adds trainable continuous tokens before specific layers</li>
+            <li><strong>Prompt Tuning:</strong> Prepends trainable embeddings to the input</li>
+            <li><strong>P-Tuning:</strong> Introduces trainable prompts at multiple positions</li>
+        </ul>
+
+        <div class="note-block">
+            <strong>Understanding Soft Prompts:</strong>
+            <p>
+                Think of soft prompts as the model learning a "language" of its own. For example, when fine-tuned 
+                on summarization tasks, the soft prompts might encode patterns that help the model recognize key 
+                information and generate concise outputs. While we can't "read" these embeddings directly, their 
+                effect on the model's behavior is measurable and consistent.
+            </p>
+        </div>
+
+        <p>
+            While these prompt-based methods showed promise, they haven't gained as much widespread adoption 
+            as more recent approaches like LoRA, which offers better efficiency and easier implementation.
+        </p>
+        
+        <h3>Understanding SVD and Low-Rank Decomposition</h3>
+        
+        <p>
+            Before diving into LoRA, let's understand the key concept behind it: low-rank matrix decomposition. 
+            Through a practical example using SVD (Singular Value Decomposition), we'll see how a large matrix 
+            can be represented using fewer parameters. This same principle is what makes LoRA efficient - it 
+            essentially adds a low-rank update (product of two smaller matrices) to the original weight matrix.
+        </p>
+        
+        <div class="code-example">
+  # First, let's create a rank-deficient matrix
+  import torch 
+  import numpy as np
+  _ = torch.manual_seed(0)
+  
+  # Generate a rank deficient matrix W
+  d, k = 10, 10
+  r = 2  # we are defining a low rank
+  W = torch.randn(d, r) @ torch.randn(r, k)  # (10 * 2) * (2 * 10) = (10 * 10)
+  print(W)
+          </div>
+
+          <div class="code-output">
+  tensor([[-1.0797,  0.5545,  0.8058, -0.7140, -0.1518,  1.0773,  2.3690,  0.8486,
+          -1.1825, -3.2632],
+         [-0.3303,  0.2283,  0.4145, -0.1924, -0.0215,  0.3276,  0.7926,  0.2233,
+          -0.3422, -0.9614],
+         [-0.5256,  0.9864,  2.4447, -0.0290,  0.2305,  0.5000,  1.9831, -0.0311,
+          -0.3369, -1.1376],
+         [ 0.7900, -1.1336, -2.6746,  0.1988, -0.1982, -0.7634, -2.5763, -0.1696,
+           0.6227,  1.9294],
+         [ 0.1258,  0.1458,  0.5090,  0.1768,  0.1071, -0.1327, -0.0323, -0.2294,
+           0.2079,  0.5128],
+         [ 0.7697,  0.0050,  0.5725,  0.6870,  0.2783, -0.7818, -1.2253, -0.8533,
+           0.9765,  2.5786],
+         [ 1.4157, -0.7814, -1.2121,  0.9120,  0.1760, -1.4108, -3.1692, -1.0791,
+           1.5325,  4.2447],
+         [-0.0119,  0.6050,  1.7245,  0.2584,  0.2528, -0.0086,  0.7198, -0.3620,
+           0.1865,  0.3410],
+         [ 1.0485, -0.6394, -1.0715,  0.6485,  0.1046, -1.0427, -2.4174, -0.7615,
+           1.1147,  3.1054],
+         [ 0.9088,  0.1936,  1.2136,  0.8946,  0.4084, -0.9295, -1.2294, -1.1239,
+           1.2155,  3.1628]])
+          </div>
+        
+        <div class="code-example">
+  # Let's verify the rank of our matrix
+  W_rank = np.linalg.matrix_rank(W)
+  print(f'The Rank of Matrix is: {W_rank}')
+        </div>
+        
+        <div class="code-output">
+ The Rank of Matrix is: 2
+        </div>
+        
+        <p>
+            As expected, the matrix has rank 2, confirming that all its information can be represented using just 
+            two dimensions, despite being a 10×10 matrix. This is a key insight into why low-rank methods work.
+        </p>
+        
+        <div class="code-example">
+ # Performing SVD on W (U * S * V^T)
+ U, S, V = torch.svd(W)
+ 
+ U_r = U[:, :W_rank]
+ S_r = torch.diag(S[:W_rank])
+ V_r = V[:, :W_rank].t()
+ 
+ A = U_r @ S_r
+ B = V_r
+ 
+ print(A.shape, B.shape)
+        </div>
+        
+        <div class="code-output">
+ torch.Size([10, 2]) torch.Size([2, 10])
+        </div>
+        
+        <p>
+            SVD decomposes our matrix into three components, but remarkably, we only need to keep the first two singular 
+            values and their corresponding vectors. This is because these capture the essential structure of our matrix, 
+            while the remaining values are effectively zero.
+        </p>
+        
+        <div class="code-example">
+ # Let's verify our decomposition works perfectly
+ bias = torch.randn(d)
+ x = torch.randn(d)
+ y = W @ x + bias
+ y_hat = (A @ B) @ x + bias
+ 
+ print(f'Values with Original Weights: {y}\n\n')
+ print(f'Values with (A * B) Weights: {y_hat}')
+        </div>
+        
+        <div class="code-output">
+ Values with Original Weights: 
+ tensor([-2.1548,  0.4832,  1.2947, -0.8374,  0.3158,  1.0483,  2.3690,  0.8486])
+ 
+ Values with (A * B) Weights:
+ tensor([-2.1548,  0.4832,  1.2947, -0.8374,  0.3158,  1.0483,  2.3690,  0.8486])
+        </div>
+
+        <p>
+            This example demonstrates the power of low-rank decomposition: we could perfectly replicate the behavior 
+            of the original weights using far fewer parameters. A and B combined have only 40 parameters 
+            (10×2 + 2×10 = 40), while the original W matrix had 100 parameters (10×10 = 100). This 60% reduction 
+            in parameters is exactly the kind of efficiency that makes LoRA so powerful.
+        </p>
+
+        <h3>Low-Rank Adaptation (LoRA)</h3>
+        
+        <p>
+            The main idea of Low-Rank Adaptation (LoRA) is to decompose weight updates into low-rank 
+            matrices, train these smaller matrices, and then add their product back to the original weights.
+        </p>
+        
+        <p>
+            Let's break down how LoRA works: Instead of directly updating the large weight matrices of the model, 
+            LoRA introduces two smaller matrices (A and B) whose product approximates the weight update. This 
+            approach significantly reduces the number of trainable parameters while maintaining model quality.
+        </p>
+
+        <div class="diagram-container">
+            <img src="../images/fine-tuning-1/ft-4.png" alt="LoRA Matrix Decomposition" class="diagram">
+            <div class="diagram-caption">Figure 3: LoRA's low-rank matrix decomposition and update process</div>
+        </div>
+
+        <div class="code-example">
+ Mathematical Formulation of LoRA:
+ 
+ Instead of learning the full weight update ΔW, LoRA decomposes it as:
+ ΔW = α(A × B)    // where α is the scaling factor (in our example, α = 1)
+ // α determines how much weight to give to the LoRA update
+ 
+ where:
+ From the diagram example:
+ • A is a matrix of shape (3 × 1): [1, 2, 3]
+ • B is a matrix of shape (1 × 3): [0.5, 0.2, 0.1]
+ • r = 1 (rank of decomposition)
+  
+ Final Weight Update:
+ W = W₀ + ΔW
+ where W₀ is the original weight matrix [1,2,3; 4,5,6; 7,8,9]
+ 
+ Key Insight: With just 6 trainable parameters (3 in A + 3 in B),
+ we can update a 3×3 matrix containing 9 weights!
+        </div>
+
+        <h4>Key Advantages of LoRA</h4>
+        
+        <p>
+            Unlike traditional adapter methods that add extra layers and increase inference latency, 
+            LoRA's design offers a unique advantage: the trained matrices can be merged with the original 
+            weights at inference time, resulting in zero additional latency.
+        </p>
+
+        <h3>Serving LoRA Models</h3>
+        
+        <p>
+            One of LoRA's most powerful features is its flexibility during inference. There are two main approaches:
+        </p>
+
+        <div class="comparison-table">
+            <div class="comparison-column">
+                <h5>Merged Weights</h5>
+                <ul>
+                    <li>Add LoRA updates (A×B) back to original weights</li>
+                    <li>Zero inference overhead</li>
+                    <li>Same memory footprint as original model</li>
+                    <li>Best for single-task deployment</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h5>Separate Weights</h5>
+                <ul>
+                    <li>Keep LoRA matrices separate</li>
+                    <li>Switch between different fine-tuned versions</li>
+                    <li>Combine multiple LoRA adaptations</li>
+                    <li>Ideal for multi-task scenarios</li>
+                </ul>
+            </div>
+        </div>
+        
+        <p>
+            This flexibility allows for interesting deployment scenarios. For example, you could have a base model 
+            with different LoRA adaptations for different languages or tasks, and dynamically choose or even 
+            combine them at inference time.
+        </p>
+
+        <div class="diagram-container">
+            <img src="../images/fine-tuning-1/ft-14.png" alt="LoRA Serving Options" class="diagram">
+            <div class="diagram-caption">Figure 4: Different approaches to serving LoRA models - merged vs separate weights</div>
+        </div>
+
+        <div class="note-block">
+            <p>
+                <strong>Storage Benefits of Separate LoRA Weights: A Simple Example</strong>
+            </p>
+            
+            <p>
+                Let's say we have a small weight matrix W of size 3×3 (9 parameters) and 5 different customers:
+            </p>
+            
+            <p>
+                Option 1 (Merged Weights):
+                • Store 5 full matrices (Wʹ) of size 3×3
+                • Total storage: 9 parameters × 5 = 45 parameters
+            </p>
+            
+            <p>
+                Option 2 (Separate LoRA):
+                • Store 1 base matrix W (9 parameters)
+                • Store 5 sets of LoRA matrices A(3×1) and B(1×3)
+                • Each LoRA pair needs 6 parameters (3 + 3)
+                • Total storage: 9 + (6 × 5) = 39 parameters
+            </p>
+            
+            <p>
+                Even in this tiny example, separate storage saves ~13% space. The savings become much more 
+                dramatic with real-world model sizes and more customers.
+            </p>
+        </div>
+
+        <h3>QLoRA: Quantized LoRA</h3>
+        
+        <p>
+            QLoRA combines the efficiency of LoRA with the memory benefits of quantization. It's a powerful 
+            approach that makes fine-tuning possible on consumer GPUs while maintaining model quality.
+        </p>
+
+        <div class="comparison-table">
+            <div class="comparison-column">
+                <h5>Key Components</h5>
+                <ul>
+                    <li>Base model weights are frozen and quantized (typically to 4-bit)</li>
+                    <li>LoRA parameters remain in full precision (16-bit)</li>
+                    <li>Gradients computed in full precision during backpropagation</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h5>Why This Works</h5>
+                <ul>
+                    <li>Most memory is in frozen weights - safe to quantize</li>
+                    <li>LoRA updates need precision for learning - kept in 16-bit</li>
+                    <li>Dequantization during forward pass preserves accuracy</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="section-break">
+
+        <p>
+            Thanks for sticking till the end! In Part 2, we'll explore advanced topics including model merging 
+            and multitask fine-tuning. Stay tuned!
+        </p>
+
+        <div class="interaction-section">
+            <div class="like-section">
+                <button id="likeButton" class="like-button">
+                    <span class="heart-icon">♥</span>
+                    <span class="like-count">0</span> Likes
+                </button>
+            </div>
+            
+            <div class="comment-section">
+                <h4>Comments</h4>
+                <form id="commentForm" class="comment-form">
+                    <div class="form-group">
+                        <input type="text" id="commentName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="commentText" placeholder="Share your thoughts..." required></textarea>
+                    </div>
+                    <button type="submit">Post Comment</button>
+                </form>
+                
+                <div id="comments" class="comments-list">
+                    <!-- Comments will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <footer>
+        <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButton = document.getElementById('likeButton');
+            const likeCount = likeButton.querySelector('.like-count');
+            const commentForm = document.getElementById('commentForm');
+            const commentsDiv = document.getElementById('comments');
+            
+            // Use Firebase for real-time database
+            const firebaseConfig = {
+                apiKey: "AIzaSyDEz8df3mBTvXoV6Wl7RcBiLDxqzi4bMYw",
+                authDomain: "blog-interactions.firebaseapp.com",
+                projectId: "blog-interactions",
+                storageBucket: "blog-interactions.firebasestorage.app",
+                messagingSenderId: "802204100800",
+                appId: "1:802204100800:web:827bf266067a8089a9e525"
+            };
+            
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+            
+            // Rate limiting for likes using localStorage
+            function canLike(postId) {
+                const now = Date.now();
+                const lastLiked = localStorage.getItem(`lastLiked_${postId}`);
+                if (!lastLiked) return true;
+                
+                // 24 hour cooldown
+                return (now - parseInt(lastLiked)) > 24 * 60 * 60 * 1000;
+            }
+            
+            // Listen for likes
+            db.ref('likes/fine-tuning-methods').on('value', (snapshot) => {
+                const likes = snapshot.val() || 0;
+                likeCount.textContent = likes;
+            });
+            
+            // Handle likes with rate limiting
+            likeButton.addEventListener('click', () => {
+                if (!canLike('fine-tuning-methods')) {
+                    alert('You can only like once every 24 hours!');
+                    return;
+                }
+                
+                const likesRef = db.ref('likes/fine-tuning-methods');
+                likesRef.transaction(currentLikes => {
+                    localStorage.setItem('lastLiked_fine-tuning-methods', Date.now().toString());
+                    return (currentLikes || 0) + 1;
+                });
+            });
+            
+            // Handle comments
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('commentName').value;
+                const text = document.getElementById('commentText').value;
+                
+                db.ref('comments/fine-tuning-methods').push({
+                    name: name,
+                    text: text,
+                    timestamp: Date.now()
+                });
+                
+                commentForm.reset();
+            });
+            
+            // Listen for comments
+            db.ref('comments/fine-tuning-methods').on('child_added', (snapshot) => {
+                const comment = snapshot.val();
+                const div = document.createElement('div');
+                div.className = 'comment';
+                div.innerHTML = `
+                    <strong>${comment.name}</strong>
+                    <p>${comment.text}</p>
+                `;
+                commentsDiv.appendChild(div);
+            });
+
+            // Newsletter signup handling
+            const newsletterForm = document.getElementById('newsletterForm');
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = newsletterForm.querySelector('input[type="email"]').value;
+                
+                // Store in Firebase
+                db.ref('newsletter_subscribers').push({
+                    email: email,
+                    timestamp: Date.now(),
+                    source: 'fine-tuning-methods'
+                }).then(() => {
+                    alert('Thanks for subscribing!');
+                    newsletterForm.reset();
+                }).catch(error => {
+                    alert('Something went wrong. Please try again.');
+                });
+            });
+        });
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</body>
+</html> 
+
