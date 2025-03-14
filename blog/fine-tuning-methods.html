@@ -89,9 +89,75 @@ Options for Running Large Models:
             </p>
         </blockquote>
 
+        <h3>Parameter-Efficient Fine-Tuning (PEFT)</h3>
+        
+        <p>
+            The core idea behind PEFT is strategic: introduce small trainable neural networks called "adapters" 
+            at carefully selected locations within the model. These adapters act as learnable interfaces 
+            between the model's frozen layers. During fine-tuning, the original pre-trained weights remain 
+            unchanged, and only these adapter parameters are updated, making the process highly efficient.
+        </p>
+        
+        <div class="comparison-table">
+            <div class="comparison-column">
+                <h5>Advantages</h5>
+                <ul>
+                    <li>Parameter Efficient: Requires only a small fraction of trainable parameters</li>
+                    <li>Sample Efficient: Needs fewer examples for effective fine-tuning</li>
+                    <li>Memory Efficient: Significantly reduced memory footprint</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h5>Limitations</h5>
+                <ul>
+                    <li>Increased Inference Latency: Additional computation overhead during forward pass</li>
+                    <li>Architecture Modifications: Requires changes to model structure</li>
+                </ul>
+            </div>
+        </div>
+
         <div class="diagram-container">
             <img src="../images/fine-tuning-1/ft-2.png" alt="PEFT Methods Overview" class="diagram">
             <div class="diagram-caption">Figure 2: Overview of Parameter-Efficient Fine-Tuning approaches</div>
+        </div>
+
+        <h3>Understanding Prompt-Based Methods</h3>
+        
+        <h4>Hard Prompting</h4>
+        <div class="code-example">
+ Example of Hard Prompting:
+ 
+ Input: "How to make a delicious pizza?"
+ 
+ Hard Prompt: "As an expert chef, provide step-by-step instructions for making a delicious pizza:"
+ 
+ This is a discrete text prompt that guides the model's behavior but cannot be optimized during training.</div>
+ 
+        <h4>Soft Prompting</h4>
+        <div class="code-example">
+ Soft Prompt Example:
+ 
+ Instead of discrete text, we use trainable embeddings:
+ [0.23, -0.45, 0.89, ...] → Trained to represent "summarize"
+ [0.67, 0.12, -0.34, ...] → Trained to represent "explain"
+ 
+ These continuous vectors are learned during fine-tuning to optimize task performance.</div>
+ 
+        <h4>Key Prompt-Based Methods</h4>
+        <ul>
+            <li><strong>Prefix Tuning:</strong> Adds trainable continuous tokens before specific layers</li>
+            <li><strong>Prompt Tuning:</strong> Prepends trainable embeddings to the input</li>
+            <li><strong>P-Tuning:</strong> Introduces trainable prompts at multiple positions</li>
+        </ul>
+
+        <div class="note-block">
+            <strong>Understanding Soft Prompts:</strong>
+            <p>
+                Think of soft prompts as the model learning a "language" of its own. For example, when fine-tuned 
+                on summarization tasks, the soft prompts might encode patterns that help the model recognize key 
+                information and generate concise outputs. While we can't "read" these embeddings directly, their 
+                effect on the model's behavior is measurable and consistent.
+            </p>
         </div>
 
         <div class="interaction-section">
@@ -131,32 +197,5 @@ Options for Running Large Models:
 </body>
 </html> 
 
-[remove whatever content you have posted as place holder above]
-
-
-
-This blog explains Fine-Tuning methods . But to better get the flavour and motivation, I suggest you to 
-read <link of Memory-optimization blog>
-
-TO run a model on a given hardware, you have two options;
-1. you either reduce memory footprint
-2. You do CPU offloading (DeepSpeed)
-(check for the correctness of the above two statements)
-
-Fit this statement somewhere --> (Training is where you start from random weights. Fine tuning is where you start from model weights)
-Now that you have understood, how much memory intensive task fine tuning can be, lets 
-deep dive into some methods. Back in those days, since we used to have models with less
-number of parameters, performing full finetuning woudn't hurt much.
-
-<Insert the diagram here name it as ft-1> 
-Then people started going for Partial Finetuning. where they would freeze around 10% 
-of the model weights of few layers.This for sure decreased memory footprint, but there was no 
-comparable performance. To see any kind of improvements, we still needed to use around 30% of the model
-parameters.
-
-[put the below statement in block quote]
-Now the question arises, can we use very fewer parameters and still get huge performance
-improvements ?? The Answer for that was PEFT.
-
-<Insert ft-2 image here>
-
+(say something like those methods are kinda less popular than lora)
+Now Lets explore and understand Lora
