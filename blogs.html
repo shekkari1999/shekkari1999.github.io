@@ -204,14 +204,6 @@
         
         <header>
             <h1 class="header-text">My AI Engineering Journal</h1>
-            <div class="newsletter-signup">
-                <h4>Stay Updated</h4>
-                <p>Get notified about new articles on AI and Deep Learning</p>
-                <form id="newsletterForm" action="https://formspree.io/f/akhil.masters21@gmail.com" method="POST">
-                    <input type="email" name="email" placeholder="Your email address" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
         </header>
 
         <main>
@@ -258,30 +250,5 @@
             <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a> · <a href="https://www.linkedin.com/in/akhilshekkari/">LinkedIn</a></p>
         </footer>
     </div>
-
-    <script>
-        // Handle newsletter signup
-        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = this.querySelector('input[type="email"]').value;
-            
-            fetch('https://formspree.io/f/akhil.masters21@gmail.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    type: 'newsletter_signup',
-                    email: email
-                })
-            }).then(() => {
-                alert('Thanks for subscribing!');
-                this.reset();
-            }).catch(() => {
-                alert('There was an error. Please try again.');
-            });
-        });
-    </script>
 </body>
 </html>

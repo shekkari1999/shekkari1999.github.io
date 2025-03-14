@@ -11,15 +11,6 @@
 <body>
     <a href="../blogs.html" class="back-link">← Back to Blog</a>
 
-    <div class="newsletter-signup">
-        <h4>Stay Updated</h4>
-        <p>Get notified about new articles on AI and Deep Learning</p>
-        <form id="newsletterForm">
-            <input type="email" name="email" placeholder="Your email address" required>
-            <button type="submit">Subscribe</button>
-        </form>
-    </div>
-
     <article>
         <h1>A Guide to Fine-tuning Methods in LLMs (Part 1)</h1>
         
@@ -421,128 +412,11 @@ Options for Running Large Models:
             Thanks for sticking till the end! In Part 2, we'll explore advanced topics including model merging 
             and multitask fine-tuning. Stay tuned!
         </p>
-
-        <div class="interaction-section">
-            <div class="like-section">
-                <button id="likeButton" class="like-button">
-                    <span class="heart-icon">♥</span>
-                    <span class="like-count">0</span> Likes
-                </button>
-            </div>
-            
-            <div class="comment-section">
-                <h4>Comments</h4>
-                <form id="commentForm" class="comment-form">
-                    <div class="form-group">
-                        <input type="text" id="commentName" placeholder="Your name" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="commentText" placeholder="Share your thoughts..." required></textarea>
-                    </div>
-                    <button type="submit">Post Comment</button>
-                </form>
-                
-                <div id="comments" class="comments-list">
-                    <!-- Comments will be dynamically added here -->
-                </div>
-            </div>
-        </div>
     </article>
 
     <footer>
         <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a></p>
     </footer>
-
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="../js/config.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const likeButton = document.getElementById('likeButton');
-            const likeCount = likeButton.querySelector('.like-count');
-            const commentForm = document.getElementById('commentForm');
-            const commentsDiv = document.getElementById('comments');
-            
-            // Use Firebase for real-time database
-            const db = firebase.database();
-            
-            // Rate limiting for likes using localStorage
-            function canLike(postId) {
-                const now = Date.now();
-                const lastLiked = localStorage.getItem(`lastLiked_${postId}`);
-                if (!lastLiked) return true;
-                
-                // 24 hour cooldown
-                return (now - parseInt(lastLiked)) > 24 * 60 * 60 * 1000;
-            }
-            
-            // Listen for likes
-            db.ref('likes/fine-tuning-methods').on('value', (snapshot) => {
-                const likes = snapshot.val() || 0;
-                likeCount.textContent = likes;
-            });
-            
-            // Handle likes with rate limiting
-            likeButton.addEventListener('click', () => {
-                if (!canLike('fine-tuning-methods')) {
-                    alert('You can only like once every 24 hours!');
-                    return;
-                }
-                
-                const likesRef = db.ref('likes/fine-tuning-methods');
-                likesRef.transaction(currentLikes => {
-                    localStorage.setItem('lastLiked_fine-tuning-methods', Date.now().toString());
-                    return (currentLikes || 0) + 1;
-                });
-            });
-            
-            // Handle comments
-            commentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('commentName').value;
-                const text = document.getElementById('commentText').value;
-                
-                db.ref('comments/fine-tuning-methods').push({
-                    name: name,
-                    text: text,
-                    timestamp: Date.now()
-                });
-                
-                commentForm.reset();
-            });
-            
-            // Listen for comments
-            db.ref('comments/fine-tuning-methods').on('child_added', (snapshot) => {
-                const comment = snapshot.val();
-                const div = document.createElement('div');
-                div.className = 'comment';
-                div.innerHTML = `
-                    <strong>${comment.name}</strong>
-                    <p>${comment.text}</p>
-                `;
-                commentsDiv.appendChild(div);
-            });
-
-            // Newsletter signup handling
-            const newsletterForm = document.getElementById('newsletterForm');
-            newsletterForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = newsletterForm.querySelector('input[type="email"]').value;
-                
-                // Store in Firebase
-                db.ref('newsletter_subscribers').push({
-                    email: email,
-                    timestamp: Date.now(),
-                    source: 'fine-tuning-methods'
-                }).then(() => {
-                    alert('Thanks for subscribing!');
-                    newsletterForm.reset();
-                }).catch(error => {
-                    alert('Something went wrong. Please try again.');
-                });
-            });
-        });
-    </script>
 </body>
 </html> 
 
