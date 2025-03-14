@@ -372,32 +372,6 @@ Simple Example of How Learning Happens:
             </p>
         </div>
 
-        <div class="interaction-section">
-            <div class="like-section">
-                <button id="likeButton" class="like-button">
-                    <span class="heart-icon">♥</span>
-                    <span class="like-count">0</span> Likes
-                </button>
-            </div>
-            
-            <div class="comment-section">
-                <h4>Comments</h4>
-                <form id="commentForm" class="comment-form">
-                    <div class="form-group">
-                        <input type="text" id="commentName" placeholder="Your name" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="commentText" placeholder="Share your thoughts..." required></textarea>
-                    </div>
-                    <button type="submit">Post Comment</button>
-                </form>
-                
-                <div id="comments" class="comments-list">
-                    <!-- Comments will be dynamically added here -->
-                </div>
-            </div>
-        </div>
-
     </article>
 
     <footer>
@@ -406,99 +380,6 @@ Simple Example of How Learning Happens:
 
     <script>
         Prism.highlightAll();
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const likeButton = document.getElementById('likeButton');
-            const commentForm = document.getElementById('commentForm');
-            const commentsContainer = document.getElementById('comments');
-            let likeCount = 0;
-            
-            // Update initial like count
-            document.querySelector('.like-count').textContent = likeCount;
-            
-            // Use Firebase for real-time database
-            const firebaseConfig = {
-                apiKey: "AIzaSyDEz8df3mBTvXoV6Wl7RcBiLDxqzi4bMYw",
-                authDomain: "blog-interactions.firebaseapp.com",
-                projectId: "blog-interactions",
-                storageBucket: "blog-interactions.firebasestorage.app",
-                messagingSenderId: "802204100800",
-                appId: "1:802204100800:web:827bf266067a8089a9e525"
-            };
-            
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.database();
-            
-            // Rate limiting for likes using localStorage
-            function canLike(postId) {
-                const now = Date.now();
-                const lastLiked = localStorage.getItem(`lastLiked_${postId}`);
-                if (!lastLiked) return true;
-                
-                // 24 hour cooldown
-                return (now - parseInt(lastLiked)) > 24 * 60 * 60 * 1000;
-            }
-            
-            // Listen for likes
-            db.ref('likes/memory-optimization').on('value', (snapshot) => {
-                const likes = snapshot.val() || 0;
-                likeCount = likes;
-                document.querySelector('.like-count').textContent = likes;
-            });
-            
-            // Handle likes with rate limiting
-            likeButton.addEventListener('click', () => {
-                if (!canLike('memory-optimization')) {
-                    alert('You can only like once every 24 hours!');
-                    return;
-                }
-                
-                const likesRef = db.ref('likes/memory-optimization');
-                likesRef.transaction(currentLikes => {
-                    localStorage.setItem('lastLiked_memory-optimization', Date.now().toString());
-                    return (currentLikes || 0) + 1;
-                });
-            });
-            
-            // Handle comments
-            commentForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('commentName').value;
-                const comment = document.getElementById('commentText').value;
-                const timestamp = new Date().toLocaleString();
-                
-                // Add comment to the page
-                const commentElement = document.createElement('div');
-                commentElement.className = 'comment';
-                commentElement.innerHTML = `
-                    <div class="comment-header">
-                        <strong>${name}</strong>
-                        <span class="comment-date">${timestamp}</span>
-                    </div>
-                    <div class="comment-body">${comment}</div>
-                `;
-                commentsContainer.prepend(commentElement);
-                
-                // Send notification email
-                fetch('https://formspree.io/f/akhil.masters21@gmail.com', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        type: 'comment',
-                        blogPost: 'Memory Optimization in Deep Learning',
-                        name: name,
-                        comment: comment,
-                        timestamp: timestamp
-                    })
-                });
-                
-                // Clear form
-                commentForm.reset();
-            });
-        });
     </script>
 </body>
 </html>
