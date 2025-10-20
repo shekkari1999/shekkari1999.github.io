@@ -85,8 +85,16 @@
                 color: #a0a0a0;
             }
             
+            .expertise-item {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            }
+            
+            .expertise-item:hover {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            }
+            
             .highlight-card {
-                background: transparent;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
                 border-left-color: #4a9eff;
             }
             
@@ -300,7 +308,7 @@
             .profile-section {
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: flex-start;
                 gap: 30px;
                 margin-bottom: 20px;
                 padding: 20px;
@@ -513,7 +521,7 @@
         }
         
         .highlight-card {
-            background: transparent;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             padding: 20px;
             border-radius: 12px;
             border-left: 4px solid #007aff;
@@ -609,14 +617,14 @@
             align-items: center;
             gap: 10px;
             padding: 12px 15px;
-            background: transparent;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
             border-radius: 8px;
             border-left: 4px solid #007aff;
             transition: all 0.3s ease;
         }
         
         .expertise-item:hover {
-            background: transparent;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
             transform: translateX(5px);
         }
         
