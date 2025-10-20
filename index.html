@@ -56,6 +56,75 @@
                 color: #e1e1e1;
             }
             
+            /* Dark mode for new about section */
+            .intro-card {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                color: #e1e1e1;
+            }
+            
+            .expertise-card {
+                background: rgba(40, 40, 40, 0.8);
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .expertise-card h4 {
+                color: #ffffff;
+            }
+            
+            .expertise-card p {
+                color: #a0a0a0;
+            }
+            
+            .highlight-card {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                border-left-color: #4a9eff;
+            }
+            
+            .highlight-header h4 {
+                color: #ffffff;
+            }
+            
+            .highlight-card p {
+                color: #e1e1e1;
+            }
+            
+            .badge {
+                border: 1px solid #404040;
+            }
+            
+            /* Dark mode for research interests */
+            .research-header {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                color: #e1e1e1;
+            }
+            
+            .research-card.reasoning {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .research-card.safety {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .research-card.performance {
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .research-card h4 {
+                color: #ffffff;
+            }
+            
+            .research-card p {
+                color: #a0a0a0;
+            }
+            
             .skill {
                 background: rgba(40, 40, 40, 0.8);
                 color: #e1e1e1;
@@ -160,6 +229,329 @@
         .about-content img:hover {
             transform: scale(1.02);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* New About Section Styles */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 4px solid #007aff;
+        }
+        
+        .profile-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .badge:hover {
+            transform: translateY(-2px);
+        }
+        
+        .badge.ai-engineer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .badge.contributor {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .badge.student {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .intro-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .intro-title {
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .intro-text {
+            margin: 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .expertise-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .expertise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .expertise-icon {
+            font-size: 2.5em;
+            color: #007aff;
+            margin-bottom: 15px;
+        }
+        
+        .expertise-card h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .expertise-card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .highlight-section {
+            margin: 20px 0;
+        }
+        
+        .highlight-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .highlight-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-header i {
+            color: #ff6b6b;
+            font-size: 1.2em;
+        }
+        
+        .highlight-header h4 {
+            margin: 0;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .highlight-card p {
+            margin: 0;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .action-btn.primary {
+            background: #007aff;
+            color: white;
+        }
+        
+        .action-btn.primary:hover {
+            background: #0056b3;
+            box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
+        }
+        
+        .action-btn.secondary {
+            background: #000000;
+            color: white;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #333333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .action-btn.tertiary {
+            background: transparent;
+            color: #007aff;
+            border-color: #007aff;
+        }
+        
+        .action-btn.tertiary:hover {
+            background: #007aff;
+            color: white;
+        }
+        
+        /* Research Interests Styles */
+        .research-interests {
+            margin: 30px 0;
+        }
+        
+        .research-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .research-header i {
+            font-size: 1.5em;
+        }
+        
+        .research-header h3 {
+            margin: 0;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .research-card {
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .research-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, currentColor, transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .research-card:hover::before {
+            opacity: 1;
+        }
+        
+        .research-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .research-card.reasoning {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+        }
+        
+        .research-card.safety {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+        
+        .research-card.performance {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            color: #333;
+        }
+        
+        .research-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .research-card:hover .research-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .research-card.reasoning .research-icon {
+            color: #ff6b6b;
+        }
+        
+        .research-card.safety .research-icon {
+            color: #4ecdc4;
+        }
+        
+        .research-card.performance .research-icon {
+            color: #45b7d1;
+        }
+        
+        .research-card h4 {
+            margin: 0 0 12px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .research-card p {
+            margin: 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+            opacity: 0.9;
         }
         .skills {
             text-align: center;
@@ -379,9 +771,85 @@
             }
             
             .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .profile-section {
+                order: 1;
+            }
+            
+            .about-text {
+                order: 2;
+            }
+            
+            .expertise-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .action-buttons {
                 flex-direction: column;
-                text-align: center;
-                gap: 20px;
+                gap: 10px;
+            }
+            
+            .action-btn {
+                justify-content: center;
+                padding: 10px 15px;
+            }
+            
+            /* Enhanced mobile responsive for new elements */
+            .profile-badges {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .badge {
+                font-size: 0.8em;
+                padding: 8px 12px;
+            }
+            
+            .intro-card {
+                padding: 20px;
+            }
+            
+            .intro-title {
+                font-size: 1.2em;
+            }
+            
+            .intro-text {
+                font-size: 1em;
+            }
+            
+            .research-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .research-card {
+                padding: 20px;
+            }
+            
+            .research-icon {
+                font-size: 2.5em;
+            }
+            
+            .research-card h4 {
+                font-size: 1.1em;
+            }
+            
+            .research-card p {
+                font-size: 0.9em;
+            }
+            
+            .highlight-card {
+                padding: 15px;
+            }
+            
+            .highlight-header h4 {
+                font-size: 1em;
             }
             
             .about-content img {
@@ -467,6 +935,62 @@
                 font-size: 0.9em;
             }
             
+            /* Extra small screens (phones) */
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .badge {
+                font-size: 0.75em;
+                padding: 6px 10px;
+            }
+            
+            .intro-card {
+                padding: 15px;
+            }
+            
+            .intro-title {
+                font-size: 1.1em;
+            }
+            
+            .intro-text {
+                font-size: 0.95em;
+            }
+            
+            .research-header {
+                padding: 12px 15px;
+            }
+            
+            .research-header h3 {
+                font-size: 1.1em;
+            }
+            
+            .research-card {
+                padding: 15px;
+            }
+            
+            .research-icon {
+                font-size: 2em;
+            }
+            
+            .research-card h4 {
+                font-size: 1em;
+            }
+            
+            .research-card p {
+                font-size: 0.85em;
+            }
+            
+            .highlight-card {
+                padding: 12px;
+            }
+            
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+            
             .skill {
                 padding: 15px;
             }
@@ -504,33 +1028,121 @@
         <section id="about" class="section">
     <h2><i class="fas fa-user"></i> About Me</h2>
     <div class="about-content">
-        <img src="akhil.jpg" alt="Your Photo">
-        <div>
-            <p>
-                Hi, I'm <strong>Akhil Shekkari</strong>, an AI engineer with over <strong>3+ years of industry experience</strong> specializing in building 
-                production-grade AI systems that are fast, smart, and aligned with human goals. I have a proven track record of training, 
-                optimizing, and deploying scalable AI systems, while ensuring they adhere to ethical guidelines and are aligned with real-world applications.
-            </p>
-            <p>
-                My expertise spans across <strong>Deep Learning</strong>, <strong>Generative Models</strong>, <strong>NLP</strong>, and <strong>RAG systems</strong>, 
-                with hands-on experience in <strong>Agentic Workflows</strong> and <strong>Model Evaluation</strong>. I've successfully implemented 
-                production-grade systems using <strong>PyTorch</strong>, <strong>LangChain</strong>, and <strong>Cloud Infrastructure</strong> 
-                to deliver impactful AI solutions.
-            </p>
-            <p>
-                Currently pursuing my Master's in <strong>Applied Machine Learning</strong> at the <strong>University of Maryland</strong>, 
-                I combine academic rigor with industry experience to push the boundaries of what's possible in AI. 
-                My recent work includes collaborating with <strong>Pfizer's AI team</strong> to automate Statistical Analysis Plan generation, 
-                reducing drafting time by up to <strong>60%</strong> through innovative RAG pipelines and LLM-as-a-Judge systems.
-            </p>
-            <p style="display: flex; gap: 15px; justify-content: flex-start; align-items: center;">
-                <a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" style="color: #007aff; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                    <i class="fab fa-linkedin"></i> Connect with me on LinkedIn
+        <div class="profile-section">
+            <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
+            <div class="profile-badges">
+                <div class="badge ai-engineer">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Engineer</span>
+                </div>
+                <div class="badge contributor">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>Towards AI Contributor</span>
+                </div>
+                <div class="badge student">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>UMD Graduate Student</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-text">
+            <div class="intro-card">
+                <h3 class="intro-title">
+                    <i class="fas fa-sparkles"></i>
+                    Building the Future of AI
+                </h3>
+                <p class="intro-text">
+                    Hi, I'm <strong>Akhil Shekkari</strong>, an AI engineer with over <strong>3+ years of industry experience</strong> 
+                    specializing in building production-grade AI systems that are fast, smart, and aligned with human goals.
+                </p>
+            </div>
+
+            <div class="expertise-grid">
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Deep Learning & NLP</h4>
+                    <p>Expertise in PyTorch, Transformers, and advanced neural architectures</p>
+                </div>
+                
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>RAG Systems</h4>
+                    <p>Building intelligent retrieval systems with vector databases and embeddings</p>
+                </div>
+                
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4>Production AI</h4>
+                    <p>Deploying scalable AI solutions with Docker, CI/CD, and cloud infrastructure</p>
+                </div>
+            </div>
+
+            <div class="research-interests">
+                <div class="research-header">
+                    <i class="fas fa-microscope"></i>
+                    <h3>Research Interests</h3>
+                </div>
+                <div class="research-grid">
+                    <div class="research-card reasoning">
+                        <div class="research-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h4>AI Reasoning</h4>
+                        <p>Developing models that can think step-by-step and solve complex problems</p>
+                    </div>
+                    
+                    <div class="research-card safety">
+                        <div class="research-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>AI Safety & Alignment</h4>
+                        <p>Ensuring AI systems are safe, reliable, and aligned with human values</p>
+                    </div>
+                    
+                    <div class="research-card performance">
+                        <div class="research-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Performance Optimization</h4>
+                        <p>Making code run faster and GPUs go brrr! 🚀</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-section">
+                <div class="highlight-card">
+                    <div class="highlight-header">
+                        <i class="fas fa-trophy"></i>
+                        <h4>Recent Achievement</h4>
+                    </div>
+                    <p>
+                        Collaborated with <strong>Pfizer's AI team</strong> to automate Statistical Analysis Plan generation, 
+                        reducing drafting time by <strong>60%</strong> through innovative RAG pipelines and LLM-as-a-Judge systems.
+                    </p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" class="action-btn primary">
+                    <i class="fab fa-linkedin"></i>
+                    <span>Connect on LinkedIn</span>
                 </a>
-                <a href="timeline.html" style="background: #000000; color: #ffffff; padding: 8px 15px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.3s ease;">
-                    <i class="fas fa-briefcase"></i> View My Timeline
+                <a href="timeline.html" class="action-btn secondary">
+                    <i class="fas fa-briefcase"></i>
+                    <span>View Timeline</span>
                 </a>
-            </p>
+                <a href="blogs.html" class="action-btn tertiary">
+                    <i class="fas fa-book"></i>
+                    <span>Read My Blogs</span>
+                </a>
+            </div>
         </div>
     </div>
 </section>
