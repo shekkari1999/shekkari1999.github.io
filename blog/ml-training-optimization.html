@@ -162,6 +162,78 @@
             line-height: 1.5;
         }
 
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #e1e1e1;
+            }
+            
+            article {
+                color: #e1e1e1;
+            }
+            
+            h1, h2, h3 {
+                color: #ffffff;
+            }
+            
+            .blog-meta {
+                color: #a0a0a0;
+            }
+            
+            .back-link {
+                color: #a0a0a0;
+                border-bottom-color: #404040;
+            }
+            
+            .back-link:hover {
+                color: #ffffff;
+                border-bottom-color: #ffffff;
+            }
+            
+            .code-example {
+                background: #2d2d2d;
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .comparison-table {
+                background: #2a2a2a;
+                border: 1px solid #404040;
+            }
+            
+            .comparison-column {
+                background: #2a2a2a;
+                border: 1px solid #404040;
+            }
+            
+            .comparison-column h5 {
+                color: #ffffff;
+                border-bottom-color: #404040;
+            }
+            
+            .comparison-column li {
+                color: #a0a0a0;
+            }
+            
+            .section-break {
+                background: #404040;
+            }
+            
+            footer {
+                color: #a0a0a0;
+                border-top-color: #404040;
+            }
+            
+            footer a {
+                color: #4a9eff;
+            }
+            
+            footer a:hover {
+                color: #6bb6ff;
+            }
+        }
+
         /* Enhanced Mobile Responsive Design */
         @media (max-width: 768px) {
             body {

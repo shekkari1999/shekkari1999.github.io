@@ -16,6 +16,71 @@
             background: linear-gradient(135deg, #e3f2fd, #e1bee7);
             color: #333;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a1a2e, #16213e);
+                color: #e1e1e1;
+            }
+            
+            header {
+                background: rgba(30, 30, 30, 0.8);
+                color: #ffffff;
+            }
+            
+            header h1 {
+                color: #ffffff;
+            }
+            
+            nav a {
+                color: #4a9eff;
+            }
+            
+            nav a:hover {
+                color: #6bb6ff;
+            }
+            
+            .section {
+                background: rgba(30, 30, 30, 0.6);
+                color: #e1e1e1;
+            }
+            
+            .section h2 {
+                color: #ffffff;
+            }
+            
+            .about-content p {
+                color: #e1e1e1;
+            }
+            
+            .skill {
+                background: rgba(40, 40, 40, 0.8);
+                color: #e1e1e1;
+            }
+            
+            .skill h3 {
+                color: #ffffff;
+            }
+            
+            .tag {
+                background: rgba(60, 60, 60, 0.8);
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .contact-item {
+                background: rgba(40, 40, 40, 0.8);
+                color: #e1e1e1;
+                border: 1px solid #404040;
+            }
+            
+            .contact-item:hover {
+                background: rgba(60, 60, 60, 0.8);
+                color: #ffffff;
+            }
         }
         header {
             background: rgba(255, 255, 255, 0.5);

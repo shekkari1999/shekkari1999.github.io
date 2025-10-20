@@ -33,6 +33,96 @@
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #e1e1e1;
+            }
+            
+            header {
+                border-bottom-color: #404040;
+            }
+            
+            header h1 {
+                color: #ffffff;
+            }
+            
+            header p {
+                color: #a0a0a0;
+            }
+            
+            nav a {
+                color: #4a9eff;
+            }
+            
+            nav a:hover {
+                color: #6bb6ff;
+            }
+            
+            .blog-item {
+                border-bottom-color: #404040;
+            }
+            
+            .blog-title a {
+                color: #ffffff;
+            }
+            
+            .blog-title a:hover {
+                color: #4a9eff;
+            }
+            
+            .blog-meta {
+                color: #a0a0a0;
+            }
+            
+            .blog-excerpt {
+                color: #e1e1e1;
+            }
+            
+            .tag {
+                background: #2a2a2a;
+                color: #a0a0a0;
+                border: 1px solid #404040;
+            }
+            
+            .read-more {
+                color: #4a9eff;
+            }
+            
+            .read-more:hover {
+                color: #6bb6ff;
+            }
+            
+            .back-link {
+                color: #a0a0a0;
+                border-bottom-color: #404040;
+            }
+            
+            .back-link:hover {
+                color: #ffffff;
+                border-bottom-color: #ffffff;
+            }
+            
+            .header-text {
+                color: #ffffff;
+            }
+            
+            footer {
+                border-top-color: #404040;
+                color: #a0a0a0;
+            }
+            
+            footer a {
+                color: #4a9eff;
+            }
+            
+            footer a:hover {
+                color: #6bb6ff;
+            }
         }
 
         .container {
