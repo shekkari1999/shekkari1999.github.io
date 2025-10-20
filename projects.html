@@ -684,6 +684,11 @@ a {
             <h3>Credit Card Fraud Detection</h3>
             <button onclick="openModal('project4')">Read More</button>
         </div>
+        <div class="project-card">
+            <img src="code-reviewer.png" alt="Code Reviewer Project" onerror="this.src='https://via.placeholder.com/400x200/4a9eff/ffffff?text=Code+Reviewer'">
+            <h3>Code Reviewer</h3>
+            <button onclick="openModal('project5')">Read More</button>
+        </div>
     </div>
 
     <div id="project1-modal" class="modal">
@@ -900,6 +905,58 @@ a {
                 </div>
             </div>
             <button class="back-btn" onclick="closeModal('project4')">Back</button>
+        </div>
+    </div>
+
+    <div id="project5-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project5')">&times;</button>
+            <h2>Code Reviewer</h2>
+            <div class="project-details">
+                <img src="code-reviewer.png" alt="Code Reviewer Project" class="modal-img" onerror="this.src='https://via.placeholder.com/400x200/4a9eff/ffffff?text=Code+Reviewer'">
+                <div class="key-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-brain"></i> 
+                            Distributed Training with LoRA fine-tuning on 220M parameter Microsoft model
+                        </li>
+                        <li>
+                            <i class="fas fa-database"></i>
+                            Trained on 150k sample dataset for realistic edit suggestions
+                        </li>
+                        <li>
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            Model distillation reducing size to 80M parameters (60% cost reduction)
+                        </li>
+                        <li>
+                            <i class="fas fa-server"></i>
+                            Containerized inference APIs for scalable deployment
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            ClearML integration for experiment tracking and model versioning
+                        </li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">LoRA</span>
+                        <span class="tag">ClearML</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Model Distillation</span>
+                        <span class="tag">Distributed Training</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="https://github.com/shekkari1999/MSML605CodeReviewer" target="_blank">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                </div>
+            </div>
+            <button class="back-btn" onclick="closeModal('project5')">Back</button>
         </div>
     </div>
 
