@@ -98,6 +98,20 @@
                 border: 1px solid #404040;
             }
             
+            .nav-menu {
+                background: rgba(30, 30, 30, 0.95);
+                border: 1px solid #404040;
+            }
+            
+            .nav-menu a {
+                color: #e1e1e1;
+            }
+            
+            .nav-menu a:hover {
+                background: rgba(74, 158, 255, 0.2);
+                color: #4a9eff;
+            }
+            
             /* Dark mode for research interests */
             .research-header {
                 background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
@@ -168,6 +182,7 @@
             max-width: 1200px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             position: relative;
+            z-index: 100;
         }
         
         /* Mobile Hamburger Menu */
@@ -176,7 +191,7 @@
             flex-direction: column;
             cursor: pointer;
             padding: 10px;
-            z-index: 1001;
+            z-index: 10000;
         }
         
         .mobile-menu-toggle span {
@@ -794,18 +809,18 @@
             
             .nav-menu {
                 display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
+                position: fixed;
+                top: 80px;
+                left: 10px;
+                right: 10px;
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
                 border-radius: 12px;
-                margin-top: 10px;
                 padding: 20px;
                 flex-direction: column;
                 gap: 15px;
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                z-index: 9999;
             }
             
             .nav-menu.active {
