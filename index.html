@@ -58,8 +58,12 @@
             
             /* Dark mode for new about section */
             .intro-card {
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-                color: #e1e1e1;
+                background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+                color: #000000 !important;
+            }
+            
+            .intro-card * {
+                color: #000000 !important;
             }
             
             .expertise-card {
@@ -348,15 +352,6 @@
                 font-size: 1em;
             }
             
-            /* Hide mobile intro card on desktop */
-            .mobile-intro {
-                display: none;
-            }
-            
-            /* Show desktop intro card only on desktop */
-            .about-text .intro-card {
-                display: block;
-            }
         }
         .about-content img {
             width: 200px;
@@ -441,11 +436,15 @@
         }
         
         .intro-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             padding: 25px;
             border-radius: 15px;
-            color: white;
+            color: #000000 !important;
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .intro-card * {
+            color: #000000 !important;
         }
         
         .intro-title {
@@ -587,6 +586,53 @@
         .action-btn.tertiary:hover {
             background: #007aff;
             color: white;
+        }
+        
+        /* Expertise Highlights */
+        .expertise-highlights {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .expertise-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #007aff;
+            transition: all 0.3s ease;
+        }
+        
+        .expertise-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .expertise-item i {
+            color: #007aff;
+            font-size: 1.1em;
+            min-width: 20px;
+        }
+        
+        .expertise-item span {
+            color: #ffffff;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        
+        /* Full-width highlight section */
+        .highlight-section.full-width {
+            width: 100%;
+            margin: 30px 0;
+        }
+        
+        .highlight-section.full-width .highlight-card {
+            width: 100%;
+            margin: 0;
         }
         
         /* Research Interests Styles */
@@ -1177,10 +1223,26 @@
                 padding: 15px;
             }
             
-            /* Hide intro card in about-text on mobile - it should only show on desktop */
-            .about-text .intro-card {
-                display: none;
+            .expertise-highlights {
+                margin-top: 15px;
+                gap: 10px;
             }
+            
+            .expertise-item {
+                padding: 10px 12px;
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            
+            .expertise-item i {
+                margin-bottom: 5px;
+            }
+            
+            .highlight-section.full-width {
+                margin: 20px 0;
+            }
+            
             
             .intro-title {
                 font-size: 1.1em;
@@ -1287,46 +1349,10 @@
                 </div>
             </div>
             <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
-            <div class="intro-card mobile-intro">
-                <h3 class="intro-title">
-                    <i class="fas fa-sparkles"></i>
-                    Building the Future of AI
-                </h3>
-                <p class="intro-text">
-                    Hi, I'm <strong>Akhil Shekkari</strong>, an AI engineer with over <strong>3+ years of industry experience</strong> 
-                    specializing in building production-grade AI systems that are fast, smart, and aligned with human goals.
-                </p>
-            </div>
         </div>
 
         <!-- About Text Content -->
         <div class="about-text">
-            <div class="expertise-grid">
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h4>Deep Learning & NLP</h4>
-                    <p>Expertise in PyTorch, Transformers, and advanced neural architectures</p>
-                </div>
-                
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h4>RAG Systems</h4>
-                    <p>Building intelligent retrieval systems with vector databases and embeddings</p>
-                </div>
-                
-                <div class="expertise-card">
-                    <div class="expertise-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h4>Production AI</h4>
-                    <p>Deploying scalable AI solutions with Docker, CI/CD, and cloud infrastructure</p>
-                </div>
-            </div>
-
             <div class="intro-card">
                 <h3 class="intro-title">
                     <i class="fas fa-sparkles"></i>
@@ -1336,9 +1362,23 @@
                     Hi, I'm <strong>Akhil Shekkari</strong>, an AI engineer with over <strong>3+ years of industry experience</strong> 
                     specializing in building production-grade AI systems that are fast, smart, and aligned with human goals.
                 </p>
+                <div class="expertise-highlights">
+                    <div class="expertise-item">
+                        <i class="fas fa-brain"></i>
+                        <span><strong>Deep Learning & NLP:</strong> Expertise in PyTorch, Transformers, and advanced neural architectures</span>
+                    </div>
+                    <div class="expertise-item">
+                        <i class="fas fa-search"></i>
+                        <span><strong>RAG Systems:</strong> Building intelligent retrieval systems with vector databases and embeddings</span>
+                    </div>
+                    <div class="expertise-item">
+                        <i class="fas fa-cogs"></i>
+                        <span><strong>Production AI:</strong> Deploying scalable AI solutions with Docker, CI/CD, and cloud infrastructure</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="highlight-section">
+            <div class="highlight-section full-width">
                 <div class="highlight-card">
                     <div class="highlight-header">
                         <i class="fas fa-trophy"></i>
