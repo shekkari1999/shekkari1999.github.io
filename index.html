@@ -93,6 +93,11 @@
                 border: 1px solid #404040;
             }
             
+            .profile-section {
+                background: rgba(30, 30, 30, 0.8);
+                border: 1px solid #404040;
+            }
+            
             /* Dark mode for research interests */
             .research-header {
                 background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
@@ -214,8 +219,9 @@
         }
         .about-content {
             display: flex;
-            align-items: center;
-            gap: 20px;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
         }
         .about-content img {
             width: 200px;
@@ -236,7 +242,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
+            margin: 30px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
         }
         
         .profile-image {
@@ -771,16 +782,13 @@
             }
             
             .about-content {
-                grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 25px;
+                margin-top: 20px;
             }
             
             .profile-section {
-                order: 1;
-            }
-            
-            .about-text {
-                order: 2;
+                margin: 20px 0;
+                padding: 20px;
             }
             
             .expertise-grid {
@@ -1027,26 +1035,28 @@
     <div class="container">
         <section id="about" class="section">
     <h2><i class="fas fa-user"></i> About Me</h2>
-    <div class="about-content">
-        <div class="profile-section">
-            <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
-            <div class="profile-badges">
-                <div class="badge ai-engineer">
-                    <i class="fas fa-robot"></i>
-                    <span>AI Engineer</span>
-                </div>
-                <div class="badge contributor">
-                    <i class="fas fa-pen-fancy"></i>
-                    <span>Towards AI Contributor</span>
-                </div>
-                <div class="badge student">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>UMD Graduate Student</span>
-                </div>
+    
+    <!-- Profile Section - Photo and Badges -->
+    <div class="profile-section">
+        <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
+        <div class="profile-badges">
+            <div class="badge ai-engineer">
+                <i class="fas fa-robot"></i>
+                <span>AI Engineer</span>
+            </div>
+            <div class="badge contributor">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Towards AI Contributor</span>
+            </div>
+            <div class="badge student">
+                <i class="fas fa-graduation-cap"></i>
+                <span>UMD Graduate Student</span>
             </div>
         </div>
-        
-        <div class="about-text">
+    </div>
+    
+    <!-- About Content - Vertical Stack -->
+    <div class="about-content">
             <div class="intro-card">
                 <h3 class="intro-title">
                     <i class="fas fa-sparkles"></i>
