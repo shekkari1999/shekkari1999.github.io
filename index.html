@@ -56,14 +56,19 @@
                 color: #e1e1e1;
             }
             
+            .about-content {
+                background: rgba(30, 30, 30, 0.8);
+                border: 1px solid #404040;
+            }
+            
             /* Dark mode for new about section */
             .intro-card {
-                background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-                color: #000000 !important;
+                background: transparent;
+                color: #e1e1e1 !important;
             }
             
             .intro-card * {
-                color: #000000 !important;
+                color: #e1e1e1 !important;
             }
             
             .expertise-card {
@@ -81,7 +86,7 @@
             }
             
             .highlight-card {
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                background: transparent;
                 border-left-color: #4a9eff;
             }
             
@@ -278,6 +283,10 @@
             flex-direction: column;
             gap: 30px;
             margin-top: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
         }
         
         /* Desktop Layout - Full Width */
@@ -435,11 +444,11 @@
         }
         
         .intro-card {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            background: transparent;
             padding: 25px;
             border-radius: 15px;
             color: #000000 !important;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: none;
         }
         
         .intro-card * {
@@ -467,17 +476,17 @@
         }
         
         .expertise-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: transparent;
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: none;
+            transition: transform 0.3s ease;
         }
         
         .expertise-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: none;
         }
         
         .expertise-icon {
@@ -504,10 +513,10 @@
         }
         
         .highlight-card {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            background: transparent;
             padding: 20px;
             border-radius: 12px;
-            border-left: 5px solid #ff6b6b;
+            border-left: 4px solid #007aff;
         }
         
         .highlight-header {
@@ -600,14 +609,14 @@
             align-items: center;
             gap: 10px;
             padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: transparent;
             border-radius: 8px;
             border-left: 4px solid #007aff;
             transition: all 0.3s ease;
         }
         
         .expertise-item:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: transparent;
             transform: translateX(5px);
         }
         
