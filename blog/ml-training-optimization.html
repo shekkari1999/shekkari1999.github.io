@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
     <style>
+        /* Disclaimer */
+        .disclaimer {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(255, 234, 167, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .disclaimer p {
+            margin: 0;
+            color: #2d3436;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
         /* Creative Visual Elements */
         .insight-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -15,17 +33,8 @@
             padding: 24px;
             margin: 24px 0;
             color: white;
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
             box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .insight-icon {
-            font-size: 32px;
-            flex-shrink: 0;
-            margin-top: 4px;
         }
 
         .insight-content h4 {
@@ -46,20 +55,12 @@
             padding: 20px;
             margin: 24px 0;
             color: white;
-            display: flex;
-            align-items: center;
-            gap: 16px;
             box-shadow: 0 6px 24px rgba(255, 107, 107, 0.3);
             border-left: 4px solid #ff4757;
         }
 
-        .warning-icon {
-            font-size: 28px;
-            flex-shrink: 0;
-        }
-
         .warning-content {
-            flex: 1;
+            margin: 0;
         }
 
         .tip-card {
@@ -68,17 +69,8 @@
             padding: 24px;
             margin: 24px 0;
             color: white;
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
             box-shadow: 0 8px 32px rgba(78, 205, 196, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tip-icon {
-            font-size: 32px;
-            flex-shrink: 0;
-            margin-top: 4px;
         }
 
         .tip-content h4 {
@@ -104,14 +96,7 @@
         }
 
         .summary-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
             margin-bottom: 16px;
-        }
-
-        .summary-icon {
-            font-size: 36px;
         }
 
         .summary-header h3 {
@@ -186,10 +171,6 @@
             .insight-card, .tip-card, .summary-card {
                 padding: 20px;
             }
-            
-            .insight-icon, .tip-icon, .summary-icon {
-                font-size: 24px;
-            }
         }
     </style>
 </head>
@@ -201,6 +182,10 @@
         
         <p class="blog-meta">Oct 20th, 2025 · 12 min read</p>
         <hr class="section-break">
+
+        <div class="disclaimer">
+            <p><em>💻 Fun disclaimer: Used GPT to get all the beautiful visual gradients, but the content is mine!</em></p>
+        </div>
 
         <p>
             When training large-scale machine learning models, optimization goes beyond just hyperparameter tuning. 
@@ -216,7 +201,6 @@
         </p>
 
         <div class="insight-card">
-            <div class="insight-icon">🧠</div>
             <div class="insight-content">
                 <h4>Chinchilla Scaling Law</h4>
                 <p>For a fixed compute budget (FLOPs), you need to decide between having more parameters (bigger model) or training the model for longer (showing it more data).</p>
@@ -254,7 +238,6 @@ Problem:
 • This is data inefficient because you're not utilizing your data effectively</div>
 
         <div class="warning-banner">
-            <div class="warning-icon">⚠️</div>
             <div class="warning-content">
                 <strong>Key Takeaway:</strong> Always match your model capacity with your data size and training duration 
                 to avoid both compute and data inefficiency.
@@ -354,7 +337,6 @@ if loss < threshold:  # Keep on GPU
         </p>
 
         <div class="tip-card">
-            <div class="tip-icon">💡</div>
             <div class="tip-content">
                 <h4>Profiling Priority</h4>
                 <p>Always profile your code first to identify bottlenecks before focusing on accuracy improvements. This approach will save you significant costs.</p>
@@ -467,7 +449,6 @@ Finding the Sweet Spot:
 
         <div class="summary-card">
             <div class="summary-header">
-                <div class="summary-icon">🎯</div>
                 <h3>Key Takeaways</h3>
             </div>
             <div class="summary-content">
