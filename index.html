@@ -280,26 +280,25 @@
             margin-top: 30px;
         }
         
-        /* Desktop Layout - Side by Side */
+        /* Desktop Layout - Full Width */
         @media (min-width: 1024px) {
             .about-content {
-                display: grid;
-                grid-template-columns: 1fr 2fr;
-                gap: 40px;
-                align-items: start;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
             }
             
             .profile-section {
-                order: 1;
-                margin: 0;
-                padding: 0;
-                background: none;
-                backdrop-filter: none;
-                border-radius: 0;
                 display: flex;
                 flex-direction: row;
-                align-items: flex-start;
-            gap: 20px;
+                align-items: center;
+                gap: 30px;
+                margin-bottom: 20px;
+                padding: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                backdrop-filter: blur(10px);
+                width: 100%;
             }
             
             .profile-badges {
@@ -310,7 +309,7 @@
             }
             
             .about-text {
-                order: 2;
+                width: 100%;
             }
             
             .expertise-grid {
@@ -633,6 +632,25 @@
         .highlight-section.full-width .highlight-card {
             width: 100%;
             margin: 0;
+        }
+        
+        /* Ensure all about section elements are full-width on desktop */
+        @media (min-width: 1024px) {
+            .about-text {
+                width: 100%;
+            }
+            
+            .intro-card {
+                width: 100%;
+            }
+            
+            .highlight-section {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                width: 100%;
+            }
         }
         
         /* Research Interests Styles */
