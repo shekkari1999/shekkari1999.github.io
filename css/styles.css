@@ -147,6 +147,137 @@ footer {
     }
 }
 
+/* Comprehensive Mobile Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.3em; }
+
+    /* Navigation */
+    nav {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    nav a {
+        padding: 8px 0;
+        font-size: 0.9em;
+    }
+
+    /* Code blocks */
+    pre, pre code, .language-python {
+        font-size: 12px;
+        padding: 1em;
+        overflow-x: auto;
+    }
+
+    .code-example {
+        font-size: 12px;
+        padding: 1em;
+        overflow-x: auto;
+    }
+
+    /* Comparison tables */
+    .comparison-table {
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .comparison-column {
+        flex: none;
+    }
+
+    /* Diagrams */
+    .diagram-container {
+        margin: 1em 0;
+    }
+
+    .diagram {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Tables */
+    .quantization-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .quantization-table table {
+        min-width: 500px;
+    }
+
+    /* Article content */
+    article {
+        padding: 0 1em;
+        margin: 1em auto;
+    }
+
+    /* Note blocks and cards */
+    .note-block {
+        padding: 1em;
+        margin: 1em 0;
+    }
+
+    /* Footer */
+    footer {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+        font-size: 14px;
+    }
+
+    h1 { font-size: 1.6em; }
+    h2 { font-size: 1.4em; }
+    h3 { font-size: 1.2em; }
+
+    /* Code blocks */
+    pre, pre code, .language-python {
+        font-size: 11px;
+        padding: 0.8em;
+    }
+
+    .code-example {
+        font-size: 11px;
+        padding: 0.8em;
+    }
+
+    /* Navigation */
+    nav a {
+        font-size: 0.8em;
+        padding: 6px 0;
+    }
+
+    /* Tables */
+    .quantization-table table {
+        min-width: 400px;
+        font-size: 0.9em;
+    }
+
+    .quantization-table th,
+    .quantization-table td {
+        padding: 0.5em 0.8em;
+    }
+
+    /* Article content */
+    article {
+        padding: 0 0.5em;
+    }
+}
+
 /* Code blocks - Jupyter Style */
 .code-example {
     background: #f5f5f5;

@@ -267,18 +267,157 @@
             color: #7B1FA2;  /* Keep the hover color */
         }
 
-        /* Add responsive padding */
+        /* Comprehensive Mobile Responsive Design */
         @media (max-width: 768px) {
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            
             header {
-                padding: 20px;
-                margin: 20px;
-                width: calc(100% - 40px);
+                padding: 15px 20px;
+                margin: 10px;
+                width: calc(100% - 20px);
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            header h1 {
+                font-size: 1.5em;
+                margin: 0;
+            }
+            
+            nav {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            nav a {
+                padding: 10px 15px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.1);
+                text-align: center;
+                font-size: 0.9em;
             }
             
             .section {
                 padding: 20px;
-                margin: 20px;
-                width: calc(100% - 40px);
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .about-content img {
+                width: 180px;
+                height: 180px;
+                margin: 0 auto;
+            }
+            
+            .about-content p {
+                text-align: left;
+                line-height: 1.6;
+            }
+            
+            .skill-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .skill {
+                padding: 20px;
+            }
+            
+            .skill h3 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            
+            .skill-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                justify-content: center;
+            }
+            
+            .tag {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .contact-item {
+                padding: 15px;
+                font-size: 0.9em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 15px;
+                margin: 5px;
+                width: calc(100% - 10px);
+            }
+            
+            header h1 {
+                font-size: 1.3em;
+            }
+            
+            nav a {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+            
+            .section {
+                padding: 15px;
+                margin: 5px;
+                width: calc(100% - 10px);
+            }
+            
+            .section h2 {
+                font-size: 1.3em;
+            }
+            
+            .about-content img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .about-content p {
+                font-size: 0.9em;
+            }
+            
+            .skill {
+                padding: 15px;
+            }
+            
+            .skill h3 {
+                font-size: 1.1em;
+            }
+            
+            .tag {
+                font-size: 0.75em;
+                padding: 5px 10px;
+            }
+            
+            .contact-item {
+                padding: 12px;
+                font-size: 0.8em;
             }
         }
     </style>
