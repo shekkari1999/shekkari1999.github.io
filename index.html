@@ -275,6 +275,89 @@
             gap: 30px;
             margin-top: 30px;
         }
+        
+        /* Desktop Layout - Side by Side */
+        @media (min-width: 1024px) {
+            .about-content {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 40px;
+                align-items: start;
+            }
+            
+            .profile-section {
+                order: 1;
+                margin: 0;
+                padding: 0;
+                background: none;
+                backdrop-filter: none;
+                border-radius: 0;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .profile-badges {
+                flex-direction: column;
+                width: auto;
+                margin-bottom: 0;
+                align-self: flex-start;
+            }
+            
+            .about-text {
+                order: 2;
+            }
+            
+            .expertise-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .expertise-card {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .intro-card {
+                padding: 20px;
+                margin-top: 20px;
+                width: 100%;
+            }
+            
+            .profile-section {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .profile-badges {
+                flex-direction: column;
+                gap: 8px;
+                width: auto;
+                margin-bottom: 0;
+                align-self: flex-start;
+            }
+            
+            .intro-title {
+                font-size: 1.2em;
+            }
+            
+            .intro-text {
+                font-size: 1em;
+            }
+            
+            /* Hide mobile intro card on desktop */
+            .mobile-intro {
+                display: none;
+            }
+            
+            /* Show desktop intro card only on desktop */
+            .about-text .intro-card {
+                display: block;
+            }
+        }
         .about-content img {
             width: 200px;
             height: 200px;
@@ -314,17 +397,19 @@
         .profile-badges {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            width: 100%;
+            gap: 8px;
+            width: auto;
+            margin-bottom: 20px;
+            align-self: flex-start;
         }
         
         .badge {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border-radius: 25px;
-            font-size: 0.9em;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
             font-weight: 600;
             text-align: center;
             transition: transform 0.3s ease;
@@ -879,6 +964,25 @@
                 padding: 20px;
             }
             
+            /* Ensure mobile layout overrides desktop */
+            .about-content {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            .profile-section {
+                order: 1 !important;
+                margin: 20px 0 !important;
+                padding: 20px !important;
+                background: rgba(255, 255, 255, 0.1) !important;
+                backdrop-filter: blur(10px) !important;
+                border-radius: 20px !important;
+            }
+            
+            .about-text {
+                order: 2 !important;
+            }
+            
             .expertise-grid {
                 grid-template-columns: 1fr;
                 gap: 15px;
@@ -1046,6 +1150,11 @@
                 padding: 15px;
             }
             
+            /* Hide intro card in about-text on mobile - it should only show on desktop */
+            .about-text .intro-card {
+                display: none;
+            }
+            
             .intro-title {
                 font-size: 1.1em;
             }
@@ -1132,28 +1241,26 @@
         <section id="about" class="section">
     <h2><i class="fas fa-user"></i> About Me</h2>
     
-    <!-- Profile Section - Photo and Badges -->
-    <div class="profile-section">
-        <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
-        <div class="profile-badges">
-            <div class="badge ai-engineer">
-                <i class="fas fa-robot"></i>
-                <span>AI Engineer</span>
-            </div>
-            <div class="badge contributor">
-                <i class="fas fa-pen-fancy"></i>
-                <span>Towards AI Contributor</span>
-            </div>
-            <div class="badge student">
-                <i class="fas fa-graduation-cap"></i>
-                <span>UMD Graduate Student</span>
-            </div>
-        </div>
-    </div>
-    
     <!-- About Content - Vertical Stack -->
     <div class="about-content">
-            <div class="intro-card">
+        <!-- Profile Section - Photo and Badges -->
+        <div class="profile-section">
+            <div class="profile-badges">
+                <div class="badge ai-engineer">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Engineer</span>
+                </div>
+                <div class="badge contributor">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>Towards AI Contributor</span>
+                </div>
+                <div class="badge student">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>UMD Graduate Student</span>
+                </div>
+            </div>
+            <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
+            <div class="intro-card mobile-intro">
                 <h3 class="intro-title">
                     <i class="fas fa-sparkles"></i>
                     Building the Future of AI
@@ -1163,7 +1270,10 @@
                     specializing in building production-grade AI systems that are fast, smart, and aligned with human goals.
                 </p>
             </div>
+        </div>
 
+        <!-- About Text Content -->
+        <div class="about-text">
             <div class="expertise-grid">
                 <div class="expertise-card">
                     <div class="expertise-icon">
@@ -1190,36 +1300,15 @@
                 </div>
             </div>
 
-            <div class="research-interests">
-                <div class="research-header">
-                    <i class="fas fa-microscope"></i>
-                    <h3>Research Interests</h3>
-                </div>
-                <div class="research-grid">
-                    <div class="research-card reasoning">
-                        <div class="research-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h4>AI Reasoning</h4>
-                        <p>Developing models that can think step-by-step and solve complex problems</p>
-                    </div>
-                    
-                    <div class="research-card safety">
-                        <div class="research-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>AI Safety & Alignment</h4>
-                        <p>Ensuring AI systems are safe, reliable, and aligned with human values</p>
-                    </div>
-                    
-                    <div class="research-card performance">
-                        <div class="research-icon">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <h4>Performance Optimization</h4>
-                        <p>Making code run faster and GPUs go brrr! 🚀</p>
-                    </div>
-                </div>
+            <div class="intro-card">
+                <h3 class="intro-title">
+                    <i class="fas fa-sparkles"></i>
+                    Building the Future of AI
+                </h3>
+                <p class="intro-text">
+                    Hi, I'm <strong>Akhil Shekkari</strong>, an AI engineer with over <strong>3+ years of industry experience</strong> 
+                    specializing in building production-grade AI systems that are fast, smart, and aligned with human goals.
+                </p>
             </div>
 
             <div class="highlight-section">
@@ -1249,6 +1338,36 @@
                     <span>Read My Blogs</span>
                 </a>
             </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- Research Interests Section -->
+<section class="section">
+    <div class="research-grid">
+        <div class="research-card reasoning">
+            <div class="research-icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h4>AI Reasoning</h4>
+            <p>Developing models that can think step-by-step and solve complex problems</p>
+        </div>
+        
+        <div class="research-card safety">
+            <div class="research-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4>AI Safety & Alignment</h4>
+            <p>Ensuring AI systems are safe, reliable, and aligned with human values</p>
+        </div>
+        
+        <div class="research-card performance">
+            <div class="research-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h4>Performance Optimization</h4>
+            <p>Making code run faster and GPUs go brrr! 🚀</p>
         </div>
     </div>
 </section>
