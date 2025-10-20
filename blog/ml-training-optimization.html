@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Training Optimization: FLOPs, Profiling, and Learning Strategies | Akhil Shekkari</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <style>
+        /* Creative Visual Elements */
+        .insight-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+            color: white;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .insight-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .insight-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .insight-content p {
+            margin: 0;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 6px 24px rgba(255, 107, 107, 0.3);
+            border-left: 4px solid #ff4757;
+        }
+
+        .warning-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .warning-content {
+            flex: 1;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+            color: white;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: 0 8px 32px rgba(78, 205, 196, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tip-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .tip-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .tip-content p {
+            margin: 0;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 32px 0;
+            color: white;
+            box-shadow: 0 12px 40px rgba(240, 147, 251, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .summary-icon {
+            font-size: 36px;
+        }
+
+        .summary-header h3 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .summary-content p {
+            margin: 0;
+            opacity: 0.95;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        /* Enhanced code examples */
+        .code-example {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #ecf0f1;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 4px 16px rgba(44, 62, 80, 0.2);
+        }
+
+        /* Enhanced comparison tables */
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .comparison-column {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-column h5 {
+            color: #495057;
+            margin: 0 0 16px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-bottom: 2px solid #6c757d;
+            padding-bottom: 8px;
+        }
+
+        .comparison-column ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .comparison-column li {
+            margin-bottom: 8px;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .comparison-table {
+                grid-template-columns: 1fr;
+            }
+            
+            .insight-card, .tip-card, .summary-card {
+                padding: 20px;
+            }
+            
+            .insight-icon, .tip-icon, .summary-icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../blogs.html" class="back-link">← Back to Blog</a>
+
+    <article>
+        <h1>ML Training Optimization: FLOPs, Profiling, and Learning Strategies</h1>
+        
+        <p class="blog-meta">Oct 20th, 2025 · 12 min read</p>
+        <hr class="section-break">
+
+        <p>
+            When training large-scale machine learning models, optimization goes beyond just hyperparameter tuning. 
+            This guide covers the essential aspects of efficient ML training: computational constraints, performance 
+            profiling, and learning strategies that can save you significant costs and time.
+        </p>
+
+        <h2>1. FLOPs and Chinchilla Scaling Law</h2>
+        
+        <p>
+            When training large-scale ML models, you typically have <strong>FLOPs (Floating Point Operations)</strong> constraints. 
+            The <strong>Chinchilla scaling law</strong> provides crucial guidance on how to allocate your compute budget effectively.
+        </p>
+
+        <div class="insight-card">
+            <div class="insight-icon">🧠</div>
+            <div class="insight-content">
+                <h4>Chinchilla Scaling Law</h4>
+                <p>For a fixed compute budget (FLOPs), you need to decide between having more parameters (bigger model) or training the model for longer (showing it more data).</p>
+            </div>
+        </div>
+
+        <h3>Two Critical Cases to Avoid</h3>
+
+        <h4>1. Compute Inefficient Training</h4>
+        <div class="code-example">
+Example: Compute Inefficiency
+
+Scenario:
+• You've built a model that can handle 20 data points effectively
+• But you only show it 10 data points
+• You keep training beyond what's necessary
+
+Problem:
+• You're wasting the model's potential
+• Training longer won't help if you're not using enough data
+• This is compute inefficient because you're not utilizing your model's capacity</div>
+
+        <h4>2. Data Inefficient Training</h4>
+        <div class="code-example">
+Example: Data Inefficiency
+
+Scenario:
+• You've built a model that can handle 10 data points
+• But you're showing it 20 data points
+• The model can't effectively process all the information
+
+Problem:
+• You're wasting valuable data
+• The model can't learn from the excess information
+• This is data inefficient because you're not utilizing your data effectively</div>
+
+        <div class="warning-banner">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-content">
+                <strong>Key Takeaway:</strong> Always match your model capacity with your data size and training duration 
+                to avoid both compute and data inefficiency.
+            </div>
+        </div>
+
+        <h2>2. Profiling Your Code</h2>
+        
+        <p>
+            Profiling your training code is essential for maximizing GPU utilization and getting the best performance 
+            for your investment. This is different from hyperparameter tuning, which focuses on model learning 
+            rather than computational efficiency.
+        </p>
+
+        <h3>Key Bottlenecks to Monitor</h3>
+
+        <h4>I/O Bottleneck</h4>
+        <p>
+            Don't assume that just because your GPU can handle a larger batch size, you should use it. 
+            PyTorch data loaders work on CPU threads, and if your GPU finishes processing batch 1 but 
+            your data loader isn't ready with batch 2, your GPU sits idle.
+        </p>
+
+        <div class="code-example">
+I/O Bottleneck Example:
+
+GPU Timeline:
+Batch 1: [████████████] Processing
+Batch 2: [            ] Waiting for data...
+Batch 3: [            ] Still waiting...
+
+CPU DataLoader:
+Batch 1: [████████████] Loading
+Batch 2: [████████████] Loading (slow)
+Batch 3: [            ] Not ready yet
+
+Result: GPU utilization drops significantly</div>
+
+        <h4>Memory Bottleneck</h4>
+        <p>
+            Good profiling reveals what's consuming your memory. Common culprits include:
+        </p>
+        <ul>
+            <li>Per-layer activations</li>
+            <li>Gradients storage</li>
+            <li>Temporary tensor assignments</li>
+            <li>Optimizer states</li>
+        </ul>
+
+        <h5>Memory Optimization Techniques</h5>
+        <div class="comparison-table">
+            <div class="comparison-column">
+                <h5>Gradient Checkpointing</h5>
+                <ul>
+                    <li>Trades computation for memory</li>
+                    <li>Recomputes activations during backward pass</li>
+                    <li>Can reduce memory by 50-80%</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h5>Mixed Precision</h5>
+                <ul>
+                    <li>Uses FP16 for forward pass</li>
+                    <li>Maintains FP32 for gradients</li>
+                    <li>Reduces memory by ~50%</li>
+                </ul>
+            </div>
+        </div>
+
+        <h4>CPU ↔ GPU Transfer Bottleneck</h4>
+        <p>
+            Moving data between CPU and GPU is often a major bottleneck due to bandwidth limitations. 
+            Common scenarios that cause this issue:
+        </p>
+        <ul>
+            <li>Using <code>.item()</code> to extract scalar values</li>
+            <li>Checkpointing weights to CPU</li>
+            <li>Frequent data transfers during training</li>
+        </ul>
+
+        <div class="code-example">
+Avoid These CPU-GPU Transfers:
+
+❌ Bad:
+loss_value = loss.item()  # Moves to CPU
+if loss_value < threshold:
+    # Do something
+
+✅ Good:
+if loss < threshold:  # Keep on GPU
+    # Do something</div>
+
+        <h4>Kernel Overhead</h4>
+        <p>
+            Launching many small kernels can create overhead. The CPU tells the GPU to launch numerous 
+            kernels, and the GPU may struggle to keep up with the launch rate.
+        </p>
+
+        <div class="tip-card">
+            <div class="tip-icon">💡</div>
+            <div class="tip-content">
+                <h4>Profiling Priority</h4>
+                <p>Always profile your code first to identify bottlenecks before focusing on accuracy improvements. This approach will save you significant costs.</p>
+            </div>
+        </div>
+
+        <h2>3. Learning Strategies</h2>
+        
+        <p>
+            Once you've optimized your computational efficiency, focus on improving model performance 
+            through effective learning strategies.
+        </p>
+
+        <h3>Batch Size Selection</h3>
+        
+        <p>
+            Choose the highest batch size your GPU and data loader can handle, but ensure you maintain 
+            some stochasticity in your updates. When you change batch size, adjust your learning rate 
+            accordingly (usually linearly).
+        </p>
+
+        <div class="code-example">
+Batch Size Guidelines:
+
+• MNIST Example: Don't use the entire dataset as one batch
+  - Too smooth learning leads to local minima
+  - Always maintain some randomness in updates
+
+• Learning Rate Adjustment:
+  - If you double batch size, consider doubling learning rate
+  - Monitor training dynamics carefully</div>
+
+        <h3>Gradient Accumulation</h3>
+        
+        <p>
+            If your learning is too noisy (loss oscillates up and down), consider gradient accumulation 
+            to smooth the updates:
+        </p>
+
+        <div class="code-example">
+Gradient Accumulation Example:
+
+# Instead of:
+loss = model(batch) / batch_size
+loss.backward()
+optimizer.step()
+
+# Use:
+for i in range(accumulation_steps):
+    loss = model(batch[i]) / batch_size
+    loss.backward()  # Accumulate gradients
+optimizer.step()  # Update once with accumulated gradients</div>
+
+        <h2>Frequently Asked Questions</h2>
+
+        <h3>When do you stop training? What is the ideal loss?</h3>
+        <div class="code-example">
+Stopping Criteria:
+
+Keep training while:
+✓ Validation loss decreases alongside training loss
+✓ You have budget remaining
+✓ No signs of overfitting
+
+Stop when:
+✗ Validation loss flattens or increases
+✗ Training loss keeps dropping but validation loss rises
+✗ Early stopping triggers</div>
+
+        <h3>What if training loss keeps dropping but validation loss increases?</h3>
+        <p>
+            This is classic overfitting. Solutions include:
+        </p>
+        <ul>
+            <li>Add regularization (dropout, weight decay)</li>
+            <li>Collect more training data</li>
+            <li>Implement early stopping</li>
+            <li>Reduce model complexity</li>
+        </ul>
+
+        <h3>How do I know if my learning rate is too high or low?</h3>
+        <div class="comparison-table">
+            <div class="comparison-column">
+                <h5>Learning Rate Too High</h5>
+                <ul>
+                    <li>Loss oscillates or spikes</li>
+                    <li>Gradients explode</li>
+                    <li>Training becomes unstable</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h5>Learning Rate Too Low</h5>
+                <ul>
+                    <li>Loss crawls down slowly</li>
+                    <li>Training stalls early</li>
+                    <li>Very slow convergence</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="code-example">
+Finding the Sweet Spot:
+
+1. Plot learning rate on a log scale
+2. Plot loss against learning rate
+3. The sweet spot is the steepest descent before instability
+4. Use learning rate schedulers for dynamic adjustment</div>
+
+        <hr class="section-break">
+
+        <div class="summary-card">
+            <div class="summary-header">
+                <div class="summary-icon">🎯</div>
+                <h3>Key Takeaways</h3>
+            </div>
+            <div class="summary-content">
+                <p>Effective ML training optimization requires balancing computational efficiency, proper profiling, and smart learning strategies. Always profile first to identify bottlenecks, then focus on model performance improvements. This systematic approach will save you both time and money.</p>
+            </div>
+        </div>
+
+    </article>
+
+    <footer>
+        <p>© 2024 Akhil Shekkari · <a href="https://github.com/shekkari1999">GitHub</a></p>
+    </footer>
+
+    <script>
+        Prism.highlightAll();
+    </script>
+</body>
+</html>
