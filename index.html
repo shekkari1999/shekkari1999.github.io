@@ -126,6 +126,9 @@
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         /* Desktop Layout - Full Width */
@@ -305,6 +308,9 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         .intro-card {
@@ -313,6 +319,9 @@
             border-radius: 15px;
             color: #000000 !important;
             box-shadow: none;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         .intro-card * {
@@ -515,6 +524,9 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         .expertise-item {
@@ -529,6 +541,8 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .expertise-item::before {
@@ -558,25 +572,32 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .expertise-item i {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #007aff 0%, #00c9ff 100%);
-            color: white;
-            border-radius: 10px;
-            font-size: 1.2em;
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white !important;
+            border-radius: 12px;
+            font-size: 1.3em;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
             transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .expertise-item i::before {
+            color: white !important;
         }
         
         .expertise-item:hover i {
-            transform: rotate(5deg) scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
         
         .expertise-item-title {
@@ -600,12 +621,16 @@
         /* Full-width highlight section */
         .highlight-section.full-width {
             width: 100%;
+            max-width: 100%;
             margin: 30px 0;
+            box-sizing: border-box;
         }
         
         .highlight-section.full-width .highlight-card {
             width: 100%;
+            max-width: 100%;
             margin: 0;
+            box-sizing: border-box;
         }
         
         /* Ensure all about section elements are full-width on desktop */
@@ -1231,9 +1256,9 @@
             }
             
             .expertise-item i {
-                width: 35px;
-                height: 35px;
-                font-size: 1.1em;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2em;
             }
             
             .highlight-section.full-width {
