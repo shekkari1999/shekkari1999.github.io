@@ -215,54 +215,6 @@
             }
         }
         
-        /* Quick Links Section */
-        .quick-links {
-            margin: 2rem 0;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border-radius: 15px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .quick-links h3 {
-            margin: 0 0 15px 0;
-            color: #667eea;
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .quick-links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-        }
-        
-        .quick-link-item {
-            padding: 12px 16px;
-            background: white;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid transparent;
-        }
-        
-        .quick-link-item:hover {
-            border-color: #667eea;
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-        }
-        
-        .quick-link-item i {
-            color: #667eea;
-            font-size: 1.1em;
-        }
-        
         /* Stats Section */
         .blog-stats {
             display: flex;
@@ -363,10 +315,6 @@
             
             .topic-filters {
                 padding: 15px;
-            }
-            
-            .quick-links {
-                padding: 20px;
             }
         }
 
@@ -487,37 +435,6 @@
                 <div class="stat-item">
                     <span class="stat-number" id="visible-blogs">7</span>
                     <span class="stat-label">Showing</span>
-                </div>
-            </div>
-            
-            <!-- Quick Links -->
-            <div class="quick-links">
-                <h3><i class="fas fa-bolt"></i> Quick Links by Topic</h3>
-                <div class="quick-links-grid">
-                    <a href="#from-scratch" class="quick-link-item" data-filter="From Scratch">
-                        <i class="fas fa-hammer"></i>
-                        <span>From Scratch</span>
-                    </a>
-                    <a href="#deep-learning" class="quick-link-item" data-filter="Deep Learning">
-                        <i class="fas fa-brain"></i>
-                        <span>Deep Learning</span>
-                    </a>
-                    <a href="#optimization" class="quick-link-item" data-filter="Optimization">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Optimization</span>
-                    </a>
-                    <a href="#llms" class="quick-link-item" data-filter="LLMs">
-                        <i class="fas fa-robot"></i>
-                        <span>LLMs</span>
-                    </a>
-                    <a href="#diffusion" class="quick-link-item" data-filter="Diffusion Models">
-                        <i class="fas fa-image"></i>
-                        <span>Diffusion Models</span>
-                    </a>
-                    <a href="#neural-networks" class="quick-link-item" data-filter="Neural Networks">
-                        <i class="fas fa-network-wired"></i>
-                        <span>Neural Networks</span>
-                    </a>
                 </div>
             </div>
             
@@ -699,7 +616,6 @@
     <script>
         // Filter functionality
         const filterButtons = document.querySelectorAll('.filter-btn');
-        const quickLinks = document.querySelectorAll('.quick-link-item');
         const blogItems = document.querySelectorAll('.blog-item');
         const visibleBlogsSpan = document.getElementById('visible-blogs');
         
@@ -738,21 +654,6 @@
             button.addEventListener('click', () => {
                 const filter = button.getAttribute('data-filter');
                 filterBlogs(filter);
-            });
-        });
-        
-        // Add event listeners to quick links
-        quickLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const filter = link.getAttribute('data-filter');
-                filterBlogs(filter);
-                
-                // Scroll to blog list
-                document.getElementById('blog-list').scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
             });
         });
         
