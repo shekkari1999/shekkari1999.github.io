@@ -18,175 +18,6 @@
             overflow-x: hidden;
             transition: background 0.3s ease, color 0.3s ease;
         }
-        
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(135deg, #1a1a2e, #16213e);
-                color: #e1e1e1;
-            }
-            
-            header {
-                background: rgba(30, 30, 30, 0.8);
-                color: #ffffff;
-            }
-            
-            header h1 {
-                color: #ffffff;
-            }
-            
-            nav a {
-                color: #4a9eff;
-            }
-            
-            nav a:hover {
-                color: #6bb6ff;
-            }
-            
-            .section {
-                background: rgba(30, 30, 30, 0.6);
-                color: #e1e1e1;
-            }
-            
-            .section h2 {
-                color: #ffffff;
-            }
-            
-            .about-content p {
-                color: #e1e1e1;
-            }
-            
-            .about-content {
-                background: rgba(30, 30, 30, 0.8);
-                border: 1px solid #404040;
-            }
-            
-            /* Dark mode for new about section */
-            .intro-card {
-                background: transparent;
-                color: #e1e1e1 !important;
-            }
-            
-            .intro-card * {
-                color: #e1e1e1 !important;
-            }
-            
-            .expertise-card {
-                background: rgba(40, 40, 40, 0.8);
-                color: #e1e1e1;
-                border: 1px solid #404040;
-            }
-            
-            .expertise-card h4 {
-                color: #ffffff;
-            }
-            
-            .expertise-card p {
-                color: #a0a0a0;
-            }
-            
-            .expertise-item {
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            }
-            
-            .expertise-item:hover {
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-            }
-            
-            .highlight-card {
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-                border-left-color: #4a9eff;
-            }
-            
-            .highlight-header h4 {
-                color: #ffffff;
-            }
-            
-            .highlight-card p {
-                color: #e1e1e1;
-            }
-            
-            .badge {
-                border: 1px solid #404040;
-            }
-            
-            .profile-section {
-                background: rgba(30, 30, 30, 0.8);
-                border: 1px solid #404040;
-            }
-            
-            .nav-menu {
-                background: rgba(30, 30, 30, 0.95);
-                border: 1px solid #404040;
-            }
-            
-            .nav-menu a {
-                color: #e1e1e1;
-            }
-            
-            .nav-menu a:hover {
-                background: rgba(74, 158, 255, 0.2);
-                color: #4a9eff;
-            }
-            
-            /* Dark mode for research interests */
-            .research-header {
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-                color: #e1e1e1;
-            }
-            
-            .research-card.reasoning {
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-                color: #e1e1e1;
-                border: 1px solid #404040;
-            }
-            
-            .research-card.safety {
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-                color: #e1e1e1;
-                border: 1px solid #404040;
-            }
-            
-            .research-card.performance {
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-                color: #e1e1e1;
-                border: 1px solid #404040;
-            }
-            
-            .research-card h4 {
-                color: #ffffff;
-            }
-            
-            .research-card p {
-                color: #a0a0a0;
-            }
-            
-            .skill {
-                background: rgba(40, 40, 40, 0.8);
-                color: #e1e1e1;
-            }
-            
-            .skill h3 {
-                color: #ffffff;
-            }
-            
-            .tag {
-                background: rgba(60, 60, 60, 0.8);
-                color: #e1e1e1;
-                border: 1px solid #404040;
-            }
-            
-            .contact-item {
-                background: rgba(40, 40, 40, 0.8);
-                color: #e1e1e1;
-                border: 1px solid #404040;
-            }
-            
-            .contact-item:hover {
-                background: rgba(60, 60, 60, 0.8);
-                color: #ffffff;
-            }
-        }
         header {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
@@ -980,6 +811,16 @@
             color: #7B1FA2;  /* Keep the hover color */
         }
 
+        /* Add styling for implementations link */
+        nav a.implementations-link {
+            color: #667eea;
+            transition: color 0.3s ease;
+        }
+
+        nav a.implementations-link:hover {
+            color: #764ba2;
+        }
+
         /* Comprehensive Mobile Responsive Design */
         @media (max-width: 768px) {
             body {
@@ -1354,6 +1195,7 @@
         <nav class="nav-menu" id="nav-menu">
             <a href="#about"><i class="fas fa-user"></i>About</a>
             <a href="projects.html" class="projects-link"><i class="fas fa-code"></i>Projects</a>
+            <a href="implementations.html" class="implementations-link"><i class="fas fa-hammer"></i>From Scratch</a>
             <a href="blogs.html"><i class="fas fa-book"></i> Blogs</a>
             <a href="papers.html" class="papers-link"><i class="fas fa-trophy"></i> Achievements</a>
             <a href="Akhil_Shekkari_resume.pdf" class="resume-link"><i class="fas fa-file-alt"></i>Resume</a>
@@ -1444,7 +1286,6 @@
         </div>
     </div>
 </section>
-
 
       <section id="skills" class="section skills">
     <h2><i class="fas fa-lightbulb"></i>Skills and Interests</h2>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Scratch Implementations | Akhil Shekkari</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e3f2fd, #e1bee7);
+            color: #333;
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin: 20px auto;
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        header h1 {
+            margin: 0;
+            text-align: center;
+        }
+        
+        .back-arrow {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #007aff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-arrow:hover {
+            transform: translateX(-5px);
+            background: #007aff;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .implementations-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .implementations-header h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+            color: #333;
+        }
+        
+        .implementations-header p {
+            color: #666;
+            font-size: 1.2em;
+            margin: 0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .implementations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .implementation-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+        
+        .implementation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .implementation-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .implementation-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        
+        .implementation-icon {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+        }
+        
+        .implementation-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .from-scratch-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .implementation-card p {
+            color: #666;
+            line-height: 1.7;
+            margin: 20px 0;
+            font-size: 1em;
+            text-align: center;
+        }
+        
+        .implementation-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .implementation-link:hover {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .implementation-link i {
+            transition: transform 0.3s ease;
+        }
+        
+        .implementation-link:hover i {
+            transform: translateX(3px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            margin-top: 60px;
+            border-radius: 12px;
+            color: #333;
+            font-size: 14px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        footer a {
+            color: #007aff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        footer a:hover {
+            color: #0056b3;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .back-arrow {
+                top: 10px;
+                left: 10px;
+                width: 35px;
+                height: 35px;
+            }
+            
+            header {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .container {
+                padding: 0 15px;
+                margin: 20px auto;
+            }
+            
+            .implementations-header h2 {
+                font-size: 1.8em;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .implementations-header p {
+                font-size: 1em;
+            }
+            
+            .implementations-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .implementation-card {
+                padding: 20px;
+            }
+            
+            .implementation-icon {
+                font-size: 2.5em;
+            }
+            
+            .implementation-card h3 {
+                font-size: 1.3em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .implementations-header h2 {
+                font-size: 1.5em;
+            }
+            
+            .implementation-card {
+                padding: 15px;
+            }
+            
+            .implementation-icon {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-arrow">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    
+    <header>
+        <h1>From Scratch Implementations</h1>
+    </header>
+    
+    <div class="container">
+        <div class="implementations-header">
+            <h2>
+                <i class="fas fa-code" style="color: #667eea;"></i>
+                Deep Learning Architectures
+            </h2>
+            <p>Neural network architectures implemented from the ground up to understand every detail, from forward propagation to backpropagation</p>
+        </div>
+        
+        <div class="implementations-grid">
+            <div class="implementation-card">
+                <i class="fas fa-network-wired implementation-icon"></i>
+                <h3>
+                    RNN
+                    <span class="from-scratch-badge">
+                        <i class="fas fa-hammer"></i>
+                        From Scratch
+                    </span>
+                </h3>
+                <p>Recurrent Neural Network implementation with backpropagation through time (BPTT), handling sequential data processing and gradient flow. Includes full forward and backward pass implementations.</p>
+                <a href="https://github.com/shekkari1999" target="_blank" class="implementation-link">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="implementation-card">
+                <i class="fas fa-memory implementation-icon"></i>
+                <h3>
+                    LSTM
+                    <span class="from-scratch-badge">
+                        <i class="fas fa-hammer"></i>
+                        From Scratch
+                    </span>
+                </h3>
+                <p>Long Short-Term Memory network with forget gates, input gates, and output gates, solving vanishing gradient problems in RNNs. Complete implementation of all gate mechanisms and cell states.</p>
+                <a href="https://github.com/shekkari1999" target="_blank" class="implementation-link">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="implementation-card">
+                <i class="fas fa-exchange-alt implementation-icon"></i>
+                <h3>
+                    BiLSTM
+                    <span class="from-scratch-badge">
+                        <i class="fas fa-hammer"></i>
+                        From Scratch
+                    </span>
+                </h3>
+                <p>Bidirectional LSTM processing sequences in both forward and backward directions, capturing context from past and future. Combines two LSTM layers for enhanced sequence understanding.</p>
+                <a href="https://github.com/shekkari1999" target="_blank" class="implementation-link">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="implementation-card">
+                <i class="fas fa-file-alt implementation-icon"></i>
+                <h3>
+                    ResShift
+                    <span class="from-scratch-badge">
+                        <i class="fas fa-hammer"></i>
+                        From Scratch
+                    </span>
+                </h3>
+                <p>ResShift paper implementation - a novel architecture with residual connections and shift operations for efficient feature learning. Full implementation of the research paper from scratch.</p>
+                <a href="https://github.com/shekkari1999" target="_blank" class="implementation-link">
+                    <i class="fab fa-github"></i>
+                    View on GitHub
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
+    </footer>
+</body>
+</html>
+
