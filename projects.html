@@ -551,6 +551,16 @@ a {
     </header>
     <div class="projects">
         <div class="project-card">
+            <img src="sr.png" alt="Image Super Resolution through Diffusion">
+            <h3>Image Super Resolution through Diffusion</h3>
+            <button onclick="openModal('project0')">Read More</button>
+        </div>
+        <div class="project-card">
+            <img src="cr.png" alt="Code Reviewer Project">
+            <h3>Code Reviewer</h3>
+            <button onclick="openModal('project5')">Read More</button>
+        </div>
+        <div class="project-card">
             <img src="AI-Resume-Analyzer-Final-Year-Project.png" alt="AI Resume Analyzer">
             <h3>AI Resume Analyzer</h3>
             <button onclick="openModal('project1')">Read More</button>
@@ -570,10 +580,70 @@ a {
             <h3>Credit Card Fraud Detection</h3>
             <button onclick="openModal('project4')">Read More</button>
         </div>
-        <div class="project-card">
-            <img src="code-reviewer.png" alt="Code Reviewer Project" onerror="this.src='https://via.placeholder.com/400x200/4a9eff/ffffff?text=Code+Reviewer'">
-            <h3>Code Reviewer</h3>
-            <button onclick="openModal('project5')">Read More</button>
+    </div>
+
+    <div id="project0-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('project0')">&times;</button>
+            <h2>Image Super Resolution through Diffusion</h2>
+            <div class="project-details">
+                <img src="sr.png" alt="Image Super Resolution through Diffusion" class="modal-img">
+                <div class="key-features">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-file-alt"></i> 
+                            Complete from-scratch implementation of the ResShift paper for efficient diffusion-based super-resolution
+                        </li>
+                        <li>
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            Residual shifting mechanism that reduces required diffusion steps to just 15 timesteps
+                        </li>
+                        <li>
+                            <i class="fas fa-project-diagram"></i>
+                            U-Net architecture with 4-stage encoder-decoder structure and skip connections
+                        </li>
+                        <li>
+                            <i class="fas fa-layer-group"></i>
+                            Swin Transformer blocks in the bottleneck for global feature modeling with window-based attention
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            Time conditioning with sinusoidal embeddings for diffusion timesteps
+                        </li>
+                        <li>
+                            <i class="fas fa-database"></i>
+                            Trained on DIV2K high-quality image dataset for robust performance
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-bar"></i>
+                            Comprehensive evaluation metrics including PSNR, SSIM, and LPIPS
+                        </li>
+                    </ul>
+                </div>
+                <div class="tech-stack">
+                    <h3>Technologies Used</h3>
+                    <div class="tech-tags">
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">ResShift</span>
+                        <span class="tag">Diffusion Models</span>
+                        <span class="tag">Swin Transformer</span>
+                        <span class="tag">U-Net</span>
+                        <span class="tag">DIV2K Dataset</span>
+                        <span class="tag">Computer Vision</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="https://github.com/shekkari1999/DiffusionSR" target="_blank">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                    <!-- <a href="#" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a> -->
+                </div>
+            </div>
+            <button class="back-btn" onclick="closeModal('project0')">Back</button>
         </div>
     </div>
 
@@ -799,7 +869,7 @@ a {
             <button class="close-btn" onclick="closeModal('project5')">&times;</button>
             <h2>Code Reviewer</h2>
             <div class="project-details">
-                <img src="code-reviewer.png" alt="Code Reviewer Project" class="modal-img" onerror="this.src='https://via.placeholder.com/400x200/4a9eff/ffffff?text=Code+Reviewer'">
+                <img src="cr.png" alt="Code Reviewer Project" class="modal-img">
                 <div class="key-features">
                     <h3>Key Features</h3>
                     <ul>
