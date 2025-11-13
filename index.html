@@ -178,7 +178,7 @@
             
             .profile-section {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 gap: 15px;
@@ -190,7 +190,7 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 gap: 8px;
-                width: auto;
+                width: 100%;
                 margin: 0;
                 justify-content: center;
             }
@@ -226,7 +226,7 @@
         /* New About Section Styles */
         .profile-section {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 20px;
@@ -251,8 +251,8 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            gap: 8px;
-            width: auto;
+            gap: 10px;
+            width: 100%;
             margin: 0;
             justify-content: center;
             align-items: center;
@@ -275,18 +275,30 @@
         }
         
         .badge.ai-engineer {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .badge.contributor {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .badge.student {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .badge:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
+            background: linear-gradient(135deg, #2a5298 0%, #3d6bb3 100%);
         }
         
         .about-text {
@@ -361,38 +373,86 @@
         }
         
         .highlight-section {
-            margin: 15px 0;
+            margin: 20px 0;
         }
         
         .highlight-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            padding: 15px 20px;
-            border-radius: 12px;
-            border-left: 4px solid #007aff;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%);
+            padding: 25px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            box-shadow: 0 6px 25px rgba(255, 193, 7, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .highlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffd700 0%, #ffa500 50%, #ff6b6b 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .highlight-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .highlight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(255, 193, 7, 0.25);
+            border-color: rgba(255, 193, 7, 0.5);
         }
         
         .highlight-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         
         .highlight-header i {
-            color: #ff6b6b;
-            font-size: 1.2em;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 1.3em;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .highlight-card:hover .highlight-header i {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
         
         .highlight-header h4 {
             margin: 0;
-            color: #333;
-            font-size: 1.1em;
+            color: #1e3c72;
+            font-size: 1.2em;
+            font-weight: 600;
         }
         
         .highlight-card p {
             margin: 0;
             color: #555;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 1em;
+        }
+        
+        .highlight-card strong {
+            color: #1e3c72;
+            font-weight: 600;
         }
         
         .action-buttons {
@@ -451,38 +511,90 @@
         
         /* Expertise Highlights */
         .expertise-highlights {
-            margin-top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
         
         .expertise-item {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: 8px;
-            border-left: 4px solid #007aff;
-            transition: all 0.3s ease;
+            flex-direction: column;
+            gap: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 122, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .expertise-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #007aff 0%, #00c9ff 100%);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .expertise-item:hover::before {
+            transform: scaleY(1);
         }
         
         .expertise-item:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-            transform: translateX(5px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 122, 255, 0.15);
+            border-color: rgba(0, 122, 255, 0.3);
+        }
+        
+        .expertise-item-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
         .expertise-item i {
-            color: #007aff;
-            font-size: 1.1em;
-            min-width: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #007aff 0%, #00c9ff 100%);
+            color: white;
+            border-radius: 10px;
+            font-size: 1.2em;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .expertise-item:hover i {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+        
+        .expertise-item-title {
+            font-weight: 600;
+            font-size: 1.05em;
+            color: #1e3c72;
+            margin: 0;
         }
         
         .expertise-item span {
-            color: #ffffff;
+            color: #555;
             font-size: 0.95em;
-            line-height: 1.4;
+            line-height: 1.6;
+        }
+        
+        .expertise-item strong {
+            color: #1e3c72;
+            font-weight: 600;
         }
         
         /* Full-width highlight section */
@@ -1104,19 +1216,24 @@
             }
             
             .expertise-highlights {
+                grid-template-columns: 1fr;
+                gap: 12px;
                 margin-top: 15px;
-                gap: 10px;
             }
             
             .expertise-item {
-                padding: 10px 12px;
-                flex-direction: column;
-                align-items: flex-start;
-                text-align: left;
+                padding: 18px;
+            }
+            
+            .expertise-item-header {
+                flex-direction: row;
+                align-items: center;
             }
             
             .expertise-item i {
-                margin-bottom: 5px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.1em;
             }
             
             .highlight-section.full-width {
@@ -1214,13 +1331,14 @@
     <div class="about-content">
         <!-- Profile Section - Photo and Badges -->
         <div class="profile-section">
+            <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
             <div class="profile-badges">
                 <div class="badge ai-engineer">
-                    <i class="fas fa-robot"></i>
+                    <i class="fas fa-brain"></i>
                     <span>AI Engineer</span>
                 </div>
                 <div class="badge contributor">
-                    <i class="fas fa-pen-fancy"></i>
+                    <i class="fas fa-feather-alt"></i>
                     <span>Towards AI Contributor</span>
                 </div>
                 <div class="badge student">
@@ -1228,7 +1346,6 @@
                     <span>UMD Graduate Student</span>
                 </div>
             </div>
-            <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
         </div>
 
         <!-- About Text Content -->
@@ -1244,16 +1361,25 @@
                 </p>
                 <div class="expertise-highlights">
                     <div class="expertise-item">
-                        <i class="fas fa-brain"></i>
-                        <span><strong>Deep Learning & NLP:</strong> Expertise in PyTorch, Transformers, and advanced neural architectures</span>
+                        <div class="expertise-item-header">
+                            <i class="fas fa-brain"></i>
+                            <h4 class="expertise-item-title">Deep Learning & NLP</h4>
+                        </div>
+                        <span>Expertise in PyTorch, Transformers, and advanced neural architectures</span>
                     </div>
                     <div class="expertise-item">
-                        <i class="fas fa-search"></i>
-                        <span><strong>RAG Systems:</strong> Building intelligent retrieval systems with vector databases and embeddings</span>
+                        <div class="expertise-item-header">
+                            <i class="fas fa-search"></i>
+                            <h4 class="expertise-item-title">RAG Systems</h4>
+                        </div>
+                        <span>Building intelligent retrieval systems with vector databases and embeddings</span>
                     </div>
                     <div class="expertise-item">
-                        <i class="fas fa-cogs"></i>
-                        <span><strong>Production AI:</strong> Deploying scalable AI solutions with Docker, CI/CD, and cloud infrastructure</span>
+                        <div class="expertise-item-header">
+                            <i class="fas fa-cogs"></i>
+                            <h4 class="expertise-item-title">Production AI</h4>
+                        </div>
+                        <span>Deploying scalable AI solutions with Docker, CI/CD, and cloud infrastructure</span>
                     </div>
                 </div>
             </div>
