@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serving LLMs with vLLM on RunPod | Akhil Shekkari</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            document.querySelectorAll('pre, code').forEach(el => {
+                el.style.fontSize = '11px';
+                el.style.fontFamily = 'Consolas, Monaco, "Courier New", monospace';
+            });
+        });
+    </script>
+</head>
+<body>
+    <a href="../blogs.html" class="back-link">&larr; Back to Blog</a>
+
+    <article>
+        <h1>Serving LLMs with vLLM on RunPod: A Complete Guide</h1>
+
+        <p class="blog-meta">Feb 3rd, 2026 &middot; 12 min read</p>
+        <hr class="section-break">
+
+        <h2>What Are We Building?</h2>
+
+        <p>
+            When you want to run an LLM for inference, you have two options: use a cloud API (OpenAI, Anthropic)
+            or host your own. Self-hosting gives you control over costs, latency, and model choice. In this post,
+            I'll break down exactly what happens when you deploy a model on RunPod using vLLM.
+        </p>
+
+        <div class="code-example">
+The Stack:
+┌─────────────────────────────────────────────────┐
+│  Your Application (API calls)                   │
+└─────────────────────┬───────────────────────────┘
+                      │ HTTPS
+                      ▼
+┌─────────────────────────────────────────────────┐
+│  RunPod Proxy (yixnlsxbw3md1q-8000.proxy...)   │
+└─────────────────────┬───────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────┐
+│  Docker Container (vllm/vllm-openai:latest)    │
+│  ┌─────────────────────────────────────────┐   │
+│  │  vLLM Server (OpenAI-compatible API)    │   │
+│  │  - /v1/chat/completions                 │   │
+│  │  - /v1/completions                      │   │
+│  │  - /v1/models                           │   │
+│  └─────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────┐   │
+│  │  Model Weights (Qwen2.5-7B-Instruct)    │   │
+│  │  Loaded in GPU VRAM (~14GB)             │   │
+│  └─────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────┘
+                      │
+                      ▼
+┌─────────────────────────────────────────────────┐
+│  NVIDIA A6000 Ada GPU (48GB VRAM)              │
+└─────────────────────────────────────────────────┘</div>
+
+        <h2>Understanding RunPod</h2>
+
+        <p>
+            RunPod is a cloud GPU provider. Unlike AWS or GCP where you rent full VMs, RunPod specializes in
+            GPU containers. You pay only for GPU time, often at 50-70% lower cost than major cloud providers.
+        </p>
+
+        <h3>What RunPod Provides</h3>
+
+        <div class="code-example">
+RunPod Pod = GPU + Container Runtime + Networking
+
+Components:
+1. GPU Hardware    → NVIDIA A6000, A100, H100, etc.
+2. Container       → Docker image runs your application
+3. Storage         → Volume (persistent) + Container disk (ephemeral)
+4. Networking      → Proxy URL for HTTP/HTTPS access
+5. SSH Access      → Direct terminal access to the container</div>
+
+        <h3>Templates: Pre-configured Recipes</h3>
+
+        <p>
+            A RunPod template is a pre-configured deployment recipe. It specifies everything needed
+            to run a specific application:
+        </p>
+
+        <div class="code-example">
+Template Components:
+─────────────────────────────────────────────────
+Component           │ Example Value
+─────────────────────────────────────────────────
+Docker Image        │ vllm/vllm-openai:latest
+GPU Type            │ NVIDIA A6000 Ada (48GB)
+Volume Disk         │ 40GB (model weights stored here)
+Container Disk      │ 10GB (temporary runtime files)
+Environment Vars    │ HF_TOKEN, HF_HOME, etc.
+Start Command       │ python -m vllm.entrypoints...
+Exposed Ports       │ 8000 (HTTP), 22 (SSH)
+─────────────────────────────────────────────────</div>
+
+        <h2>Understanding vLLM</h2>
+
+        <p>
+            vLLM is a high-performance inference engine for LLMs. It's not a model—it's the
+            software that loads models and serves them efficiently.
+        </p>
+
+        <h3>Why vLLM Over Plain PyTorch?</h3>
+
+        <div class="code-example">
+Plain PyTorch Inference:
+- Load model into GPU
+- Process one request at a time
+- Recompute KV cache for each token
+- Result: ~20 tokens/sec
+
+vLLM Inference:
+- PagedAttention: Efficient memory management
+- Continuous Batching: Process multiple requests simultaneously
+- KV Cache Optimization: Reuse computed attention states
+- Result: ~50-100+ tokens/sec</div>
+
+        <h3>Key vLLM Optimizations</h3>
+
+        <p><strong>1. PagedAttention</strong></p>
+        <p>
+            Traditional attention stores KV cache in contiguous memory blocks. vLLM uses
+            "paged" memory (like OS virtual memory), allowing dynamic allocation and
+            preventing memory fragmentation.
+        </p>
+
+        <p><strong>2. Continuous Batching</strong></p>
+        <p>
+            Instead of waiting for a batch to complete, vLLM continuously adds new requests
+            and removes completed ones. This maximizes GPU utilization.
+        </p>
+
+        <div class="code-example">
+Traditional Batching:
+Request 1: [████████████████████]
+Request 2: [████████████████████]
+Request 3: [████████████████████]
+           ↑ Wait for all to finish before next batch
+
+Continuous Batching:
+Request 1: [████████]
+Request 2: [████████████████]
+Request 3:     [████████████]
+Request 4:         [████████████████]
+           ↑ New requests added as slots free up</div>
+
+        <h2>The Deployment Flow</h2>
+
+        <p>Here's exactly what happens when you deploy:</p>
+
+        <h3>Step 1: Pod Creation</h3>
+
+        <div class="code-example">
+RunPod allocates:
+- 1x NVIDIA A6000 Ada GPU (48GB VRAM)
+- 32GB System RAM
+- 40GB Volume Disk (mounted at /workspace)
+- 10GB Container Disk
+
+Time: ~30 seconds</div>
+
+        <h3>Step 2: Container Startup</h3>
+
+        <div class="code-example">
+Docker pulls: vllm/vllm-openai:latest
+Container contains:
+- Python 3.10+
+- PyTorch with CUDA support
+- vLLM library
+- Transformers library
+- FastAPI server
+
+Time: ~1-2 minutes (if image not cached)</div>
+
+        <h3>Step 3: Model Download</h3>
+
+        <div class="code-example">
+vLLM downloads from HuggingFace:
+Model: Qwen/Qwen2.5-7B-Instruct
+Files:
+- model.safetensors.index.json
+- model-00001-of-00004.safetensors (4GB each)
+- tokenizer.json
+- config.json
+
+Total Size: ~14GB
+Saved to: /workspace/hf_home/hub/models--Qwen--Qwen2.5-7B-Instruct/
+
+Time: 5-10 minutes (first time)</div>
+
+        <h3>Step 4: Model Loading</h3>
+
+        <div class="code-example">
+vLLM loads model into GPU:
+1. Read safetensors files from disk
+2. Convert to appropriate dtype (bfloat16/float16)
+3. Transfer weights to GPU VRAM
+4. Initialize KV cache blocks
+5. Compile CUDA graphs (optional)
+
+Memory Layout:
+┌─────────────────────────────────────────┐
+│         A6000 GPU (48GB VRAM)           │
+├─────────────────────────────────────────┤
+│  Model Weights      │  ~14GB            │
+│  KV Cache           │  ~20GB (dynamic)  │
+│  Activations        │  ~4GB             │
+│  Free               │  ~10GB            │
+└─────────────────────────────────────────┘
+
+Time: 1-2 minutes</div>
+
+        <h3>Step 5: API Server Ready</h3>
+
+        <div class="code-example">
+vLLM starts FastAPI server:
+INFO: Uvicorn running on http://0.0.0.0:8000
+
+Available Endpoints:
+─────────────────────────────────────────────────
+Endpoint                    │ Method │ Purpose
+─────────────────────────────────────────────────
+/v1/models                  │ GET    │ List loaded models
+/v1/chat/completions        │ POST   │ Chat API (OpenAI format)
+/v1/completions             │ POST   │ Text completion
+/health                     │ GET    │ Health check
+─────────────────────────────────────────────────
+
+RunPod creates proxy:
+https://yixnlsxbw3md1q-8000.proxy.runpod.net → localhost:8000</div>
+
+        <h2>Making Requests</h2>
+
+        <p>
+            vLLM exposes an OpenAI-compatible API. This means you can use the same code
+            you'd use for OpenAI, just change the base URL:
+        </p>
+
+        <div class="code-example">
+# OpenAI API call
+curl https://api.openai.com/v1/chat/completions \
+  -H "Authorization: Bearer sk-xxx" \
+  -d '{"model": "gpt-4", "messages": [...]}'
+
+# vLLM API call (same format!)
+curl https://your-pod-8000.proxy.runpod.net/v1/chat/completions \
+  -H "Authorization: Bearer sk-1234" \
+  -d '{"model": "Qwen/Qwen2.5-7B-Instruct", "messages": [...]}'</div>
+
+        <h3>Request Flow</h3>
+
+        <div class="code-example">
+1. Request arrives at vLLM server
+2. Tokenizer converts text → token IDs
+   "What is ML?" → [1724, 374, 14946, 30]
+
+3. Tokens added to scheduling queue
+4. Scheduler batches with other requests
+5. Forward pass through model:
+   - Embedding lookup
+   - 28 transformer layers
+   - Final linear → logits
+
+6. Sampling (temperature, top_p)
+7. New token generated
+8. Repeat until stop condition
+
+9. Detokenize → text response
+10. Return JSON with usage stats</div>
+
+        <h2>Benchmark Results</h2>
+
+        <p>
+            I ran benchmarks at different concurrency levels to understand throughput scaling:
+        </p>
+
+        <div class="code-example">
+Configuration:
+- Model: Qwen/Qwen2.5-VL-7B-Instruct
+- GPU: NVIDIA A6000 Ada (48GB)
+- Cost: $0.44/hour
+- Max tokens per request: 100
+
+Results:
+─────────────────────────────────────────────────────────────────
+Concurrency │ Avg Latency │ P50 Latency │ P95 Latency │ Tokens/s
+─────────────────────────────────────────────────────────────────
+1           │ 2068ms      │ 2018ms      │ 2276ms      │ 48.49
+4           │ 2060ms      │ 2070ms      │ 2251ms      │ 48.68
+8           │ 2156ms      │ 2145ms      │ 2376ms      │ 46.55
+─────────────────────────────────────────────────────────────────
+
+Throughput Scaling:
+- 1 concurrent: 0.48 req/s
+- 4 concurrent: 1.91 req/s (4x improvement)
+- 8 concurrent: 3.64 req/s (7.6x improvement)</div>
+
+        <div class="note-block">
+            <strong>Key Observation:</strong> Latency stays relatively flat even as concurrency increases.
+            This is continuous batching in action—vLLM efficiently processes multiple requests
+            without proportionally increasing per-request latency.
+        </div>
+
+        <h2>Cost Analysis</h2>
+
+        <p>
+            Self-hosting only makes sense if it's cheaper than API providers. Let's do the math:
+        </p>
+
+        <div class="code-example">
+Calculating Cost Per 1M Output Tokens:
+
+Given:
+- GPU cost: $0.44/hour
+- Average tokens/sec: 47.91
+- Tokens per hour: 47.91 × 3600 = 172,476
+
+Cost per token = $0.44 / 172,476 = $0.00000255
+Cost per 1M tokens = $2.55
+
+Comparison:
+─────────────────────────────────────────────────
+Provider          │ Cost/1M tokens │ vs Self-Host
+─────────────────────────────────────────────────
+GPT-4o            │ $15.00         │ 5.9x more expensive
+GPT-4o-mini       │ $0.60          │ 4.2x cheaper
+Claude 3.5 Sonnet │ $15.00         │ 5.9x more expensive
+Self-hosted vLLM  │ $2.55          │ baseline
+─────────────────────────────────────────────────</div>
+
+        <div class="note-block">
+            <strong>Trade-offs:</strong>
+            <ul>
+                <li class="benefit">Self-hosting beats frontier models (GPT-4o, Claude) on cost</li>
+                <li class="drawback">GPT-4o-mini is still cheaper for simple tasks</li>
+                <li class="benefit">Self-hosting: no rate limits, full control, privacy</li>
+                <li class="drawback">Self-hosting: you manage infrastructure, no automatic scaling</li>
+            </ul>
+        </div>
+
+        <h2>When to Self-Host vs Use APIs</h2>
+
+        <div class="code-example">
+Self-Host When:
+✓ High volume (>1M tokens/day)
+✓ Need low latency (<500ms)
+✓ Privacy requirements (data can't leave your infra)
+✓ Need fine-tuned/custom models
+✓ Predictable, steady traffic
+
+Use APIs When:
+✓ Low/variable volume
+✓ Need frontier model quality (GPT-4, Claude)
+✓ Don't want to manage infrastructure
+✓ Need automatic scaling
+✓ Experimenting/prototyping</div>
+
+        <h2>Key Takeaways</h2>
+
+        <div class="note-block">
+            <strong>What We Learned:</strong>
+            <ul>
+                <li>RunPod provides GPU containers with simple deployment via templates</li>
+                <li>vLLM is an inference engine that makes LLM serving 2-5x faster than naive PyTorch</li>
+                <li>PagedAttention and continuous batching are the key optimizations</li>
+                <li>Self-hosting a 7B model costs ~$2.55/1M tokens on A6000</li>
+                <li>Throughput scales well with concurrency (7.6x at 8 concurrent)</li>
+                <li>OpenAI-compatible API means easy integration with existing code</li>
+            </ul>
+        </div>
+
+        <h3>What's Next?</h3>
+        <p>
+            In the next post, I'll test function calling capabilities with this setup. We'll
+            compare zero-shot function calling accuracy across different open-source models
+            and see how they stack up against GPT-4.
+        </p>
+
+    </article>
+
+    <footer>
+        <p>&copy; 2026 Akhil Shekkari &middot; <a href="https://github.com/shekkari1999">GitHub</a></p>
+    </footer>
+
+    <script>
+        Prism.highlightAll();
+    </script>
+</body>
+</html>

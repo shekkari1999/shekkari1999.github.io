@@ -429,11 +429,11 @@
             <!-- Blog Stats -->
             <div class="blog-stats">
                 <div class="stat-item">
-                    <span class="stat-number" id="total-blogs">7</span>
+                    <span class="stat-number" id="total-blogs">9</span>
                     <span class="stat-label">Total Articles</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number" id="visible-blogs">7</span>
+                    <span class="stat-number" id="visible-blogs">9</span>
                     <span class="stat-label">Showing</span>
                 </div>
             </div>
@@ -472,10 +472,54 @@
                     <i class="fas fa-cogs"></i>
                     <span>Fine-tuning</span>
                 </button>
+                <button class="filter-btn" data-filter="Inference">
+                    <i class="fas fa-server"></i>
+                    <span>Inference</span>
+                </button>
             </div>
 
             <main>
                 <div class="blog-list" id="blog-list">
+                    <div class="blog-item" data-topics="LLMs,Deep Learning,Optimization">
+                        <h2 class="blog-title">
+                            <a href="blog/improving-context.html" class="blog-link">Improving Context: Reasoning & Long Context in LLMs</a>
+                        </h2>
+                        <div class="blog-meta">
+                            Feb 6th, 2026 · 25 min read
+                        </div>
+                        <p class="blog-excerpt">
+                            A comprehensive deep dive into how LLMs reason over long-horizon tasks, the mechanics behind
+                            context length (positional encodings, attention cost, KV cache), and why smart agents with
+                            surgical retrieval beat brute-force long context windows.
+                        </p>
+                        <div class="tags">
+                            <span class="tag">LLMs</span>
+                            <span class="tag">Long Context</span>
+                            <span class="tag">Attention</span>
+                            <span class="tag">Reasoning</span>
+                        </div>
+                    </div>
+
+                    <div class="blog-item" data-topics="LLMs,Inference,Optimization">
+                        <h2 class="blog-title">
+                            <a href="blog/vllm-runpod-serving.html" class="blog-link">Serving LLMs with vLLM on RunPod: A Complete Guide</a>
+                        </h2>
+                        <div class="blog-meta">
+                            Feb 3rd, 2026 · 12 min read
+                        </div>
+                        <p class="blog-excerpt">
+                            A deep dive into self-hosting LLMs using vLLM on RunPod. Covers the full architecture from
+                            GPU containers to API endpoints, explains PagedAttention and continuous batching, and includes
+                            benchmark results with cost analysis comparing self-hosting vs cloud APIs.
+                        </p>
+                        <div class="tags">
+                            <span class="tag">LLMs</span>
+                            <span class="tag">vLLM</span>
+                            <span class="tag">Inference</span>
+                            <span class="tag">RunPod</span>
+                        </div>
+                    </div>
+
                     <div class="blog-item" data-topics="From Scratch,Diffusion Models,Computer Vision,Deep Learning">
                         <h2 class="blog-title">
                             <a href="blog/resshift-from-scratch.html" class="blog-link">From Scratch Implementation of ResShift Paper for Image Super-Resolution</a>
