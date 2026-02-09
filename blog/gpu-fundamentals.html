@@ -25,7 +25,7 @@
         </p>
         <p>
             This article builds that foundation. We cover GPU architecture, the roofline model, memory estimation,
-            arithmetic intensity analysis, and latency estimation &mdash; everything you need to develop strong intuition
+            arithmetic intensity analysis, and latency estimation , everything you need to develop strong intuition
             about what makes LLM inference fast or slow.
         </p>
 
@@ -74,7 +74,7 @@
         <p>
             The <strong>warp</strong> is the fundamental unit of execution. All 32 threads in a warp execute the same
             instruction at the same time. If threads diverge (different <code>if</code> branches), both paths must be
-            executed serially &mdash; this is called <strong>warp divergence</strong> and it wastes cycles.
+            executed serially , this is called <strong>warp divergence</strong> and it wastes cycles.
         </p>
 
         <h3>SRAM vs. HBM: The Crucial Ratio</h3>
@@ -142,8 +142,8 @@
             performance. It tells you whether a workload is limited by:
         </p>
         <ol>
-            <li><strong>Memory bandwidth</strong> (loading data from HBM) &mdash; left side of the plot</li>
-            <li><strong>Compute throughput</strong> (doing arithmetic) &mdash; right side / top of the plot</li>
+            <li><strong>Memory bandwidth</strong> (loading data from HBM) , left side of the plot</li>
+            <li><strong>Compute throughput</strong> (doing arithmetic) , right side / top of the plot</li>
         </ol>
 
         <h3>Arithmetic Intensity</h3>
@@ -209,12 +209,12 @@
         <h3>Optimization Implications</h3>
 
         <div class="opt-cards">
-            <div class="opt-card"><strong>Quantization</strong> (INT4/INT8) <span class="target">Decode</span> — fewer bytes from HBM per weight</div>
-            <div class="opt-card"><strong>Batching</strong> <span class="target">Decode</span> — amortize weight load across B sequences (AI &times; B)</div>
-            <div class="opt-card"><strong>FlashAttention</strong> <span class="target">Prefill</span> — tile attention into SRAM, fewer HBM reads</div>
-            <div class="opt-card"><strong>Speculative Decoding</strong> <span class="target">Decode</span> — verify multiple tokens in one pass</div>
-            <div class="opt-card"><strong>KV Cache</strong> <span class="target">Both</span> — avoid recomputing attention for past tokens</div>
-            <div class="opt-card"><strong>Tensor Parallelism</strong> <span class="target">Both</span> — split weights across GPUs</div>
+            <div class="opt-card"><strong>Quantization</strong> (INT4/INT8) <span class="target">Decode</span>, fewer bytes from HBM per weight</div>
+            <div class="opt-card"><strong>Batching</strong> <span class="target">Decode</span>, amortize weight load across B sequences (AI &times; B)</div>
+            <div class="opt-card"><strong>FlashAttention</strong> <span class="target">Prefill</span>, tile attention into SRAM, fewer HBM reads</div>
+            <div class="opt-card"><strong>Speculative Decoding</strong> <span class="target">Decode</span>, verify multiple tokens in one pass</div>
+            <div class="opt-card"><strong>KV Cache</strong> <span class="target">Both</span>, avoid recomputing attention for past tokens</div>
+            <div class="opt-card"><strong>Tensor Parallelism</strong> <span class="target">Both</span>, split weights across GPUs</div>
         </div>
 
         <hr class="section-break">
@@ -270,7 +270,7 @@
 
         <div class="diagram-container">
             <img src="../images/gpu-fundamentals/kv_cache_crossover.png" alt="KV Cache vs Weights memory as batch size increases" class="diagram">
-            <div class="diagram-caption">Figure 3: Llama-7B FP16 (seq_len=2048)—KV cache vs weights vs batch size. Weights constant at ~13 GB; KV cache grows linearly. KV cache equals weights at batch=14. Max batch=50 on A100-80GB before OOM. KV cache management (PagedAttention, GQA) is critical at scale.</div>
+            <div class="diagram-caption">Figure 3: Llama-7B FP16 (seq_len=2048), KV cache vs weights vs batch size. Weights constant at ~13 GB; KV cache grows linearly. KV cache equals weights at batch=14. Max batch=50 on A100-80GB before OOM. KV cache management (PagedAttention, GQA) is critical at scale.</div>
         </div>
 
         <h3>Memory Across Model Sizes and Precisions</h3>
@@ -310,21 +310,21 @@
         <h3>Decode AI vs Batch Size</h3>
 
         <p>
-            Decode at batch=1 has an arithmetic intensity of just 1 &mdash; only 0.6% of the ridge point.
+            Decode at batch=1 has an arithmetic intensity of just 1 , only 0.6% of the ridge point.
             Even at batch=64, we're still deeply memory-bound. It takes a batch size of ~156 to fully saturate
             the A100's compute capability during decode.
         </p>
 
         <div class="diagram-container">
             <img src="../images/gpu-fundamentals/Decode_AI_vs_batch_size.png" alt="Decode arithmetic intensity vs batch size" class="diagram">
-            <div class="diagram-caption">Figure 4: Decode arithmetic intensity grows linearly with batch size. The blue dashed line marks the A100 ridge point at 156 FLOPs/byte. Below this line, the GPU's compute cores are underutilized &mdash; adding more sequences to the batch is essentially "free" in terms of latency, because we're bottlenecked on memory bandwidth anyway.</div>
+            <div class="diagram-caption">Figure 4: Decode arithmetic intensity grows linearly with batch size. The blue dashed line marks the A100 ridge point at 156 FLOPs/byte. Below this line, the GPU's compute cores are underutilized , adding more sequences to the batch is essentially "free" in terms of latency, because we're bottlenecked on memory bandwidth anyway.</div>
         </div>
 
         <h3>Prefill AI vs Sequence Length</h3>
 
         <p>
             Prefill crosses the ridge point at relatively short sequence lengths (~300-400 tokens).
-            For typical prompt lengths (1K+ tokens), prefill is solidly compute-bound &mdash; the GPU cores
+            For typical prompt lengths (1K+ tokens), prefill is solidly compute-bound , the GPU cores
             become the bottleneck, not memory bandwidth.
         </p>
 
@@ -351,7 +351,7 @@
 
         <p>
             Prefill latency scales roughly linearly with prompt length. For Llama-7B on A100,
-            a 2048-token prompt takes about 9 ms &mdash; fast enough to be imperceptible.
+            a 2048-token prompt takes about 9 ms , fast enough to be imperceptible.
         </p>
 
         <div class="diagram-container">
@@ -367,7 +367,7 @@
 
         <p>
             The key insight: <strong>decode time per step stays nearly constant as batch size increases</strong>
-            (while memory-bound). This means total throughput scales linearly with batch size &mdash; for free!
+            (while memory-bound). This means total throughput scales linearly with batch size , for free!
             This is the fundamental insight behind continuous batching.
         </p>
 
@@ -380,9 +380,9 @@
             <strong>Key observations:</strong>
             <ul>
                 <li>Decode time per step stays nearly constant as batch size increases (while memory-bound)</li>
-                <li>Total throughput (tokens/sec) scales linearly with batch size &mdash; for free</li>
+                <li>Total throughput (tokens/sec) scales linearly with batch size , for free</li>
                 <li>This is the fundamental insight behind continuous batching (vLLM, TGI)</li>
-                <li>Per-request latency stays the same &mdash; everyone gets the same speed, but the server handles more requests</li>
+                <li>Per-request latency stays the same , everyone gets the same speed, but the server handles more requests</li>
             </ul>
         </div>
 
