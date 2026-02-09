@@ -328,12 +328,13 @@ footer {
 }
 
 .diagram {
-    max-width: 1100px;
-    max-height: 500px;
+    max-width: min(680px, 92vw);
+    max-height: 360px;
+    width: auto;
     height: auto;
     border-radius: 8px;
     background: transparent;
-    padding: 1em;
+    padding: 0.5em;
     object-fit: contain;
 }
 
@@ -465,6 +466,157 @@ footer {
 .quantization-table td {
     font-family: Consolas, Monaco, "Courier New", monospace;
 }
+
+/* Spec cards (replace dense tables) */
+.spec-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75em;
+    margin: 1.5em 0;
+}
+
+.spec-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.9em 1em;
+}
+
+.spec-card .term {
+    font-size: 0.85em;
+    color: #495057;
+    margin-bottom: 0.25em;
+}
+
+.spec-card .value {
+    font-weight: 600;
+    color: #0a3069;
+    font-size: 1.05em;
+}
+
+.spec-card .note {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin-top: 0.35em;
+}
+
+/* Phase / insight cards (Prefill vs Decode) */
+.phase-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25em;
+    margin: 1.5em 0;
+}
+
+@media (max-width: 640px) {
+    .phase-cards { grid-template-columns: 1fr; }
+}
+
+.phase-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.25em;
+    border: 1px solid #e9ecef;
+}
+
+.phase-card.prefill { border-left: 4px solid #2da44e; }
+.phase-card.decode { border-left: 4px solid #0550ae; }
+
+.phase-card h4 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.1em;
+}
+
+.phase-card .what { color: #495057; font-size: 0.95em; margin-bottom: 0.5em; }
+.phase-card .ai { color: #0a3069; font-size: 0.9em; }
+.phase-card .bottleneck { font-size: 0.85em; margin-top: 0.5em; font-weight: 500; }
+
+/* Optimization pills */
+.opt-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    margin: 1.5em 0;
+}
+
+.opt-card {
+    background: #f0f6fc;
+    border: 1px solid #c2d9f0;
+    border-radius: 8px;
+    padding: 0.6em 1em;
+    font-size: 0.9em;
+}
+
+.opt-card strong { color: #0550ae; }
+.opt-card .target { color: #6c757d; font-size: 0.9em; }
+
+/* Model memory cards */
+.model-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75em;
+    margin: 1.5em 0;
+}
+
+.model-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.9em;
+    border: 1px solid #e9ecef;
+}
+
+.model-card .name { font-weight: 600; color: #0a3069; }
+.model-card .dtype { font-size: 0.85em; color: #6c757d; }
+.model-card .mem { font-size: 0.9em; margin-top: 0.35em; }
+.model-card .fits { font-size: 0.85em; margin-top: 0.25em; font-weight: 500; }
+.model-card .fits.yes { color: #2da44e; }
+.model-card .fits.no { color: #cf222e; }
+
+/* Key formula / result box (replaces code-example for formulas) */
+.key-formula {
+    background: #f0f6fc;
+    border-left: 4px solid #0550ae;
+    border-radius: 6px;
+    padding: 0.9em 1.2em;
+    margin: 1em 0;
+    font-size: 0.95em;
+}
+
+.key-formula .result { color: #cf222e; font-weight: 600; }
+
+/* Memory hierarchy stack */
+.memory-stack {
+    margin: 1.5em 0;
+}
+
+.memory-tier {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.6em 1em;
+    margin-bottom: 0.4em;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.memory-tier .name { font-weight: 600; min-width: 100px; }
+.memory-tier .latency { color: #6c757d; font-size: 0.9em; }
+.memory-tier .size { font-size: 0.85em; color: #495057; }
+
+/* Summary / key points list */
+.key-points {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.25em 1.5em;
+    margin: 1.5em 0;
+    border: 1px solid #e9ecef;
+}
+
+.key-points p { margin: 0 0 0.75em 0; color: #495057; }
+.key-points p:last-of-type { margin-bottom: 0.5em; }
+.key-points ul { margin: 0; padding-left: 1.25em; }
+.key-points li { margin-bottom: 0.5em; color: #495057; }
 
 /* Process steps */
 .process-steps {

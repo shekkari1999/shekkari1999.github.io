@@ -44,119 +44,32 @@
             for reasoning about performance.
         </p>
 
-        <div class="code-example">
-                        NVIDIA A100-80GB SXM
- ================================================================
- |                                                              |
- |   GPU Die                                                    |
- |   +---------+---------+---------+-----  ... ---+---------+   |
- |   |  SM 0   |  SM 1   |  SM 2   |              | SM 107  |   |
- |   | 64 CUDA | 64 CUDA | 64 CUDA |              | 64 CUDA |   |
- |   | cores   | cores   | cores   |              | cores   |   |
- |   | 4 Tensor| 4 Tensor| 4 Tensor|              | 4 Tensor|   |
- |   | cores   | cores   | cores   |              | cores   |   |
- |   |         |         |         |              |         |   |
- |   | 192 KB  | 192 KB  | 192 KB  |              | 192 KB  |   |
- |   | L1/SRAM | L1/SRAM | L1/SRAM |              | L1/SRAM |   |
- |   +---------+---------+---------+--------------+---------+   |
- |                         |                                    |
- |              +----------+----------+                         |
- |              |    L2 Cache (40 MB) |                         |
- |              +----------+----------+                         |
- |                         |                                    |
- |   +----+----+----+----+----+----+----+----+                  |
- |   |HBM2|HBM2|HBM2|HBM2|HBM2|HBM2|HBM2|HBM2|  = 80 GB    |
- |   |    |    |    |    |    |    |    |    |  @ 2 TB/s       |
- |   +----+----+----+----+----+----+----+----+                  |
- |                                                              |
- ================================================================</div>
+        <p class="key-formula">
+            The A100-80GB packs <strong>108 SMs</strong>, each with 64 CUDA cores and 4 Tensor cores, connected via <strong>40 MB L2</strong> to <strong>80 GB HBM2e</strong> at 2 TB/s. Fast on-chip SRAM (192 KB per SM) sits next to each SM; the size and speed gap between SRAM and HBM is what makes memory bandwidth the bottleneck.
+        </p>
 
         <h3>Key Numbers to Memorize</h3>
 
-        <div class="quantization-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Component</th>
-                        <th>Specification</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Streaming Multiprocessors (SMs)</td>
-                        <td>108</td>
-                        <td>Each SM is an independent processor</td>
-                    </tr>
-                    <tr>
-                        <td>CUDA Cores</td>
-                        <td>6912 (64 per SM)</td>
-                        <td>Execute scalar floating-point ops</td>
-                    </tr>
-                    <tr>
-                        <td>Tensor Cores</td>
-                        <td>432 (4 per SM)</td>
-                        <td>Matrix multiply-accumulate (FP16/BF16/INT8)</td>
-                    </tr>
-                    <tr>
-                        <td>HBM2e Capacity</td>
-                        <td>80 GB</td>
-                        <td>Main GPU memory ("VRAM")</td>
-                    </tr>
-                    <tr>
-                        <td>HBM Bandwidth</td>
-                        <td>2.0 TB/s</td>
-                        <td>Rate of data transfer from HBM</td>
-                    </tr>
-                    <tr>
-                        <td>L2 Cache</td>
-                        <td>40 MB</td>
-                        <td>Shared across all SMs</td>
-                    </tr>
-                    <tr>
-                        <td>L1/Shared Mem per SM</td>
-                        <td>192 KB</td>
-                        <td>Fast on-chip memory per SM</td>
-                    </tr>
-                    <tr>
-                        <td>Total SRAM</td>
-                        <td>108 &times; 192 KB = 20.25 MB</td>
-                        <td>All L1/shared memory combined</td>
-                    </tr>
-                    <tr>
-                        <td>FP16 Throughput</td>
-                        <td>312 TFLOPS</td>
-                        <td>Peak with Tensor Cores</td>
-                    </tr>
-                    <tr>
-                        <td>FP32 Throughput</td>
-                        <td>156 TFLOPS</td>
-                        <td>Peak FP32</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="spec-cards">
+            <div class="spec-card"><span class="term">Streaming Multiprocessors</span><div class="value">108</div><div class="note">Each SM is an independent processor</div></div>
+            <div class="spec-card"><span class="term">CUDA Cores</span><div class="value">6912 (64/SM)</div><div class="note">Scalar FP ops</div></div>
+            <div class="spec-card"><span class="term">Tensor Cores</span><div class="value">432 (4/SM)</div><div class="note">Matrix multiply (FP16/BF16/INT8)</div></div>
+            <div class="spec-card"><span class="term">HBM2e Capacity</span><div class="value">80 GB</div><div class="note">Main VRAM</div></div>
+            <div class="spec-card"><span class="term">HBM Bandwidth</span><div class="value">2.0 TB/s</div><div class="note">Data rate from HBM</div></div>
+            <div class="spec-card"><span class="term">L2 Cache</span><div class="value">40 MB</div><div class="note">Shared across SMs</div></div>
+            <div class="spec-card"><span class="term">L1/Shared per SM</span><div class="value">192 KB</div><div class="note">Fast on-chip</div></div>
+            <div class="spec-card"><span class="term">Total SRAM</span><div class="value">~20.25 MB</div><div class="note">108 &times; 192 KB</div></div>
+            <div class="spec-card"><span class="term">FP16 Throughput</span><div class="value">312 TFLOPS</div><div class="note">Peak, Tensor Cores</div></div>
+            <div class="spec-card"><span class="term">FP32 Throughput</span><div class="value">156 TFLOPS</div><div class="note">Peak FP32</div></div>
         </div>
 
         <h3>Execution Model: Warps and Thread Blocks</h3>
 
-        <div class="code-example">
-  Kernel Launch
-       |
-       v
-  Grid of Thread Blocks
-  +--------+--------+--------+--------+
-  |Block(0)|Block(1)|Block(2)|  ...   |  --> Blocks are assigned to SMs
-  +--------+--------+--------+--------+
-       |
-       v
-  Each Block = up to 1024 threads
-  +------+------+------+------+------+------+
-  |Warp 0|Warp 1|Warp 2|Warp 3| ...  |Warp N|
-  +------+------+------+------+------+------+
-       |
-       v
-  Each Warp = 32 threads executing in LOCKSTEP (SIMT)
-  [t0 t1 t2 t3 ... t31]  -- all execute the same instruction</div>
+        <ul>
+            <li><strong>Kernel launch</strong> &rarr; a grid of thread blocks is scheduled onto SMs.</li>
+            <li><strong>Each block</strong> has up to 1024 threads, split into warps.</li>
+            <li><strong>Each warp</strong> = 32 threads executing in lockstep (SIMT); they all run the same instruction at once.</li>
+        </ul>
 
         <p>
             The <strong>warp</strong> is the fundamental unit of execution. All 32 threads in a warp execute the same
@@ -186,30 +99,12 @@
 
         <h3>Memory Hierarchy Latency</h3>
 
-        <div class="code-example">
-                    Latency        Bandwidth           Size
-                   (cycles)                       (per SM / total)
-  +-----------+
-  | Registers |     ~1 cycle     ~unlimited      64K 32-bit regs/SM
-  +-----------+
-       |
-       v
-  +-----------+
-  | L1 / SRAM |    ~30 cycles    ~19 TB/s*       192 KB/SM = 20 MB
-  | (Shared)  |                  (aggregate)
-  +-----------+
-       |
-       v
-  +-----------+
-  | L2 Cache  |    ~200 cycles   ~5-6 TB/s       40 MB total
-  +-----------+
-       |
-       v
-  +-----------+
-  |    HBM    |    ~400 cycles   2.0 TB/s        80 GB total
-  +-----------+
-
-  * Aggregate across all SMs. Per-SM bandwidth is ~180 GB/s.</div>
+        <div class="memory-stack">
+            <div class="memory-tier"><span class="name">Registers</span><span class="latency">~1 cycle</span><span class="size">64K 32-bit regs/SM</span></div>
+            <div class="memory-tier"><span class="name">L1 / SRAM</span><span class="latency">~30 cycles</span><span class="size">192 KB/SM = 20 MB total, ~19 TB/s aggregate</span></div>
+            <div class="memory-tier"><span class="name">L2 Cache</span><span class="latency">~200 cycles</span><span class="size">40 MB, ~5–6 TB/s</span></div>
+            <div class="memory-tier"><span class="name">HBM</span><span class="latency">~400 cycles</span><span class="size">80 GB, 2.0 TB/s</span></div>
+        </div>
 
         <h3>Why This Matters for LLM Inference</h3>
 
@@ -253,12 +148,9 @@
 
         <h3>Arithmetic Intensity</h3>
 
-        <div class="code-example">
-Arithmetic Intensity (AI) = FLOPs / Bytes Accessed
-
-  - Units: FLOPs per byte
-  - Low AI (&lt; ridge point): memory-bound
-  - High AI (&gt; ridge point): compute-bound</div>
+        <div class="key-formula">
+            <strong>AI = FLOPs / Bytes Accessed</strong> (FLOPs per byte). Low AI (&lt; ridge point) &rarr; memory-bound; high AI (&gt; ridge point) &rarr; compute-bound.
+        </div>
 
         <h3>Ridge Point</h3>
 
@@ -266,19 +158,15 @@ Arithmetic Intensity (AI) = FLOPs / Bytes Accessed
             The <strong>ridge point</strong> is the arithmetic intensity at which the compute and memory roofs intersect:
         </p>
 
-        <div class="code-example">
-Ridge Point = Peak Compute (FLOP/s) / Peak Bandwidth (bytes/s)
-
-For the A100-80GB:
-  Ridge Point = 312 TFLOP/s / 2.0 TB/s = <span class="result">156 FLOPs/byte</span></div>
+        <div class="key-formula">
+            Ridge = Peak Compute / Peak Bandwidth. A100-80GB: 312 TFLOP/s ÷ 2.0 TB/s = <span class="result">156 FLOPs/byte</span>.
+        </div>
 
         <h3>Attainable Performance</h3>
 
-        <div class="code-example">
-Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
-
-  If AI &lt; 156 : performance = AI &times; 2 TB/s  (memory-limited)
-  If AI &ge; 156 : performance = 312 TFLOPS    (compute-limited)</div>
+        <div class="key-formula">
+            Attainable = min(Peak Compute, AI &times; Bandwidth). If AI &lt; 156: memory-limited (AI &times; 2 TB/s). If AI &ge; 156: compute-limited (312 TFLOPS).
+        </div>
 
         <div class="diagram-container">
             <img src="../images/gpu-fundamentals/roofline.png" alt="A100-80GB Roofline Model showing Prefill vs Decode positions" class="diagram">
@@ -289,31 +177,19 @@ Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
 
         <p>This single insight explains nearly every optimization in modern LLM serving.</p>
 
-        <div class="quantization-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Phase</th>
-                        <th>What Happens</th>
-                        <th>Arithmetic Intensity</th>
-                        <th>Bottleneck</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Prefill</strong></td>
-                        <td>Process entire prompt in one shot. Matrix-matrix multiply: (seq_len &times; d_model) @ (d_model &times; d_model)</td>
-                        <td>AI scales with seq_len. For seq=2048, AI ~ 150.</td>
-                        <td>Compute-bound: limited by TFLOPS</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Decode</strong></td>
-                        <td>Generate one token at a time. Matrix-vector multiply: (1 &times; d_model) @ (d_model &times; d_model)</td>
-                        <td>AI ~ 1 (each weight byte used only once per batch item)</td>
-                        <td>Memory-bound: limited by HBM bandwidth</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="phase-cards">
+            <div class="phase-card prefill">
+                <h4>Prefill</h4>
+                <div class="what">Process entire prompt in one shot. Matrix-matrix multiply: (seq_len &times; d_model) @ (d_model &times; d_model).</div>
+                <div class="ai">AI scales with seq_len; for seq=2048, AI ~ 150.</div>
+                <div class="bottleneck">Compute-bound: limited by TFLOPS</div>
+            </div>
+            <div class="phase-card decode">
+                <h4>Decode</h4>
+                <div class="what">Generate one token at a time. Matrix-vector multiply: (1 &times; d_model) @ (d_model &times; d_model).</div>
+                <div class="ai">AI ~ 1 (each weight byte used once per batch item).</div>
+                <div class="bottleneck">Memory-bound: limited by HBM bandwidth</div>
+            </div>
         </div>
 
         <p>
@@ -332,48 +208,13 @@ Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
 
         <h3>Optimization Implications</h3>
 
-        <div class="quantization-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Optimization</th>
-                        <th>Targets</th>
-                        <th>Why It Helps</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Quantization</strong> (INT4/INT8)</td>
-                        <td>Decode (memory-bound)</td>
-                        <td>Fewer bytes to load from HBM per weight</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Batching</strong></td>
-                        <td>Decode (memory-bound)</td>
-                        <td>Amortize weight loading across B sequences (AI &times; B)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>FlashAttention</strong></td>
-                        <td>Prefill (compute + memory)</td>
-                        <td>Reduces HBM reads for attention by tiling into SRAM</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Speculative Decoding</strong></td>
-                        <td>Decode (memory-bound)</td>
-                        <td>Verify multiple tokens in one forward pass</td>
-                    </tr>
-                    <tr>
-                        <td><strong>KV Cache</strong></td>
-                        <td>Both</td>
-                        <td>Avoid recomputing attention for past tokens</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Tensor Parallelism</strong></td>
-                        <td>Both</td>
-                        <td>Split weight matrices across GPUs</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="opt-cards">
+            <div class="opt-card"><strong>Quantization</strong> (INT4/INT8) <span class="target">Decode</span> — fewer bytes from HBM per weight</div>
+            <div class="opt-card"><strong>Batching</strong> <span class="target">Decode</span> — amortize weight load across B sequences (AI &times; B)</div>
+            <div class="opt-card"><strong>FlashAttention</strong> <span class="target">Prefill</span> — tile attention into SRAM, fewer HBM reads</div>
+            <div class="opt-card"><strong>Speculative Decoding</strong> <span class="target">Decode</span> — verify multiple tokens in one pass</div>
+            <div class="opt-card"><strong>KV Cache</strong> <span class="target">Both</span> — avoid recomputing attention for past tokens</div>
+            <div class="opt-card"><strong>Tensor Parallelism</strong> <span class="target">Both</span> — split weights across GPUs</div>
         </div>
 
         <hr class="section-break">
@@ -408,15 +249,11 @@ Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
 
         <h3>Does Llama-70B Fit on A100-80GB?</h3>
 
-        <div class="code-example">
-Can Llama-70B fit on a single A100-80GB? (batch=1, seq_len=2048)
-
-  FP16:  Weights = 130.0 GB | Total = 131.9 GB | Fits? NO  | GPUs needed: 2
-         --> Exceeds 80 GB by 51.9 GB. Need tensor parallelism.
-
-  INT8:  Weights = 65.0 GB  | Total = 66.9 GB  | Fits? YES | Headroom: 13.1 GB
-
-  INT4:  Weights = 32.5 GB  | Total = 34.4 GB  | Fits? YES | Headroom: 45.6 GB</div>
+        <div class="opt-cards">
+            <div class="opt-card"><strong>FP16</strong> 130 GB total &rarr; <span class="target">No</span> (exceeds 80 GB; need 2 GPUs / tensor parallelism)</div>
+            <div class="opt-card"><strong>INT8</strong> 66.9 GB total &rarr; <span class="target">Yes</span> (~13 GB headroom)</div>
+            <div class="opt-card"><strong>INT4</strong> 34.4 GB total &rarr; <span class="target">Yes</span> (~46 GB headroom)</div>
+        </div>
 
         <div class="note-block">
             <strong>Interview insight:</strong> Llama-70B at FP16 needs ~130 GB = 2&times; A100-80GB.
@@ -438,69 +275,13 @@ Can Llama-70B fit on a single A100-80GB? (batch=1, seq_len=2048)
 
         <h3>Memory Across Model Sizes and Precisions</h3>
 
-        <div class="quantization-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Model</th>
-                        <th>DType</th>
-                        <th>Weights</th>
-                        <th>KV Cache</th>
-                        <th>Total</th>
-                        <th>Fits A100?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Llama-7B</td>
-                        <td>FP16</td>
-                        <td>13.0 GB</td>
-                        <td>0.50 GB</td>
-                        <td>14.0 GB</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Llama-7B</td>
-                        <td>INT4</td>
-                        <td>3.3 GB</td>
-                        <td>0.50 GB</td>
-                        <td>4.3 GB</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Llama-13B</td>
-                        <td>FP16</td>
-                        <td>24.2 GB</td>
-                        <td>0.78 GB</td>
-                        <td>25.5 GB</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Llama-13B</td>
-                        <td>INT4</td>
-                        <td>6.1 GB</td>
-                        <td>0.78 GB</td>
-                        <td>7.4 GB</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td>Llama-70B</td>
-                        <td>FP16</td>
-                        <td>130.0 GB</td>
-                        <td>1.25 GB</td>
-                        <td>131.9 GB</td>
-                        <td>No (2 GPUs)</td>
-                    </tr>
-                    <tr>
-                        <td>Llama-70B</td>
-                        <td>INT4</td>
-                        <td>32.5 GB</td>
-                        <td>1.25 GB</td>
-                        <td>34.4 GB</td>
-                        <td>Yes</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="model-cards">
+            <div class="model-card"><span class="name">Llama-7B</span><span class="dtype">FP16</span><div class="mem">Weights 13.0 GB · KV 0.50 GB · Total 14.0 GB</div><div class="fits yes">✓ Fits A100</div></div>
+            <div class="model-card"><span class="name">Llama-7B</span><span class="dtype">INT4</span><div class="mem">Weights 3.3 GB · KV 0.50 GB · Total 4.3 GB</div><div class="fits yes">✓ Fits A100</div></div>
+            <div class="model-card"><span class="name">Llama-13B</span><span class="dtype">FP16</span><div class="mem">Weights 24.2 GB · KV 0.78 GB · Total 25.5 GB</div><div class="fits yes">✓ Fits A100</div></div>
+            <div class="model-card"><span class="name">Llama-13B</span><span class="dtype">INT4</span><div class="mem">Weights 6.1 GB · KV 0.78 GB · Total 7.4 GB</div><div class="fits yes">✓ Fits A100</div></div>
+            <div class="model-card"><span class="name">Llama-70B</span><span class="dtype">FP16</span><div class="mem">Weights 130 GB · KV 1.25 GB · Total 131.9 GB</div><div class="fits no">✗ 2 GPUs</div></div>
+            <div class="model-card"><span class="name">Llama-70B</span><span class="dtype">INT4</span><div class="mem">Weights 32.5 GB · KV 1.25 GB · Total 34.4 GB</div><div class="fits yes">✓ Fits A100</div></div>
         </div>
 
         <p>
@@ -528,19 +309,6 @@ Can Llama-70B fit on a single A100-80GB? (batch=1, seq_len=2048)
 
         <h3>Decode AI vs Batch Size</h3>
 
-        <div class="code-example">
-Decode Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
-
-  Batch Size      AI (FLOPs/byte)      vs Ridge        Bound
-  ──────────────────────────────────────────────────────────
-         1               1.00          0.01x          MEMORY
-         4               4.00          0.03x          MEMORY
-        16              16.00          0.10x          MEMORY
-        64              64.00          0.41x          MEMORY
-       128             128.00          0.82x          MEMORY
-       156             156.00          1.00x          sweet spot
-       256             256.00          1.64x          COMPUTE</div>
-
         <p>
             Decode at batch=1 has an arithmetic intensity of just 1 &mdash; only 0.6% of the ridge point.
             Even at batch=64, we're still deeply memory-bound. It takes a batch size of ~156 to fully saturate
@@ -553,18 +321,6 @@ Decode Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
         </div>
 
         <h3>Prefill AI vs Sequence Length</h3>
-
-        <div class="code-example">
-Prefill Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
-
-  Seq Length      AI (FLOPs/byte)      vs Ridge        Bound
-  ──────────────────────────────────────────────────────────
-       128              ~64            0.41x          MEMORY
-       512             ~256            1.64x          COMPUTE
-      1024             ~512            3.28x          COMPUTE
-      2048            ~1024            6.56x          COMPUTE
-      4096            ~2048           13.13x          COMPUTE
-      8192            ~4096           26.26x          COMPUTE</div>
 
         <p>
             Prefill crosses the ridge point at relatively short sequence lengths (~300-400 tokens).
@@ -593,18 +349,6 @@ Prefill Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
 
         <h3>Prefill Latency (TTFT)</h3>
 
-        <div class="code-example">
-Latency Estimates: Llama-7B on A100-80GB (FP16)
-
-  Prompt Length     Prefill Time     Tokens/sec
-  ─────────────────────────────────────────────
-       128              ~0.6 ms       ~213,000
-       512              ~2.3 ms       ~223,000
-      1024              ~4.6 ms       ~224,000
-      2048              ~9.2 ms       ~224,000
-      4096             ~18.3 ms       ~224,000
-      8192             ~36.7 ms       ~223,000</div>
-
         <p>
             Prefill latency scales roughly linearly with prompt length. For Llama-7B on A100,
             a 2048-token prompt takes about 9 ms &mdash; fast enough to be imperceptible.
@@ -617,16 +361,9 @@ Latency Estimates: Llama-7B on A100-80GB (FP16)
 
         <h3>Decode Latency and Throughput</h3>
 
-        <div class="code-example">
-Decode Estimates: Llama-7B on A100-80GB (FP16)
-
-  Batch Size     Decode Time     Tokens/sec (total)     Tokens/sec/request
-  ────────────────────────────────────────────────────────────────────────
-         1         ~7.0 ms              143                  143
-         4         ~7.0 ms              572                  143
-        16         ~7.0 ms            2,286                  143
-        32         ~7.0 ms            4,571                  143
-        64         ~7.0 ms            9,143                  143</div>
+        <p class="key-formula">
+            Decode time stays ~7 ms per step while memory-bound (batch &lt; ~164); total tokens/sec scales with batch. Past the ridge, latency rises and throughput plateaus (~22K tokens/sec). See the diagram below.
+        </p>
 
         <p>
             The key insight: <strong>decode time per step stays nearly constant as batch size increases</strong>
@@ -700,72 +437,13 @@ Decode Estimates: Llama-7B on A100-80GB (FP16)
 
         <p>Keep these formulas in your head for back-of-the-envelope calculations:</p>
 
-        <h3>Weight Memory</h3>
-        <div class="code-example">
-Weight Memory = num_params &times; bytes_per_element
-
-  Llama-7B FP16:  7B &times; 2 bytes = <span class="result">14 GB</span>
-  Llama-70B INT4: 70B &times; 0.5 bytes = <span class="result">35 GB</span></div>
-
-        <h3>KV Cache Memory</h3>
-        <div class="code-example">
-KV per token per layer = 2 &times; num_kv_heads &times; head_dim &times; bytes_per_element
-
-Total KV Cache = batch_size &times; seq_len &times; num_layers &times; KV_per_token_per_layer</div>
-
-        <h3>Arithmetic Intensity</h3>
-        <div class="code-example">
-Decode (batch=B):  AI = 2 &times; B / bytes_per_element
-  FP16, B=1:   AI = 2 &times; 1 / 2 = <span class="result">1</span>
-  FP16, B=32:  AI = 2 &times; 32 / 2 = <span class="result">32</span>
-
-Prefill (seq_len=S):  AI ~ S  (weights amortized across S tokens)</div>
-
-        <h3>Decode Time (memory-bound)</h3>
-        <div class="code-example">
-t_decode = Weight Memory / HBM Bandwidth
-
-  Llama-7B FP16 on A100: 14 GB / 2 TB/s = <span class="result">7 ms</span></div>
-
-        <h3>Ridge Point</h3>
-        <div class="code-example">
-Ridge = Peak FLOPS / Peak Bandwidth
-
-  A100: 312 TFLOPS / 2 TB/s = <span class="result">156 FLOPs/byte</span>
-  H100: 990 TFLOPS / 3.35 TB/s = <span class="result">296 FLOPs/byte</span></div>
-
-        <hr class="section-break">
-
-        <!-- ============================================================ -->
-        <!-- SUMMARY -->
-        <!-- ============================================================ -->
-
-        <h2>Summary</h2>
-
-        <div class="code-example">
-SUMMARY: GPU Fundamentals & Inference Mental Models
-
-GPU Architecture (A100-80GB):
-  108 SMs | 312 TFLOPS FP16 | 80 GB HBM @ 2 TB/s | Ridge = 156 FLOPs/byte
-  SRAM: 20 MB total (fast) vs HBM: 80 GB (slow) -- 4000x size gap
-
-Memory Estimation (Llama-7B, FP16, batch=1, seq=2048):
-  Weights: 13.0 GB | KV Cache: 0.50 GB | Total: ~14.0 GB
-
-Roofline Analysis:
-  Decode  (batch=1):     AI = 1    -> MEMORY-BOUND  (ridge = 156)
-  Prefill (seq=2048):    AI ~ 1024 -> COMPUTE-BOUND
-
-Latency:
-  Decode:  ~7.0 ms/token  (143 tokens/sec)
-  Prefill: ~9.2 ms for 2048 tokens
-
-Core Insights:
-  1. Decode is memory-bound  -> optimize by batching and quantization
-  2. Prefill is compute-bound -> optimize by better kernels (FlashAttention)
-  3. KV cache grows with batch*seq_len -> GQA and PagedAttention essential
-  4. Quantization (FP16->INT4) gives ~4x more serving capacity
-  5. H100 speedup over A100 for decode ~ bandwidth ratio (1.67x), not FLOPS ratio (3.2x)</div>
+        <div class="spec-cards">
+            <div class="spec-card"><span class="term">Weight Memory</span><div class="value">params &times; bytes/element</div><div class="note">Llama-7B FP16: 14 GB · 70B INT4: 35 GB</div></div>
+            <div class="spec-card"><span class="term">KV Cache</span><div class="value">batch &times; seq &times; layers &times; (2 &times; kv_heads &times; head_dim &times; bytes)</div><div class="note">Per token per layer, then sum over layers</div></div>
+            <div class="spec-card"><span class="term">Decode AI</span><div class="value">2 &times; B / bytes_per_element</div><div class="note">B=1 &rarr; 1; B=32 &rarr; 32. Prefill AI ~ seq_len.</div></div>
+            <div class="spec-card"><span class="term">Decode time</span><div class="value">Weight Memory / HBM BW</div><div class="note">Llama-7B FP16 on A100: 14 GB / 2 TB/s = <span class="result">7 ms</span></div></div>
+            <div class="spec-card"><span class="term">Ridge</span><div class="value">Peak FLOPS / Peak BW</div><div class="note">A100: 156 · H100: 296 FLOPs/byte</div></div>
+        </div>
 
     </article>
 
