@@ -281,7 +281,7 @@ Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
   If AI &ge; 156 : performance = 312 TFLOPS    (compute-limited)</div>
 
         <div class="diagram-container">
-            <img src="images/day1/roofline_model.png" alt="A100-80GB Roofline Model showing Prefill vs Decode positions" class="diagram">
+            <img src="../images/gpu-fundamentals/roofline.png" alt="A100-80GB Roofline Model showing Prefill vs Decode positions" class="diagram">
             <div class="diagram-caption">Figure 1: The A100-80GB Roofline Model. Decode (batch=1) sits at AI=1, achieving only 0.6% of peak compute. Prefill (seq=2048) sits near the ridge point, approaching full compute utilization. The red region is memory-bound; the green region is compute-bound.</div>
         </div>
 
@@ -392,8 +392,8 @@ Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
         <h3>VRAM Breakdown: Llama-7B at FP16</h3>
 
         <div class="diagram-container">
-            <img src="images/day1/vram_breakdown.png" alt="Pie chart showing VRAM breakdown for Llama-7B at FP16" class="diagram">
-            <div class="diagram-caption">Figure 2: VRAM breakdown for Llama-7B at FP16 with batch=1 and seq_len=2048. Model weights dominate at ~14 GB, while KV cache is relatively small at this batch size. CUDA runtime overhead adds ~0.5 GB.</div>
+            <img src="../images/gpu-fundamentals/vram_breakdown.png" alt="Pie chart showing VRAM breakdown for Llama-7B at FP16" class="diagram">
+            <div class="diagram-caption">Figure 2: Llama-7B memory breakdown (FP16, batch=1, seq=2048). Weights 87.8% (13.04 GB), KV cache 6.7% (1.00 GB), activations 3.4% (0.51 GB), CUDA overhead 2.1% (0.31 GB). Total ~14.86 GB.</div>
         </div>
 
         <div class="note-block">
@@ -432,8 +432,8 @@ Can Llama-70B fit on a single A100-80GB? (batch=1, seq_len=2048)
         </p>
 
         <div class="diagram-container">
-            <img src="images/day1/kv_cache_crossover.png" alt="KV Cache vs Weights memory as batch size increases" class="diagram">
-            <div class="diagram-caption">Figure 3: Memory components vs batch size for Llama-7B (FP16, seq_len=2048). Weights stay constant at ~14 GB while KV cache grows linearly. They cross over around batch=28-32, and the A100's 80 GB capacity limits maximum batch size. This is why KV cache management (PagedAttention, GQA) is critical at production scale.</div>
+            <img src="../images/gpu-fundamentals/kv_cache_crossover.png" alt="KV Cache vs Weights memory as batch size increases" class="diagram">
+            <div class="diagram-caption">Figure 3: Llama-7B FP16 (seq_len=2048)—KV cache vs weights vs batch size. Weights constant at ~13 GB; KV cache grows linearly. KV cache equals weights at batch=14. Max batch=50 on A100-80GB before OOM. KV cache management (PagedAttention, GQA) is critical at scale.</div>
         </div>
 
         <h3>Memory Across Model Sizes and Precisions</h3>
@@ -548,7 +548,7 @@ Decode Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
         </p>
 
         <div class="diagram-container">
-            <img src="images/day1/decode_ai_vs_batchsize.png" alt="Decode arithmetic intensity vs batch size" class="diagram">
+            <img src="../images/gpu-fundamentals/Decode_AI_vs_batch_size.png" alt="Decode arithmetic intensity vs batch size" class="diagram">
             <div class="diagram-caption">Figure 4: Decode arithmetic intensity grows linearly with batch size. The blue dashed line marks the A100 ridge point at 156 FLOPs/byte. Below this line, the GPU's compute cores are underutilized &mdash; adding more sequences to the batch is essentially "free" in terms of latency, because we're bottlenecked on memory bandwidth anyway.</div>
         </div>
 
@@ -573,8 +573,8 @@ Prefill Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
         </p>
 
         <div class="diagram-container">
-            <img src="images/day1/prefill_ai_vs_seqlen.png" alt="Prefill arithmetic intensity vs sequence length" class="diagram">
-            <div class="diagram-caption">Figure 5: Prefill arithmetic intensity grows linearly with sequence length. It crosses the A100 ridge point around seq_len ~300, after which prefill becomes compute-bound. For short prompts, prefill latency is dominated by weight loading; for long prompts, it's dominated by actual computation.</div>
+            <img src="../images/gpu-fundamentals/prefil_vs_seq.png" alt="Prefill arithmetic intensity vs sequence length" class="diagram">
+            <div class="diagram-caption">Figure 5: Prefill arithmetic intensity vs sequence length (Llama-7B, FP16). Crosses A100 ridge (156 FLOPs/byte) at seq_len ~192; below that, prefill is memory-bound; above, compute-bound. For short prompts, latency is dominated by weight loading; for long prompts, by computation.</div>
         </div>
 
         <hr class="section-break">
@@ -611,7 +611,7 @@ Latency Estimates: Llama-7B on A100-80GB (FP16)
         </p>
 
         <div class="diagram-container">
-            <img src="images/day1/ttft_vs_prompt_length.png" alt="Time to first token vs prompt length for different model sizes" class="diagram">
+            <img src="../images/gpu-fundamentals/ttft_vs_prompt_length.png" alt="Time to first token vs prompt length for different model sizes" class="diagram">
             <div class="diagram-caption">Figure 6: Prefill latency (TTFT) vs prompt length for Llama-7B, 13B, and 70B on A100 (FP16, batch=1). Horizontal reference lines mark 100ms (imperceptible), 500ms (noticeable), and 1000ms (slow). Larger models have proportionally higher TTFT. For Llama-70B, prompts beyond 4K tokens push TTFT past 1 second on a single A100.</div>
         </div>
 
@@ -635,8 +635,8 @@ Decode Estimates: Llama-7B on A100-80GB (FP16)
         </p>
 
         <div class="diagram-container">
-            <img src="images/day1/decode_latency_throughput.png" alt="Decode latency and throughput vs batch size" class="diagram">
-            <div class="diagram-caption">Figure 7: Left: Decode latency per step stays flat while memory-bound, then starts increasing once the GPU transitions to compute-bound (at the inflection point). Right: Throughput scales linearly during the memory-bound regime &mdash; each additional sequence in the batch is essentially free. This is why production serving systems use continuous batching to maximize throughput.</div>
+            <img src="../images/gpu-fundamentals/decode_latency_throughput.png" alt="Decode latency and throughput vs batch size" class="diagram">
+            <div class="diagram-caption">Figure 7: Left: Llama-7B decode latency per step stays flat (~7 ms) while memory-bound, then rises after the inflection at batch=164 (transition to compute-bound). Right: Throughput scales linearly with batch size in the memory-bound regime (&quot;free&quot; batching), then plateaus at ~22K tokens/sec. This is why production serving uses continuous batching.</div>
         </div>
 
         <div class="note-block">
