@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU Fundamentals & LLM Inference Mental Models | Akhil Shekkari</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+</head>
+<body>
+    <a href="../blogs.html" class="back-link">&larr; Back to Blog</a>
+
+    <article>
+        <h1>GPU Fundamentals &amp; LLM Inference Mental Models</h1>
+
+        <p class="blog-meta">Summary &middot; 20 min read</p>
+        <hr class="section-break">
+
+        <p>
+            Research Engineer interviews at leading AI labs test your ability to reason about inference performance from first principles.
+            You will be expected to estimate whether a model fits on a given GPU, explain why autoregressive decoding is slow,
+            identify bottlenecks (memory bandwidth vs. compute) for a given workload, and propose optimizations that target
+            the actual bottleneck.
+        </p>
+        <p>
+            This article builds that foundation. We cover GPU architecture, the roofline model, memory estimation,
+            arithmetic intensity analysis, and latency estimation &mdash; everything you need to develop strong intuition
+            about what makes LLM inference fast or slow.
+        </p>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SECTION 1: GPU ARCHITECTURE -->
+        <!-- ============================================================ -->
+
+        <h2>GPU Architecture Fundamentals</h2>
+
+        <h3>NVIDIA A100 Architecture</h3>
+
+        <p>
+            The A100 is the workhorse GPU for LLM inference and training. Understanding its architecture is essential
+            for reasoning about performance.
+        </p>
+
+        <div class="code-example">
+                        NVIDIA A100-80GB SXM
+ ================================================================
+ |                                                              |
+ |   GPU Die                                                    |
+ |   +---------+---------+---------+-----  ... ---+---------+   |
+ |   |  SM 0   |  SM 1   |  SM 2   |              | SM 107  |   |
+ |   | 64 CUDA | 64 CUDA | 64 CUDA |              | 64 CUDA |   |
+ |   | cores   | cores   | cores   |              | cores   |   |
+ |   | 4 Tensor| 4 Tensor| 4 Tensor|              | 4 Tensor|   |
+ |   | cores   | cores   | cores   |              | cores   |   |
+ |   |         |         |         |              |         |   |
+ |   | 192 KB  | 192 KB  | 192 KB  |              | 192 KB  |   |
+ |   | L1/SRAM | L1/SRAM | L1/SRAM |              | L1/SRAM |   |
+ |   +---------+---------+---------+--------------+---------+   |
+ |                         |                                    |
+ |              +----------+----------+                         |
+ |              |    L2 Cache (40 MB) |                         |
+ |              +----------+----------+                         |
+ |                         |                                    |
+ |   +----+----+----+----+----+----+----+----+                  |
+ |   |HBM2|HBM2|HBM2|HBM2|HBM2|HBM2|HBM2|HBM2|  = 80 GB    |
+ |   |    |    |    |    |    |    |    |    |  @ 2 TB/s       |
+ |   +----+----+----+----+----+----+----+----+                  |
+ |                                                              |
+ ================================================================</div>
+
+        <h3>Key Numbers to Memorize</h3>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Specification</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Streaming Multiprocessors (SMs)</td>
+                        <td>108</td>
+                        <td>Each SM is an independent processor</td>
+                    </tr>
+                    <tr>
+                        <td>CUDA Cores</td>
+                        <td>6912 (64 per SM)</td>
+                        <td>Execute scalar floating-point ops</td>
+                    </tr>
+                    <tr>
+                        <td>Tensor Cores</td>
+                        <td>432 (4 per SM)</td>
+                        <td>Matrix multiply-accumulate (FP16/BF16/INT8)</td>
+                    </tr>
+                    <tr>
+                        <td>HBM2e Capacity</td>
+                        <td>80 GB</td>
+                        <td>Main GPU memory ("VRAM")</td>
+                    </tr>
+                    <tr>
+                        <td>HBM Bandwidth</td>
+                        <td>2.0 TB/s</td>
+                        <td>Rate of data transfer from HBM</td>
+                    </tr>
+                    <tr>
+                        <td>L2 Cache</td>
+                        <td>40 MB</td>
+                        <td>Shared across all SMs</td>
+                    </tr>
+                    <tr>
+                        <td>L1/Shared Mem per SM</td>
+                        <td>192 KB</td>
+                        <td>Fast on-chip memory per SM</td>
+                    </tr>
+                    <tr>
+                        <td>Total SRAM</td>
+                        <td>108 &times; 192 KB = 20.25 MB</td>
+                        <td>All L1/shared memory combined</td>
+                    </tr>
+                    <tr>
+                        <td>FP16 Throughput</td>
+                        <td>312 TFLOPS</td>
+                        <td>Peak with Tensor Cores</td>
+                    </tr>
+                    <tr>
+                        <td>FP32 Throughput</td>
+                        <td>156 TFLOPS</td>
+                        <td>Peak FP32</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Execution Model: Warps and Thread Blocks</h3>
+
+        <div class="code-example">
+  Kernel Launch
+       |
+       v
+  Grid of Thread Blocks
+  +--------+--------+--------+--------+
+  |Block(0)|Block(1)|Block(2)|  ...   |  --> Blocks are assigned to SMs
+  +--------+--------+--------+--------+
+       |
+       v
+  Each Block = up to 1024 threads
+  +------+------+------+------+------+------+
+  |Warp 0|Warp 1|Warp 2|Warp 3| ...  |Warp N|
+  +------+------+------+------+------+------+
+       |
+       v
+  Each Warp = 32 threads executing in LOCKSTEP (SIMT)
+  [t0 t1 t2 t3 ... t31]  -- all execute the same instruction</div>
+
+        <p>
+            The <strong>warp</strong> is the fundamental unit of execution. All 32 threads in a warp execute the same
+            instruction at the same time. If threads diverge (different <code>if</code> branches), both paths must be
+            executed serially &mdash; this is called <strong>warp divergence</strong> and it wastes cycles.
+        </p>
+
+        <h3>SRAM vs. HBM: The Crucial Ratio</h3>
+
+        <ul>
+            <li><strong>Total SRAM</strong>: ~20 MB (fast, on-chip, ~30 cycle latency)</li>
+            <li><strong>Total HBM</strong>: 80 GB (slow, off-chip, ~400 cycle latency)</li>
+            <li><strong>Ratio</strong>: HBM is ~4000x larger but ~13x slower</li>
+        </ul>
+
+        <p>
+            This mismatch is the fundamental reason why <strong>memory bandwidth is the bottleneck</strong> for most LLM
+            inference workloads. The model weights live in HBM, and for each token generated during decode, we must read
+            ALL weights from HBM through a limited bandwidth pipe.
+        </p>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- MEMORY HIERARCHY -->
+        <!-- ============================================================ -->
+
+        <h3>Memory Hierarchy Latency</h3>
+
+        <div class="code-example">
+                    Latency        Bandwidth           Size
+                   (cycles)                       (per SM / total)
+  +-----------+
+  | Registers |     ~1 cycle     ~unlimited      64K 32-bit regs/SM
+  +-----------+
+       |
+       v
+  +-----------+
+  | L1 / SRAM |    ~30 cycles    ~19 TB/s*       192 KB/SM = 20 MB
+  | (Shared)  |                  (aggregate)
+  +-----------+
+       |
+       v
+  +-----------+
+  | L2 Cache  |    ~200 cycles   ~5-6 TB/s       40 MB total
+  +-----------+
+       |
+       v
+  +-----------+
+  |    HBM    |    ~400 cycles   2.0 TB/s        80 GB total
+  +-----------+
+
+  * Aggregate across all SMs. Per-SM bandwidth is ~180 GB/s.</div>
+
+        <h3>Why This Matters for LLM Inference</h3>
+
+        <p>
+            During <strong>autoregressive decode</strong>, each generated token requires reading the full model weights from HBM:
+        </p>
+
+        <ul>
+            <li><strong>Llama-7B at FP16</strong>: 14 GB of weights</li>
+            <li><strong>At 2 TB/s bandwidth</strong>: Takes 14 GB / 2 TB/s = <strong>7 ms</strong> just to read the weights</li>
+            <li><strong>Computation</strong>: ~14 GFLOP per token, which at 312 TFLOPS takes only <strong>0.045 ms</strong></li>
+        </ul>
+
+        <p>
+            The weight-loading time is <strong>150x larger</strong> than the compute time. This is why decode is
+            memory-bandwidth-bound, and why all the major inference optimizations (quantization, KV caching,
+            speculative decoding, batching) ultimately aim to reduce the bytes-per-useful-FLOP ratio.
+        </p>
+
+        <div class="note-block">
+            <strong>Rule of thumb:</strong> If you can do the arithmetic faster than you can load the data, you are
+            <strong>memory-bound</strong>. For single-token decode, this is almost always the case.
+        </div>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SECTION 2: ROOFLINE MODEL -->
+        <!-- ============================================================ -->
+
+        <h2>The Roofline Model</h2>
+
+        <p>
+            The <strong>roofline model</strong> is the single most important mental model for understanding inference
+            performance. It tells you whether a workload is limited by:
+        </p>
+        <ol>
+            <li><strong>Memory bandwidth</strong> (loading data from HBM) &mdash; left side of the plot</li>
+            <li><strong>Compute throughput</strong> (doing arithmetic) &mdash; right side / top of the plot</li>
+        </ol>
+
+        <h3>Arithmetic Intensity</h3>
+
+        <div class="code-example">
+Arithmetic Intensity (AI) = FLOPs / Bytes Accessed
+
+  - Units: FLOPs per byte
+  - Low AI (&lt; ridge point): memory-bound
+  - High AI (&gt; ridge point): compute-bound</div>
+
+        <h3>Ridge Point</h3>
+
+        <p>
+            The <strong>ridge point</strong> is the arithmetic intensity at which the compute and memory roofs intersect:
+        </p>
+
+        <div class="code-example">
+Ridge Point = Peak Compute (FLOP/s) / Peak Bandwidth (bytes/s)
+
+For the A100-80GB:
+  Ridge Point = 312 TFLOP/s / 2.0 TB/s = <span class="result">156 FLOPs/byte</span></div>
+
+        <h3>Attainable Performance</h3>
+
+        <div class="code-example">
+Attainable Performance = min(Peak Compute, AI &times; Bandwidth)
+
+  If AI &lt; 156 : performance = AI &times; 2 TB/s  (memory-limited)
+  If AI &ge; 156 : performance = 312 TFLOPS    (compute-limited)</div>
+
+        <div class="diagram-container">
+            <img src="images/day1/roofline_model.png" alt="A100-80GB Roofline Model showing Prefill vs Decode positions" class="diagram">
+            <div class="diagram-caption">Figure 1: The A100-80GB Roofline Model. Decode (batch=1) sits at AI=1, achieving only 0.6% of peak compute. Prefill (seq=2048) sits near the ridge point, approaching full compute utilization. The red region is memory-bound; the green region is compute-bound.</div>
+        </div>
+
+        <h3>The Key Insight: Prefill is Compute-Bound, Decode is Memory-Bound</h3>
+
+        <p>This single insight explains nearly every optimization in modern LLM serving.</p>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>What Happens</th>
+                        <th>Arithmetic Intensity</th>
+                        <th>Bottleneck</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Prefill</strong></td>
+                        <td>Process entire prompt in one shot. Matrix-matrix multiply: (seq_len &times; d_model) @ (d_model &times; d_model)</td>
+                        <td>AI scales with seq_len. For seq=2048, AI ~ 150.</td>
+                        <td>Compute-bound: limited by TFLOPS</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Decode</strong></td>
+                        <td>Generate one token at a time. Matrix-vector multiply: (1 &times; d_model) @ (d_model &times; d_model)</td>
+                        <td>AI ~ 1 (each weight byte used only once per batch item)</td>
+                        <td>Memory-bound: limited by HBM bandwidth</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>
+            <strong>Why is decode so memory-inefficient?</strong> During decode, we generate ONE token. This means we
+            do a matrix-vector product: the weight matrix has <code>d_model &times; d_model</code> elements, but the
+            input vector has only <code>d_model</code> elements. Each weight is loaded from HBM but used for only
+            <strong>one multiply-add</strong> (2 FLOPs / 2 bytes at FP16 = AI of 1).
+        </p>
+
+        <p>
+            <strong>Why is prefill efficient?</strong> During prefill, the input is a matrix of shape
+            <code>(seq_len &times; d_model)</code>. The same weight matrix (loaded once from HBM) is multiplied
+            against <code>seq_len</code> vectors. The weight bytes are <strong>amortized</strong> across
+            <code>seq_len</code> tokens, giving AI ~ <code>seq_len</code>.
+        </p>
+
+        <h3>Optimization Implications</h3>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Optimization</th>
+                        <th>Targets</th>
+                        <th>Why It Helps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Quantization</strong> (INT4/INT8)</td>
+                        <td>Decode (memory-bound)</td>
+                        <td>Fewer bytes to load from HBM per weight</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Batching</strong></td>
+                        <td>Decode (memory-bound)</td>
+                        <td>Amortize weight loading across B sequences (AI &times; B)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FlashAttention</strong></td>
+                        <td>Prefill (compute + memory)</td>
+                        <td>Reduces HBM reads for attention by tiling into SRAM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speculative Decoding</strong></td>
+                        <td>Decode (memory-bound)</td>
+                        <td>Verify multiple tokens in one forward pass</td>
+                    </tr>
+                    <tr>
+                        <td><strong>KV Cache</strong></td>
+                        <td>Both</td>
+                        <td>Avoid recomputing attention for past tokens</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tensor Parallelism</strong></td>
+                        <td>Both</td>
+                        <td>Split weight matrices across GPUs</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SECTION 3: MEMORY ESTIMATION -->
+        <!-- ============================================================ -->
+
+        <h2>Memory Estimation</h2>
+
+        <p>
+            Understanding where GPU memory goes during inference is critical for capacity planning. Let's break down
+            the memory components for Llama-7B.
+        </p>
+
+        <h3>VRAM Breakdown: Llama-7B at FP16</h3>
+
+        <div class="diagram-container">
+            <img src="images/day1/vram_breakdown.png" alt="Pie chart showing VRAM breakdown for Llama-7B at FP16" class="diagram">
+            <div class="diagram-caption">Figure 2: VRAM breakdown for Llama-7B at FP16 with batch=1 and seq_len=2048. Model weights dominate at ~14 GB, while KV cache is relatively small at this batch size. CUDA runtime overhead adds ~0.5 GB.</div>
+        </div>
+
+        <div class="note-block">
+            <strong>Key observations:</strong>
+            <ul>
+                <li>At batch=1, model weights dominate total memory (~90%+)</li>
+                <li>KV cache is small at batch=1 but grows linearly with batch size and sequence length</li>
+                <li>Activations during inference are negligible (only one layer active at a time)</li>
+                <li>CUDA overhead is a fixed ~0.5 GB cost</li>
+            </ul>
+        </div>
+
+        <h3>Does Llama-70B Fit on A100-80GB?</h3>
+
+        <div class="code-example">
+Can Llama-70B fit on a single A100-80GB? (batch=1, seq_len=2048)
+
+  FP16:  Weights = 130.0 GB | Total = 131.9 GB | Fits? NO  | GPUs needed: 2
+         --> Exceeds 80 GB by 51.9 GB. Need tensor parallelism.
+
+  INT8:  Weights = 65.0 GB  | Total = 66.9 GB  | Fits? YES | Headroom: 13.1 GB
+
+  INT4:  Weights = 32.5 GB  | Total = 34.4 GB  | Fits? YES | Headroom: 45.6 GB</div>
+
+        <div class="note-block">
+            <strong>Interview insight:</strong> Llama-70B at FP16 needs ~130 GB = 2&times; A100-80GB.
+            Quantizing to INT4 brings it down to ~35 GB, fitting on a single GPU.
+            This is why quantization is so important for deployment.
+        </div>
+
+        <h3>When Does KV Cache Dominate?</h3>
+
+        <p>
+            At batch=1, weights dominate. But at production batch sizes, KV cache quickly overtakes weights.
+            This plot shows the crossover point for Llama-7B.
+        </p>
+
+        <div class="diagram-container">
+            <img src="images/day1/kv_cache_crossover.png" alt="KV Cache vs Weights memory as batch size increases" class="diagram">
+            <div class="diagram-caption">Figure 3: Memory components vs batch size for Llama-7B (FP16, seq_len=2048). Weights stay constant at ~14 GB while KV cache grows linearly. They cross over around batch=28-32, and the A100's 80 GB capacity limits maximum batch size. This is why KV cache management (PagedAttention, GQA) is critical at production scale.</div>
+        </div>
+
+        <h3>Memory Across Model Sizes and Precisions</h3>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>DType</th>
+                        <th>Weights</th>
+                        <th>KV Cache</th>
+                        <th>Total</th>
+                        <th>Fits A100?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Llama-7B</td>
+                        <td>FP16</td>
+                        <td>13.0 GB</td>
+                        <td>0.50 GB</td>
+                        <td>14.0 GB</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Llama-7B</td>
+                        <td>INT4</td>
+                        <td>3.3 GB</td>
+                        <td>0.50 GB</td>
+                        <td>4.3 GB</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Llama-13B</td>
+                        <td>FP16</td>
+                        <td>24.2 GB</td>
+                        <td>0.78 GB</td>
+                        <td>25.5 GB</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Llama-13B</td>
+                        <td>INT4</td>
+                        <td>6.1 GB</td>
+                        <td>0.78 GB</td>
+                        <td>7.4 GB</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Llama-70B</td>
+                        <td>FP16</td>
+                        <td>130.0 GB</td>
+                        <td>1.25 GB</td>
+                        <td>131.9 GB</td>
+                        <td>No (2 GPUs)</td>
+                    </tr>
+                    <tr>
+                        <td>Llama-70B</td>
+                        <td>INT4</td>
+                        <td>32.5 GB</td>
+                        <td>1.25 GB</td>
+                        <td>34.4 GB</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>
+            <strong>Key observations:</strong>
+        </p>
+        <ol>
+            <li>Weights scale linearly with parameter count and inversely with quantization.</li>
+            <li>INT4 gives a 4x reduction in weight memory vs FP16, making 70B feasible on one GPU.</li>
+            <li>KV cache for 70B is smaller than expected thanks to GQA (8 KV heads vs 64 query heads).</li>
+            <li>At batch=1, weights dominate. At production batch sizes (32+), KV cache dominates.</li>
+        </ol>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SECTION 4: ARITHMETIC INTENSITY -->
+        <!-- ============================================================ -->
+
+        <h2>Arithmetic Intensity Analysis</h2>
+
+        <p>
+            Let's see how arithmetic intensity changes with different operating conditions, and how that
+            determines whether we're memory-bound or compute-bound.
+        </p>
+
+        <h3>Decode AI vs Batch Size</h3>
+
+        <div class="code-example">
+Decode Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
+
+  Batch Size      AI (FLOPs/byte)      vs Ridge        Bound
+  ──────────────────────────────────────────────────────────
+         1               1.00          0.01x          MEMORY
+         4               4.00          0.03x          MEMORY
+        16              16.00          0.10x          MEMORY
+        64              64.00          0.41x          MEMORY
+       128             128.00          0.82x          MEMORY
+       156             156.00          1.00x          sweet spot
+       256             256.00          1.64x          COMPUTE</div>
+
+        <p>
+            Decode at batch=1 has an arithmetic intensity of just 1 &mdash; only 0.6% of the ridge point.
+            Even at batch=64, we're still deeply memory-bound. It takes a batch size of ~156 to fully saturate
+            the A100's compute capability during decode.
+        </p>
+
+        <div class="diagram-container">
+            <img src="images/day1/decode_ai_vs_batchsize.png" alt="Decode arithmetic intensity vs batch size" class="diagram">
+            <div class="diagram-caption">Figure 4: Decode arithmetic intensity grows linearly with batch size. The blue dashed line marks the A100 ridge point at 156 FLOPs/byte. Below this line, the GPU's compute cores are underutilized &mdash; adding more sequences to the batch is essentially "free" in terms of latency, because we're bottlenecked on memory bandwidth anyway.</div>
+        </div>
+
+        <h3>Prefill AI vs Sequence Length</h3>
+
+        <div class="code-example">
+Prefill Arithmetic Intensity (Llama-7B, FP16, A100-80GB)
+
+  Seq Length      AI (FLOPs/byte)      vs Ridge        Bound
+  ──────────────────────────────────────────────────────────
+       128              ~64            0.41x          MEMORY
+       512             ~256            1.64x          COMPUTE
+      1024             ~512            3.28x          COMPUTE
+      2048            ~1024            6.56x          COMPUTE
+      4096            ~2048           13.13x          COMPUTE
+      8192            ~4096           26.26x          COMPUTE</div>
+
+        <p>
+            Prefill crosses the ridge point at relatively short sequence lengths (~300-400 tokens).
+            For typical prompt lengths (1K+ tokens), prefill is solidly compute-bound &mdash; the GPU cores
+            become the bottleneck, not memory bandwidth.
+        </p>
+
+        <div class="diagram-container">
+            <img src="images/day1/prefill_ai_vs_seqlen.png" alt="Prefill arithmetic intensity vs sequence length" class="diagram">
+            <div class="diagram-caption">Figure 5: Prefill arithmetic intensity grows linearly with sequence length. It crosses the A100 ridge point around seq_len ~300, after which prefill becomes compute-bound. For short prompts, prefill latency is dominated by weight loading; for long prompts, it's dominated by actual computation.</div>
+        </div>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SECTION 5: TIME ESTIMATES -->
+        <!-- ============================================================ -->
+
+        <h2>Time Estimates</h2>
+
+        <p>
+            Using the roofline model, we can estimate latencies for prefill (TTFT = time to first token)
+            and decode (per-token generation time). These back-of-the-envelope calculations are exactly
+            the kind of reasoning expected in interviews.
+        </p>
+
+        <h3>Prefill Latency (TTFT)</h3>
+
+        <div class="code-example">
+Latency Estimates: Llama-7B on A100-80GB (FP16)
+
+  Prompt Length     Prefill Time     Tokens/sec
+  ─────────────────────────────────────────────
+       128              ~0.6 ms       ~213,000
+       512              ~2.3 ms       ~223,000
+      1024              ~4.6 ms       ~224,000
+      2048              ~9.2 ms       ~224,000
+      4096             ~18.3 ms       ~224,000
+      8192             ~36.7 ms       ~223,000</div>
+
+        <p>
+            Prefill latency scales roughly linearly with prompt length. For Llama-7B on A100,
+            a 2048-token prompt takes about 9 ms &mdash; fast enough to be imperceptible.
+        </p>
+
+        <div class="diagram-container">
+            <img src="images/day1/ttft_vs_prompt_length.png" alt="Time to first token vs prompt length for different model sizes" class="diagram">
+            <div class="diagram-caption">Figure 6: Prefill latency (TTFT) vs prompt length for Llama-7B, 13B, and 70B on A100 (FP16, batch=1). Horizontal reference lines mark 100ms (imperceptible), 500ms (noticeable), and 1000ms (slow). Larger models have proportionally higher TTFT. For Llama-70B, prompts beyond 4K tokens push TTFT past 1 second on a single A100.</div>
+        </div>
+
+        <h3>Decode Latency and Throughput</h3>
+
+        <div class="code-example">
+Decode Estimates: Llama-7B on A100-80GB (FP16)
+
+  Batch Size     Decode Time     Tokens/sec (total)     Tokens/sec/request
+  ────────────────────────────────────────────────────────────────────────
+         1         ~7.0 ms              143                  143
+         4         ~7.0 ms              572                  143
+        16         ~7.0 ms            2,286                  143
+        32         ~7.0 ms            4,571                  143
+        64         ~7.0 ms            9,143                  143</div>
+
+        <p>
+            The key insight: <strong>decode time per step stays nearly constant as batch size increases</strong>
+            (while memory-bound). This means total throughput scales linearly with batch size &mdash; for free!
+            This is the fundamental insight behind continuous batching.
+        </p>
+
+        <div class="diagram-container">
+            <img src="images/day1/decode_latency_throughput.png" alt="Decode latency and throughput vs batch size" class="diagram">
+            <div class="diagram-caption">Figure 7: Left: Decode latency per step stays flat while memory-bound, then starts increasing once the GPU transitions to compute-bound (at the inflection point). Right: Throughput scales linearly during the memory-bound regime &mdash; each additional sequence in the batch is essentially free. This is why production serving systems use continuous batching to maximize throughput.</div>
+        </div>
+
+        <div class="note-block">
+            <strong>Key observations:</strong>
+            <ul>
+                <li>Decode time per step stays nearly constant as batch size increases (while memory-bound)</li>
+                <li>Total throughput (tokens/sec) scales linearly with batch size &mdash; for free</li>
+                <li>This is the fundamental insight behind continuous batching (vLLM, TGI)</li>
+                <li>Per-request latency stays the same &mdash; everyone gets the same speed, but the server handles more requests</li>
+            </ul>
+        </div>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SECTION 6: KEY TAKEAWAYS -->
+        <!-- ============================================================ -->
+
+        <h2>Key Takeaways</h2>
+
+        <h3>5 Things You Should Know</h3>
+
+        <ol>
+            <li>
+                <strong>"Autoregressive decode is memory-bandwidth-bound, not compute-bound."</strong>
+                Each decode step requires reading all model weights from HBM to generate a single token.
+                The arithmetic intensity is ~1 FLOP/byte (at batch=1, FP16), far below the A100's ridge point of 156.
+                This means the Tensor Cores sit idle ~99% of the time during decode.
+            </li>
+            <li>
+                <strong>"Prefill is compute-bound for reasonable sequence lengths."</strong>
+                During prefill, the same weights are reused across all tokens in the prompt, giving arithmetic
+                intensity that scales with <code>seq_len</code>. For seq_len > ~300 on A100, prefill becomes compute-bound.
+            </li>
+            <li>
+                <strong>"Batching is the primary lever for decode throughput."</strong>
+                Since decode is memory-bound, adding more sequences to a batch reuses the same weight data already
+                being streamed from HBM. The per-step latency barely changes, but throughput scales linearly.
+                This is why continuous batching (vLLM, TGI) is transformative.
+            </li>
+            <li>
+                <strong>"KV cache memory grows as O(batch_size &times; seq_len &times; num_layers &times; d_head &times; num_kv_heads)."</strong>
+                At production batch sizes (32+), KV cache can dominate total GPU memory. This is why PagedAttention,
+                GQA (grouped-query attention), and KV cache quantization are critical.
+            </li>
+            <li>
+                <strong>"Quantization helps decode more than prefill."</strong>
+                Since decode is memory-bound, reducing the number of bytes per weight (FP16 &rarr; INT4 = 4x fewer bytes)
+                directly translates to ~4x faster decode. For prefill (compute-bound), quantization helps less unless
+                it also reduces the compute cost.
+            </li>
+        </ol>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- APPENDIX: FORMULAS -->
+        <!-- ============================================================ -->
+
+        <h2>Quick-Reference Formulas</h2>
+
+        <p>Keep these formulas in your head for back-of-the-envelope calculations:</p>
+
+        <h3>Weight Memory</h3>
+        <div class="code-example">
+Weight Memory = num_params &times; bytes_per_element
+
+  Llama-7B FP16:  7B &times; 2 bytes = <span class="result">14 GB</span>
+  Llama-70B INT4: 70B &times; 0.5 bytes = <span class="result">35 GB</span></div>
+
+        <h3>KV Cache Memory</h3>
+        <div class="code-example">
+KV per token per layer = 2 &times; num_kv_heads &times; head_dim &times; bytes_per_element
+
+Total KV Cache = batch_size &times; seq_len &times; num_layers &times; KV_per_token_per_layer</div>
+
+        <h3>Arithmetic Intensity</h3>
+        <div class="code-example">
+Decode (batch=B):  AI = 2 &times; B / bytes_per_element
+  FP16, B=1:   AI = 2 &times; 1 / 2 = <span class="result">1</span>
+  FP16, B=32:  AI = 2 &times; 32 / 2 = <span class="result">32</span>
+
+Prefill (seq_len=S):  AI ~ S  (weights amortized across S tokens)</div>
+
+        <h3>Decode Time (memory-bound)</h3>
+        <div class="code-example">
+t_decode = Weight Memory / HBM Bandwidth
+
+  Llama-7B FP16 on A100: 14 GB / 2 TB/s = <span class="result">7 ms</span></div>
+
+        <h3>Ridge Point</h3>
+        <div class="code-example">
+Ridge = Peak FLOPS / Peak Bandwidth
+
+  A100: 312 TFLOPS / 2 TB/s = <span class="result">156 FLOPs/byte</span>
+  H100: 990 TFLOPS / 3.35 TB/s = <span class="result">296 FLOPs/byte</span></div>
+
+        <hr class="section-break">
+
+        <!-- ============================================================ -->
+        <!-- SUMMARY -->
+        <!-- ============================================================ -->
+
+        <h2>Summary</h2>
+
+        <div class="code-example">
+SUMMARY: GPU Fundamentals & Inference Mental Models
+
+GPU Architecture (A100-80GB):
+  108 SMs | 312 TFLOPS FP16 | 80 GB HBM @ 2 TB/s | Ridge = 156 FLOPs/byte
+  SRAM: 20 MB total (fast) vs HBM: 80 GB (slow) -- 4000x size gap
+
+Memory Estimation (Llama-7B, FP16, batch=1, seq=2048):
+  Weights: 13.0 GB | KV Cache: 0.50 GB | Total: ~14.0 GB
+
+Roofline Analysis:
+  Decode  (batch=1):     AI = 1    -> MEMORY-BOUND  (ridge = 156)
+  Prefill (seq=2048):    AI ~ 1024 -> COMPUTE-BOUND
+
+Latency:
+  Decode:  ~7.0 ms/token  (143 tokens/sec)
+  Prefill: ~9.2 ms for 2048 tokens
+
+Core Insights:
+  1. Decode is memory-bound  -> optimize by batching and quantization
+  2. Prefill is compute-bound -> optimize by better kernels (FlashAttention)
+  3. KV cache grows with batch*seq_len -> GQA and PagedAttention essential
+  4. Quantization (FP16->INT4) gives ~4x more serving capacity
+  5. H100 speedup over A100 for decode ~ bandwidth ratio (1.67x), not FLOPS ratio (3.2x)</div>
+
+    </article>
+
+    <footer>
+        <p>&copy; 2025 Akhil Shekkari &middot; <a href="https://github.com/shekkari1999">GitHub</a> &middot; <a href="https://www.linkedin.com/in/akhilshekkari/">LinkedIn</a></p>
+    </footer>
+
+    <script>Prism.highlightAll();</script>
+</body>
+</html>
