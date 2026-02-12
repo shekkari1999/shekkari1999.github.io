@@ -844,6 +844,49 @@
                 </div>
             </div>
 
+            <!-- Spotlight: Reasoning LLM -->
+            <div class="project-spotlight">
+                <div class="spotlight-top">
+                    <h3 style="color: #c96b30;">Building a Reasoning LLM from Scratch</h3>
+                    <span class="project-label">New</span>
+                </div>
+                <div class="spotlight-body">
+                    <div class="spotlight-text">
+                        <p>Implemented the complete post-training pipeline to turn a base LLM into a reasoning model. Covers inference-time scaling, self-refinement, and reinforcement learning with verifiable rewards (GRPO). No TRL, no alignment libraries. Inspired by <strong style="color:#2d2926;">DeepSeek-R1</strong>.</p>
+                        <ul class="detail-list">
+                            <li><strong>Inference engine:</strong> Custom text generation with <strong>KV-cache</strong>, temperature/top-p sampling, and <strong>torch.compile</strong> optimization</li>
+                            <li><strong>Evaluation harness:</strong> Math verifier with <strong>SymPy</strong> symbolic equivalence checking, structured answer extraction, and <strong>GSM8K/MATH</strong> benchmarking</li>
+                            <li><strong>Inference-time scaling:</strong> Chain-of-thought prompting, <strong>self-consistency</strong> via majority voting (N=10), and systematic temperature analysis</li>
+                            <li><strong>Self-refinement:</strong> Iterative generate-score-critique loop using token <strong>log-probability</strong> confidence scoring</li>
+                            <li><strong>GRPO from scratch:</strong> Full RL pipeline: rollout sampling, <strong>group-relative advantages</strong>, clipped policy gradient with <strong>KL penalty</strong>, multi-epoch training with checkpointing</li>
+                        </ul>
+                        <div class="spotlight-footer">
+                            <a href="https://github.com/shekkari1999" target="_blank" class="github-btn"><i class="fab fa-github"></i> View on GitHub</a>
+                            <span style="font-size:0.82em; color:#888;">Evaluated on <strong style="color:#2d2926;">GSM8K &amp; MATH</strong> benchmarks &middot; Runs on single GPU</span>
+                        </div>
+                    </div>
+                    <div class="spotlight-sidebar">
+                        <div class="spotlight-stack">
+                            <div class="stack-item"><i class="fab fa-python"></i> Python</div>
+                            <div class="stack-item"><i class="fas fa-fire"></i> PyTorch</div>
+                            <div class="stack-item"><i class="fas fa-cubes"></i> HuggingFace</div>
+                            <div class="stack-item"><i class="fas fa-square-root-alt"></i> SymPy</div>
+                            <div class="stack-item"><i class="fas fa-chart-line"></i> W&amp;B</div>
+                            <div class="stack-item"><i class="fas fa-microchip"></i> CUDA</div>
+                        </div>
+                        <div class="sidebar-label">Training Pipeline</div>
+                        <div class="spotlight-pipeline">
+                            <span class="pipeline-step">Base Model</span>
+                            <span class="pipeline-step">Evaluate</span>
+                            <span class="pipeline-step">CoT + Sampling</span>
+                            <span class="pipeline-step">Self-Refine</span>
+                            <span class="pipeline-step">GRPO Train</span>
+                            <span class="pipeline-step">Reasoning LLM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <a href="projects.html" class="view-all">View All Projects <i class="fas fa-arrow-right"></i></a>
         </section>
 

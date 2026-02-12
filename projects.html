@@ -364,8 +364,6 @@
                 <p class="cat-desc">Built multi-step agents, RAG pipelines, and LLM-powered apps that solve real problems</p>
                 <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
                     <span>AI Agent Framework</span>
-                    <span>Customer Support</span>
-                    <span>Multimodal RAG</span>
                     <span>Resume Analyzer</span>
                 </div>
             </div>
@@ -405,6 +403,17 @@
             </div>
             <i class="fas fa-arrow-down cat-arrow"></i>
         </a>
+        <a href="#reasoning" class="category-card">
+            <span class="cat-num">05</span>
+            <div class="cat-info">
+                <h3>Teaching a Model to Reason</h3>
+                <p class="cat-desc">Built the full post-training pipeline to turn a base LLM into a reasoning model using GRPO</p>
+                <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
+                    <span>Reasoning LLM from Scratch</span>
+                </div>
+            </div>
+            <i class="fas fa-arrow-down cat-arrow"></i>
+        </a>
     </div>
 
     <!-- ── Agentic AI & RAG ── -->
@@ -435,56 +444,17 @@
         <div class="project-card">
             <div class="card-header">
                 <div class="card-header-left">
-                    <h3>Customer Support Application</h3>
-                    <div class="card-tags">
-                        <span>LangChain</span><span>OpenAI</span><span>FAISS</span><span>RAG</span><span>Azure ML</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <p>Support teams were spending hours manually categorizing tickets and writing responses, leading to slow resolution times and inconsistent quality.</p>
-                <p>Built an LLM-powered pipeline with LangChain and OpenAI embeddings, FAISS vector database for knowledge retrieval, and deployed on Azure ML for scalability.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Automated full ticket workflow &middot; Sentiment-aware responses &middot; Production deployment on Azure</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999/customer-support" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
-        </div>
-
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>Multimodal RAG Application</h3>
-                    <div class="card-tags">
-                        <span>AWS Bedrock</span><span>Claude</span><span>FAISS</span><span>LangChain</span><span>Python</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <p>Restaurant recommendations that only use text reviews miss important visual context &mdash; what the food actually looks like matters to people choosing where to eat.</p>
-                <p>Integrated AWS Bedrock with Claude-Sonnet for multimodal understanding, FAISS vector database for efficient retrieval across both text and image embeddings.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Personalized recommendations combining visual and textual signals</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999/restaurent-app" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
-        </div>
-
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
                     <h3>AI Resume Analyzer</h3>
                     <div class="card-tags">
-                        <span>OpenAI</span><span>Embeddings</span><span>Azure ML</span><span>Python</span><span>NLP</span>
+                        <span>OpenAI</span><span>Embeddings</span><span>Gradio</span><span>Python</span>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p>Job seekers lack objective feedback on how well their resume matches target roles, leading to missed opportunities and generic applications.</p>
-                <p>Used OpenAI embeddings for semantic similarity scoring between resumes and job descriptions, LLM-powered feedback generation, deployed on Azure ML for secure cloud access.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Embedding-based job matching &middot; Actionable suggestions &middot; Enterprise deployment on Azure</span></p>
+                <p>A fun weekend project. Upload a resume and a job description, get an embedding-based match score and LLM-generated feedback on what to improve.</p>
             </div>
             <div class="card-footer">
+                <a href="https://huggingface.co/spaces/shekkari21/resume-analyzer" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
                 <a href="https://github.com/shekkari1999/resume-analyzer/tree/main/Code%2BFolder/src" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
             </div>
         </div>
@@ -511,6 +481,7 @@
                 <p><span class="card-result"><i class="fas fa-check"></i> Base &rarr; Chat &rarr; Function Calling pipeline &middot; LoRA adapters for each stage &middot; Runs on single GPU</span></p>
             </div>
             <div class="card-footer">
+                <a href="https://huggingface.co/spaces/shekkari21/qwen3b-finetune" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
                 <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
             </div>
         </div>
@@ -582,6 +553,32 @@
             </div>
             <div class="card-footer">
                 <a href="https://github.com/shekkari1999/DiffusionSR" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Reasoning ── -->
+    <div class="section-group" id="reasoning">
+        <div class="section-label">Teaching a Model to Reason</div>
+    </div>
+    <div class="project-list">
+        <div class="project-card">
+            <div class="card-header">
+                <div class="card-header-left">
+                    <h3>Building a Reasoning LLM from Scratch</h3>
+                    <div class="card-tags">
+                        <span>PyTorch</span><span>GRPO</span><span>SymPy</span><span>Hugging Face</span><span>CUDA</span><span>W&amp;B</span>
+                    </div>
+                </div>
+                <span class="card-label">New</span>
+            </div>
+            <div class="card-body">
+                <p>Models like DeepSeek-R1 and OpenAI o1 show that reasoning ability emerges through deliberate post-training, but these pipelines are proprietary and poorly documented.</p>
+                <p>Implemented the complete post-training pipeline to turn a base LLM (Qwen-2.5) into a reasoning model. Built a custom inference engine with KV-cache and temperature/top-p sampling. Created a math evaluation harness with SymPy-based symbolic equivalence checking. Implemented inference-time scaling (chain-of-thought, self-consistency via majority voting, self-refinement with log-probability scoring). Trained the model using GRPO reinforcement learning from scratch: rollout sampling, group-relative advantage normalization, clipped policy gradient with KL penalty.</p>
+                <p><span class="card-result"><i class="fas fa-check"></i> Evaluated on GSM8K &amp; MATH benchmarks &middot; GRPO from raw PyTorch (no TRL) &middot; Runs on single GPU</span></p>
+            </div>
+            <div class="card-footer">
+                <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
             </div>
         </div>
     </div>
