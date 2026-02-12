@@ -76,120 +76,48 @@
             font-size: 0.95em;
         }
 
-        /* ── Category Overview ── */
-        .category-overview {
+        /* ── Stacked Groups ── */
+        .stacked-groups {
             max-width: 1100px;
             margin: 32px auto 0;
             padding: 0 24px;
             display: flex;
             flex-direction: column;
-            gap: 0;
+            gap: 48px;
         }
-        .category-card {
+        .stack-group {
+            position: relative;
+        }
+        .stack-header {
             display: flex;
             align-items: center;
-            gap: 24px;
-            text-decoration: none;
-            color: inherit;
-            padding: 20px 28px;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            position: relative;
-            overflow: hidden;
-            transition: background 0.3s, padding-left 0.3s;
+            gap: 16px;
+            margin-bottom: 20px;
         }
-        .category-card:first-child { border-top: 1px solid rgba(0,0,0,0.06); }
-        .category-card:hover {
-            background: rgba(255,255,255,0.7);
-            padding-left: 36px;
-        }
-        .cat-num {
-            font-size: 3.2em;
+        .stack-num {
+            font-size: 2.4em;
             font-weight: 800;
-            color: rgba(201,107,48,0.12);
+            color: rgba(201,107,48,0.15);
             line-height: 1;
-            min-width: 70px;
-            text-align: center;
-            transition: color 0.3s;
             font-variant-numeric: tabular-nums;
         }
-        .category-card:hover .cat-num { color: rgba(201,107,48,0.28); }
-        .cat-info { flex: 1; min-width: 0; }
-        .cat-info h3 {
-            font-size: 1.15em;
+        .stack-title {
+            font-size: 1.2em;
             font-weight: 700;
             color: #2d2926;
-            margin-bottom: 4px;
-            transition: color 0.2s;
         }
-        .category-card:hover .cat-info h3 { color: #c96b30; }
-        .cat-desc {
+        .stack-desc {
             font-size: 0.82em;
             color: #999;
             margin-top: 2px;
         }
-        .cat-projects {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-        .cat-projects-label {
-            font-size: 0.7em;
-            font-weight: 600;
-            color: #bbb;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-right: 2px;
-        }
-        .cat-projects span {
-            font-size: 0.75em;
-            color: #999;
-            background: rgba(0,0,0,0.03);
-            padding: 2px 10px;
-            border-radius: 50px;
-            transition: background 0.2s, color 0.2s;
-        }
-        .category-card:hover .cat-projects span {
-            background: rgba(201,107,48,0.08);
-            color: #b85d28;
-        }
-        .cat-arrow {
-            font-size: 1.2em;
-            color: #ccc;
-            transition: color 0.2s, transform 0.3s;
-            flex-shrink: 0;
-        }
-        .category-card:hover .cat-arrow {
-            color: #c96b30;
-            transform: translateY(3px);
-        }
-
-        /* ── Section Label ── */
-        .section-group {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        .section-label {
-            font-size: 0.78em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #aaa;
-            margin-top: 40px;
-            margin-bottom: 16px;
-            padding-left: 4px;
-        }
-
-        /* ── Project Cards ── */
-        .project-list {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
+        .stack-cards {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
+
+        /* ── Project Cards ── */
         .project-card {
             background: #fff;
             border: 1px solid #e8e8e8;
@@ -204,7 +132,6 @@
             transform: translateY(0);
         }
         .project-card:hover {
-            transform: translateY(-4px);
             box-shadow: 0 10px 28px rgba(0,0,0,0.08);
         }
 
@@ -329,8 +256,6 @@
             }
             .nav-links a { width: 100%; text-align: center; }
             .nav-links.active { display: flex; }
-            .category-card { padding: 16px 20px; gap: 16px; }
-            .cat-num { font-size: 2.2em; min-width: 48px; }
             .card-header { flex-direction: column; }
         }
     </style>
@@ -355,232 +280,184 @@
         <p>What I built, how I built it, and what it achieved.</p>
     </div>
 
-    <!-- ── Category Overview ── -->
-    <div class="category-overview">
-        <a href="#agentic" class="category-card">
-            <span class="cat-num">01</span>
-            <div class="cat-info">
-                <h3>Agents that Reason &amp; Retrieve</h3>
-                <p class="cat-desc">Built multi-step agents, RAG pipelines, and LLM-powered apps that solve real problems</p>
-                <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
-                    <span>AI Agent Framework</span>
-                    <span>Resume Analyzer</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-down cat-arrow"></i>
-        </a>
-        <a href="#finetuning" class="category-card">
-            <span class="cat-num">02</span>
-            <div class="cat-info">
-                <h3>Teaching Models New Tricks</h3>
-                <p class="cat-desc">Took base models and LoRA fine-tuned them for chat, tool use, and code review</p>
-                <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
-                    <span>Qwen 3B Chat + Function Calling</span>
-                    <span>Code Reviewer</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-down cat-arrow"></i>
-        </a>
-        <a href="#inference" class="category-card">
-            <span class="cat-num">03</span>
-            <div class="cat-info">
-                <h3>Serving LLMs from Scratch</h3>
-                <p class="cat-desc">Built a mini inference engine from scratch — tokenization, KV-cache, batching, the works</p>
-                <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
-                    <span>Mini Inference Engine</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-down cat-arrow"></i>
-        </a>
-        <a href="#deeplearning" class="category-card">
-            <span class="cat-num">04</span>
-            <div class="cat-info">
-                <h3>From Paper to Code</h3>
-                <p class="cat-desc">Implemented a diffusion-based super-resolution model from the ground up</p>
-                <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
-                    <span>Image Super Resolution</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-down cat-arrow"></i>
-        </a>
-        <a href="#reasoning" class="category-card">
-            <span class="cat-num">05</span>
-            <div class="cat-info">
-                <h3>Teaching a Model to Reason</h3>
-                <p class="cat-desc">Built the full post-training pipeline to turn a base LLM into a reasoning model using GRPO</p>
-                <div class="cat-projects"><span class="cat-projects-label">Projects:</span>
-                    <span>Reasoning LLM from Scratch</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-down cat-arrow"></i>
-        </a>
-    </div>
+    <!-- ── Stacked Groups ── -->
+    <div class="stacked-groups">
 
-    <!-- ── Agentic AI & RAG ── -->
-    <div class="section-group" id="agentic">
-        <div class="section-label">Agents that Reason &amp; Retrieve</div>
-    </div>
-    <div class="project-list">
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>AI Agent Framework</h3>
-                    <div class="card-tags">
-                        <span>Python</span><span>OpenAI</span><span>MCP</span><span>Pydantic</span><span>LiteLLM</span><span>FastAPI</span>
+        <!-- 01 Built from Scratch -->
+        <div class="stack-group" id="from-scratch">
+            <div class="stack-header">
+                <span class="stack-num">01</span>
+                <div>
+                    <div class="stack-title">Built from Scratch</div>
+                    <div class="stack-desc">Agents, reasoning models, inference engines, and apps built from the ground up</div>
+                </div>
+            </div>
+            <div class="stack-cards">
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>AI Agent Framework</h3>
+                            <div class="card-tags">
+                                <span>Python</span><span>OpenAI</span><span>MCP</span><span>Pydantic</span><span>LiteLLM</span><span>FastAPI</span>
+                            </div>
+                        </div>
+                        <span class="card-label">New</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Complex real-world tasks need multi-step reasoning that single LLM calls can't handle &mdash; they need tool use, memory, and the ability to decompose problems.</p>
+                        <p>Designed a multi-step reasoning loop with OpenAI function calling, MCP integration for external tool servers, Pydantic schemas for structured outputs, and sliding-window memory with compaction for long conversations.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> Evaluated on GAIA benchmark &middot; Web chat interface &middot; Extensible tool registration</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://huggingface.co/spaces/shekkari21/agent-from-scratch" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
+                        <a href="https://github.com/shekkari1999/Agents" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
                     </div>
                 </div>
-                <span class="card-label">New</span>
-            </div>
-            <div class="card-body">
-                <p>Complex real-world tasks need multi-step reasoning that single LLM calls can't handle &mdash; they need tool use, memory, and the ability to decompose problems.</p>
-                <p>Designed a multi-step reasoning loop with OpenAI function calling, MCP integration for external tool servers, Pydantic schemas for structured outputs, and sliding-window memory with compaction for long conversations.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Evaluated on GAIA benchmark &middot; Web chat interface &middot; Extensible tool registration</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999/Agents" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
-        </div>
 
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>AI Resume Analyzer</h3>
-                    <div class="card-tags">
-                        <span>OpenAI</span><span>Embeddings</span><span>Gradio</span><span>Python</span>
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>Building a Reasoning LLM from Scratch</h3>
+                            <div class="card-tags">
+                                <span>PyTorch</span><span>GRPO</span><span>SymPy</span><span>Hugging Face</span><span>CUDA</span><span>W&amp;B</span>
+                            </div>
+                        </div>
+                        <span class="card-label">New</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Models like DeepSeek-R1 and OpenAI o1 show that reasoning ability emerges through deliberate post-training, but these pipelines are proprietary and poorly documented.</p>
+                        <p>Implemented the complete post-training pipeline to turn a base LLM (Qwen-2.5) into a reasoning model. Built a custom inference engine with KV-cache and temperature/top-p sampling. Created a math evaluation harness with SymPy-based symbolic equivalence checking. Implemented inference-time scaling (chain-of-thought, self-consistency via majority voting, self-refinement with log-probability scoring). Trained the model using GRPO reinforcement learning from scratch: rollout sampling, group-relative advantage normalization, clipped policy gradient with KL penalty.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> Evaluated on GSM8K &amp; MATH benchmarks &middot; GRPO from raw PyTorch (no TRL) &middot; Runs on single GPU</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>Mini Inference Engine</h3>
+                            <div class="card-tags">
+                                <span>Python</span><span>PyTorch</span><span>CUDA</span><span>KV Cache</span><span>Quantization</span>
+                            </div>
+                        </div>
+                        <span class="card-label">New</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Commercial inference engines like vLLM and TGI are powerful but opaque &mdash; understanding how LLM serving actually works requires building one from the ground up.</p>
+                        <p>Built a mini inference engine from scratch covering the full serving stack: tokenization, KV-cache management, batching strategies, and basic quantization. Designed to demystify what happens between receiving a prompt and streaming back tokens.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> End-to-end from-scratch implementation &middot; KV-cache &amp; batching &middot; Deep understanding of LLM serving internals</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>AI Resume Analyzer</h3>
+                            <div class="card-tags">
+                                <span>OpenAI</span><span>Embeddings</span><span>Gradio</span><span>Python</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>A fun weekend project. Upload a resume and a job description, get an embedding-based match score and LLM-generated feedback on what to improve.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://huggingface.co/spaces/shekkari21/resume-analyzer" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
+                        <a href="https://github.com/shekkari1999/resume-analyzer/tree/main/Code%2BFolder/src" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <p>A fun weekend project. Upload a resume and a job description, get an embedding-based match score and LLM-generated feedback on what to improve.</p>
-            </div>
-            <div class="card-footer">
-                <a href="https://huggingface.co/spaces/shekkari21/resume-analyzer" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
-                <a href="https://github.com/shekkari1999/resume-analyzer/tree/main/Code%2BFolder/src" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
         </div>
-    </div>
 
-    <!-- ── Model Training & Finetuning ── -->
-    <div class="section-group" id="finetuning">
-        <div class="section-label">Teaching Models New Tricks</div>
-    </div>
-    <div class="project-list">
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>Qwen 3B &mdash; Chat &amp; Function Calling Finetuning</h3>
-                    <div class="card-tags">
-                        <span>PyTorch</span><span>LoRA</span><span>Unsloth</span><span>Hugging Face</span><span>QLoRA</span>
-                    </div>
+        <!-- 02 Finetuning Open-Source Models -->
+        <div class="stack-group" id="finetuning">
+            <div class="stack-header">
+                <span class="stack-num">02</span>
+                <div>
+                    <div class="stack-title">Finetuning Open-Source Models</div>
+                    <div class="stack-desc">Took base open-source models and LoRA fine-tuned them for chat and tool use</div>
                 </div>
-                <span class="card-label">New</span>
             </div>
-            <div class="card-body">
-                <p>Base language models can generate text but lack the ability to hold conversations or call external tools &mdash; both critical for production AI applications.</p>
-                <p>Took the base Qwen 3B model and LoRA fine-tuned it in two stages: first on conversational data to give it chat capabilities, then on function-calling datasets to teach it structured tool use. Used QLoRA for memory-efficient training on consumer GPUs.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Base &rarr; Chat &rarr; Function Calling pipeline &middot; LoRA adapters for each stage &middot; Runs on single GPU</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://huggingface.co/spaces/shekkari21/qwen3b-finetune" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
-                <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
-        </div>
-
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>Code Reviewer</h3>
-                    <div class="card-tags">
-                        <span>PyTorch</span><span>LoRA</span><span>Docker</span><span>ClearML</span><span>Distillation</span>
+            <div class="stack-cards">
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>Qwen 3B &mdash; Chat &amp; Function Calling Finetuning</h3>
+                            <div class="card-tags">
+                                <span>PyTorch</span><span>LoRA</span><span>Unsloth</span><span>Hugging Face</span><span>QLoRA</span>
+                            </div>
+                        </div>
+                        <span class="card-label">New</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Base language models can generate text but lack the ability to hold conversations or call external tools &mdash; both critical for production AI applications.</p>
+                        <p>Took the base Qwen 3B model and LoRA fine-tuned it in two stages: first on conversational data to give it chat capabilities, then on function-calling datasets to teach it structured tool use. Used QLoRA for memory-efficient training on consumer GPUs.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> Base &rarr; Chat &rarr; Function Calling pipeline &middot; LoRA adapters for each stage &middot; Runs on single GPU</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://huggingface.co/spaces/shekkari21/qwen3b-finetune" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
+                        <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <p>Manual code review is slow and inconsistent. Large models can review code but are too expensive and heavy for production deployment.</p>
-                <p>LoRA fine-tuned a 220M parameter Microsoft model on 150k code samples, then distilled it down to 80M parameters. Containerized with Docker, tracked experiments with ClearML.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> 60% cost reduction via distillation &middot; Production-ready containerized APIs &middot; ClearML versioning</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999/MSML605CodeReviewer" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
         </div>
-    </div>
 
-    <!-- ── AI Inference ── -->
-    <div class="section-group" id="inference">
-        <div class="section-label">Serving LLMs from Scratch</div>
-    </div>
-    <div class="project-list">
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>Mini Inference Engine</h3>
-                    <div class="card-tags">
-                        <span>Python</span><span>PyTorch</span><span>CUDA</span><span>KV Cache</span><span>Quantization</span>
-                    </div>
-                </div>
-                <span class="card-label">New</span>
-            </div>
-            <div class="card-body">
-                <p>Commercial inference engines like vLLM and TGI are powerful but opaque &mdash; understanding how LLM serving actually works requires building one from the ground up.</p>
-                <p>Built a mini inference engine from scratch covering the full serving stack: tokenization, KV-cache management, batching strategies, and basic quantization. Designed to demystify what happens between receiving a prompt and streaming back tokens.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> End-to-end from-scratch implementation &middot; KV-cache &amp; batching &middot; Deep understanding of LLM serving internals</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ── Deep Learning ── -->
-    <div class="section-group" id="deeplearning">
-        <div class="section-label">From Paper to Code</div>
-    </div>
-    <div class="project-list">
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>Image Super Resolution (ResShift)</h3>
-                    <div class="card-tags">
-                        <span>PyTorch</span><span>Diffusion Models</span><span>Swin Transformer</span><span>U-Net</span>
-                    </div>
+        <!-- 03 Paper Implementations -->
+        <div class="stack-group" id="papers">
+            <div class="stack-header">
+                <span class="stack-num">03</span>
+                <div>
+                    <div class="stack-title">Paper Implementations</div>
+                    <div class="stack-desc">Implemented knowledge distillation and diffusion-based super-resolution from research papers</div>
                 </div>
             </div>
-            <div class="card-body">
-                <p>Standard diffusion-based super-resolution requires hundreds of denoising steps, making it too slow for practical use. The ResShift paper offers an efficient alternative.</p>
-                <p>Implemented from scratch: U-Net with 4-stage encoder-decoder and Swin Transformer bottleneck, residual shifting mechanism reducing steps to just 15, sinusoidal time conditioning, trained on DIV2K dataset.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Competitive PSNR/SSIM/LPIPS &middot; 15 diffusion steps &middot; Full from-scratch implementation</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999/DiffusionSR" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ── Reasoning ── -->
-    <div class="section-group" id="reasoning">
-        <div class="section-label">Teaching a Model to Reason</div>
-    </div>
-    <div class="project-list">
-        <div class="project-card">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <h3>Building a Reasoning LLM from Scratch</h3>
-                    <div class="card-tags">
-                        <span>PyTorch</span><span>GRPO</span><span>SymPy</span><span>Hugging Face</span><span>CUDA</span><span>W&amp;B</span>
+            <div class="stack-cards">
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>Code Reviewer (Knowledge Distillation)</h3>
+                            <div class="card-tags">
+                                <span>PyTorch</span><span>LoRA</span><span>Distillation</span><span>Docker</span><span>ClearML</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Manual code review is slow and inconsistent. Large models can review code but are too expensive and heavy for production deployment.</p>
+                        <p>LoRA fine-tuned a 220M parameter Microsoft model on 150k code samples, then distilled it down to 80M parameters. Containerized with Docker, tracked experiments with ClearML.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> 60% cost reduction via distillation &middot; Production-ready containerized APIs &middot; ClearML versioning</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/shekkari1999/MSML605CodeReviewer" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
                     </div>
                 </div>
-                <span class="card-label">New</span>
-            </div>
-            <div class="card-body">
-                <p>Models like DeepSeek-R1 and OpenAI o1 show that reasoning ability emerges through deliberate post-training, but these pipelines are proprietary and poorly documented.</p>
-                <p>Implemented the complete post-training pipeline to turn a base LLM (Qwen-2.5) into a reasoning model. Built a custom inference engine with KV-cache and temperature/top-p sampling. Created a math evaluation harness with SymPy-based symbolic equivalence checking. Implemented inference-time scaling (chain-of-thought, self-consistency via majority voting, self-refinement with log-probability scoring). Trained the model using GRPO reinforcement learning from scratch: rollout sampling, group-relative advantage normalization, clipped policy gradient with KL penalty.</p>
-                <p><span class="card-result"><i class="fas fa-check"></i> Evaluated on GSM8K &amp; MATH benchmarks &middot; GRPO from raw PyTorch (no TRL) &middot; Runs on single GPU</span></p>
-            </div>
-            <div class="card-footer">
-                <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
+
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>Image Super Resolution (ResShift)</h3>
+                            <div class="card-tags">
+                                <span>PyTorch</span><span>Diffusion Models</span><span>Swin Transformer</span><span>U-Net</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Standard diffusion-based super-resolution requires hundreds of denoising steps, making it too slow for practical use. The ResShift paper offers an efficient alternative.</p>
+                        <p>Implemented from scratch: U-Net with 4-stage encoder-decoder and Swin Transformer bottleneck, residual shifting mechanism reducing steps to just 15, sinusoidal time conditioning, trained on DIV2K dataset.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> Competitive PSNR/SSIM/LPIPS &middot; 15 diffusion steps &middot; Full from-scratch implementation</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://huggingface.co/spaces/shekkari21/DiffusionSR" target="_blank" class="github-link" style="background:#FFD21E; color:#000; border-color:#FFD21E;"><i class="fas fa-play"></i> Try It Live</a>
+                        <a href="https://github.com/shekkari1999/DiffusionSR" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 
     <footer class="footer">
