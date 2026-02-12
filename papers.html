@@ -3,205 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papers | Akhil Shekkari</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Achievements | Akhil Shekkari</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #e3f2fd, #e1bee7);
+            background: linear-gradient(160deg, #fffaf5 0%, #f0ece8 50%, #ebedee 100%);
+            min-height: 100vh;
             color: #333;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        header {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            text-align: center;
-            border-radius: 12px;
-            margin: 20px auto;
-            max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            color: #007aff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        /* ── Nav ── */
+        .navbar {
+            background: transparent;
+            padding: 16px 40px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .nav-links { display: flex; gap: 10px; list-style: none; }
+        .nav-links a {
+            color: #2d2926; text-decoration: none; font-size: 0.88em; font-weight: 600;
+            padding: 8px 18px; border: 2px solid #2d2926; border-radius: 50px; transition: all 0.2s;
+        }
+        .nav-links a:hover { background: #2d2926; color: #fff; }
+        .mobile-menu-toggle { display: none; flex-direction: column; cursor: pointer; padding: 10px; gap: 5px; }
+        .mobile-menu-toggle span { width: 24px; height: 2px; background: #2d2926; transition: 0.3s; }
+
+        /* ── Back Link ── */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 16px 24px 0;
+            color: #2d2926;
             text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            z-index: 1000;
+            font-size: 0.9em;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #c96b30; }
+
+        /* ── Page Header ── */
+        .page-header {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px 24px 0;
+        }
+        .page-header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #2d2926;
+            display: inline-block;
+            border-bottom: 3px solid #c96b30;
+            padding-bottom: 4px;
         }
 
-        .back-arrow:hover {
-            transform: translateX(-5px);
-            background: #007aff;
-            color: white;
-        }
-
+        /* ── Papers ── */
         .papers-container {
             max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 32px auto;
+            padding: 0 24px;
         }
-
         .paper-card {
-            background: rgba(255, 255, 255, 0.7);
+            background: #fff;
+            border: 1px solid #e8e8e8;
             border-radius: 12px;
-            padding: 25px;
+            padding: 28px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .paper-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
-
         .paper-title {
-            color: #000000;
-            font-size: 1.4em;
-            margin-bottom: 15px;
+            color: #2d2926;
+            font-size: 1.3em;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .paper-title i {
-            color: #000000;
-        }
-
-        .paper-details {
-            color: #666;
-            line-height: 1.6;
-        }
-
+        .paper-title i { color: #c96b30; }
+        .paper-details { color: #666; line-height: 1.6; }
         .paper-meta {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e8e8e8;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9em;
-            color: #666;
+            font-size: 0.88em;
+            color: #999;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            margin-top: 40px;
-            border-radius: 12px;
-            color: #333;
-            font-size: 14px;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        footer a {
-            color: #007aff;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        footer a:hover {
-            color: #0056b3;
-        }
-
         .button-group {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 16px;
         }
-
         .view-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 0.9em;
+            transition: all 0.2s;
         }
-
-        .paper-btn {
-            background: #007aff;
-            color: white;
-        }
-
-        .cert-btn {
-            background: #28a745;
-            color: white;
-        }
-
+        .paper-btn { background: #c96b30; color: white; }
+        .paper-btn:hover { background: #b85d28; }
+        .cert-btn { background: #0d9488; color: white; }
+        .cert-btn:hover { background: #0b7c72; }
         .view-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .paper-btn:hover {
-            background: #0056b3;
+        /* ── Footer ── */
+        .footer {
+            background: #2d2926;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px 0;
+            margin-top: 60px;
+            font-size: 0.88em;
         }
+        .footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+        .footer a:hover { color: #fff; }
 
-        .cert-btn:hover {
-            background: #218838;
-        }
-
-        /* Add certification badge styling */
-        .certification-badge {
-            display: none;
-        }
-
-        .certification-badge a {
-            display: inline-block;
-            text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-
-        .certification-badge a:hover {
-            transform: scale(1.05);
-        }
-
-        .badge-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .verify-text {
-            display: block;
-            color: #007aff;
-            font-size: 0.9em;
-            margin-top: 8px;
-        }
-
-        .verify-text:hover {
-            text-decoration: underline;
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; }
+            .mobile-menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 56px; left: 0; right: 0;
+                background: rgba(255,250,245,0.97);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            }
+            .nav-links a { width: 100%; text-align: center; }
+            .nav-links.active { display: flex; }
+            .button-group { flex-direction: column; }
+            .paper-meta { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="back-arrow">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1>Published Papers</h1>
-    </header>
+    <nav class="navbar">
+        <div class="mobile-menu-toggle" id="mobile-toggle">
+            <span></span><span></span><span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="blogs.html">Blog</a></li>
+            <li><a href="timeline.html">Experience</a></li>
+            <li><a href="Akhil_Shekkari_resume.pdf" target="_blank">Resume</a></li>
+        </ul>
+    </nav>
+
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    <div class="page-header">
+        <h1>Published Papers & Certifications</h1>
+    </div>
 
     <div class="papers-container">
         <div class="paper-card">
@@ -226,7 +213,6 @@
             </div>
         </div>
 
-        <!-- Snowflake Certification Card -->
         <div class="paper-card">
             <h2 class="paper-title">
                 <i class="fas fa-snowflake"></i>
@@ -236,8 +222,8 @@
                 <p>Achieved Snowflake SnowPro Core Certification, demonstrating expertise in Snowflake's cloud data platform and its core functionalities.</p>
             </div>
             <div class="button-group">
-                <a href="https://www.credly.com/badges/040aa61d-af5a-4413-b867-77e15c04423e/linked_in?t=ryuqci" 
-                   class="view-btn cert-btn" 
+                <a href="https://www.credly.com/badges/040aa61d-af5a-4413-b867-77e15c04423e/linked_in?t=ryuqci"
+                   class="view-btn cert-btn"
                    target="_blank">
                     <i class="fas fa-certificate"></i> View Certification
                 </a>
@@ -245,8 +231,14 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
+    <footer class="footer">
+        <p>&copy; 2026 Akhil Shekkari &middot; <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
     </footer>
+
+    <script>
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
+        });
+    </script>
 </body>
-</html> 
+</html>

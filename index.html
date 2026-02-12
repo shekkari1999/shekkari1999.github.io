@@ -3,1566 +3,904 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akhil Shekkari | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
+    <title>Akhil Shekkari | AI Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #e3f2fd, #e1bee7);
+            background: linear-gradient(160deg, #fffaf5 0%, #f0ece8 50%, #ebedee 100%);
+            min-height: 100vh;
             color: #333;
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
         }
-        header {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 20px 40px;
+
+        /* ── Nav ── */
+        .navbar {
+            background: transparent;
+            padding: 16px 40px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            border-radius: 12px;
-            margin: 20px auto;
-            max-width: 1200px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
+            position: sticky;
+            top: 0;
             z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-        
-        /* Mobile Hamburger Menu */
+        .nav-name {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #2d2926;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: #2d2926;
+            text-decoration: none;
+            font-size: 0.88em;
+            font-weight: 600;
+            padding: 8px 18px;
+            border: 2px solid #2d2926;
+            border-radius: 50px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            background: #2d2926;
+            color: #fff;
+        }
+        .nav-links .nav-icon {
+            padding: 8px 12px;
+            font-size: 1em;
+        }
+        .nav-links .nav-icon-linkedin { border-color: #0A66C2; color: #0A66C2; }
+        .nav-links .nav-icon-linkedin:hover { background: #0A66C2; color: #fff; }
+        .nav-links .nav-icon-github { border-color: #24292e; color: #24292e; }
+        .nav-links .nav-icon-github:hover { background: #24292e; color: #fff; }
+
         .mobile-menu-toggle {
             display: none;
             flex-direction: column;
             cursor: pointer;
             padding: 10px;
-            z-index: 10000;
+            gap: 5px;
         }
-        
         .mobile-menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background: #007aff;
-            margin: 3px 0;
+            width: 24px;
+            height: 2px;
+            background: #2d2926;
             transition: 0.3s;
-            border-radius: 2px;
         }
-        
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
-        }
-        
-        .nav-menu {
+
+        /* ── Container ── */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 48px 0 24px;
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 40px;
         }
-        header h1 {
-            margin: 0;
+        .hero-text {
+            flex: 1;
+        }
+        .hero-text h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #2d2926;
+            line-height: 1.1;
+            display: inline-block;
+            border-bottom: 3px solid #c96b30;
+            padding-bottom: 4px;
+        }
+        .hero-subtitle {
+            font-size: 1.05em;
             font-weight: 600;
-            color: #4a4a4a;
+            color: #888;
+            margin-top: 8px;
+            letter-spacing: 0.02em;
         }
-        nav {
-            display: flex;
-            gap: 15px;
-        }
-        nav a {
-            color: #007aff;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        nav a:hover {
-            color: #0056b3;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0;
-        }
-        .section {
-            margin-bottom: 40px;
-            padding: 30px 40px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease;
-        }
-        .section h2 {
-            margin-top: 0;
-            font-weight: 600;
-            color: #333;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-        .section h2 i {
-            font-size: 1.2em;
-            color: #007aff;
-        }
-        .about-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            width: 100%;
+        .hero-text .tagline {
+            font-size: 0.92em;
+            color: #555;
             max-width: 100%;
-            box-sizing: border-box;
+            line-height: 1.85;
+            margin-top: 16px;
         }
-        
-        /* Desktop Layout - Full Width */
-        @media (min-width: 1024px) {
-            .about-content {
-                display: flex;
-                flex-direction: column;
-                gap: 30px;
-            }
-            
-            .profile-section {
-                display: flex;
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 30px;
-                margin-bottom: 20px;
-                padding: 20px;
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 15px;
-                backdrop-filter: blur(10px);
-                width: 100%;
-            }
-            
-            .profile-badges {
-                flex-direction: column;
-                width: auto;
-                margin-bottom: 0;
-                align-self: flex-start;
-            }
-            
-            .about-text {
-                width: 100%;
-            }
-            
-            .expertise-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .expertise-card {
-                padding: 20px;
-                margin-bottom: 15px;
-            }
-            
-            .intro-card {
-                padding: 20px;
-                margin-top: 20px;
-                width: 100%;
-            }
-            
-            .profile-section {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 15px;
-                margin: 10px 0;
-                padding: 15px;
-            }
-            
-            .profile-badges {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 8px;
-                width: 100%;
-                margin: 0;
-                justify-content: center;
-            }
-            
-            .profile-image {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .intro-title {
-                font-size: 1.2em;
-            }
-            
-            .intro-text {
-                font-size: 1em;
-            }
-            
+        .tagline .hl {
+            background: rgba(201,107,48,0.08);
+            border: 1px solid rgba(201,107,48,0.18);
+            padding: 2px 7px;
+            border-radius: 4px;
+            color: #b85d28;
+            font-weight: 600;
+            white-space: nowrap;
         }
-        .about-content img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            object-fit: cover;
-            border: 3px solid white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .hero-context {
+            margin-top: 16px;
+            font-size: 0.85em;
+            color: #777;
+            line-height: 1.7;
         }
-        .about-content img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        .hero-context span {
+            color: #555;
+            font-weight: 600;
         }
-        
-        /* New About Section Styles */
-        .profile-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin: 15px 0;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            border: 4px solid #007aff;
+
+        /* ── Featured Highlight ── */
+        .hero-featured {
+            width: 260px;
             flex-shrink: 0;
+            align-self: center;
         }
-        
-        .profile-badges {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 10px;
-            width: 100%;
-            margin: 0;
-            justify-content: center;
-            align-items: center;
+        .featured-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 14px;
+            padding: 22px 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: block;
+            color: inherit;
         }
-        
-        .badge {
+        .featured-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .featured-label {
+            font-size: 0.68em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #c96b30;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: 600;
-            text-align: center;
-            transition: transform 0.3s ease;
         }
-        
-        .badge:hover {
-            transform: translateY(-2px);
-        }
-        
-        .badge.ai-engineer {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .badge.contributor {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .badge.student {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .badge:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
-            background: linear-gradient(135deg, #2a5298 0%, #3d6bb3 100%);
-        }
-        
-        .about-text {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .intro-card {
-            background: transparent;
-            padding: 20px;
-            border-radius: 15px;
-            color: #000000 !important;
-            box-shadow: none;
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .intro-card * {
-            color: #000000 !important;
-        }
-        
-        .intro-title {
-            margin: 0 0 15px 0;
-            font-size: 1.4em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .intro-text {
-            margin: 0;
-            font-size: 1.1em;
-            line-height: 1.6;
-        }
-        
-        .expertise-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .expertise-card {
-            background: transparent;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: none;
-            transition: transform 0.3s ease;
-        }
-        
-        .expertise-card:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-        
-        .expertise-icon {
-            font-size: 2.5em;
-            color: #007aff;
-            margin-bottom: 15px;
-        }
-        
-        .expertise-card h4 {
-            margin: 0 0 10px 0;
-            color: #333;
-            font-size: 1.1em;
-        }
-        
-        .expertise-card p {
-            margin: 0;
-            color: #666;
+        .featured-label i {
             font-size: 0.9em;
-            line-height: 1.5;
         }
-        
-        .highlight-section {
-            margin: 20px 0;
-        }
-        
-        .highlight-card {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%);
-            padding: 25px;
-            border-radius: 16px;
-            border: 2px solid rgba(255, 193, 7, 0.3);
-            box-shadow: 0 6px 25px rgba(255, 193, 7, 0.15);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .highlight-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ffd700 0%, #ffa500 50%, #ff6b6b 100%);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .highlight-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .highlight-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(255, 193, 7, 0.25);
-            border-color: rgba(255, 193, 7, 0.5);
-        }
-        
-        .highlight-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .highlight-header i {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
-            color: white;
-            border-radius: 12px;
-            font-size: 1.3em;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .highlight-card:hover .highlight-header i {
-            transform: rotate(10deg) scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-        
-        .highlight-header h4 {
-            margin: 0;
-            color: #1e3c72;
-            font-size: 1.2em;
-            font-weight: 600;
-        }
-        
-        .highlight-card p {
-            margin: 0;
-            color: #555;
-            line-height: 1.7;
-            font-size: 1em;
-        }
-        
-        .highlight-card strong {
-            color: #1e3c72;
-            font-weight: 600;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .action-btn.primary {
-            background: #007aff;
-            color: white;
-        }
-        
-        .action-btn.primary:hover {
-            background: #0056b3;
-            box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
-        }
-        
-        .action-btn.secondary {
-            background: #000000;
-            color: white;
-        }
-        
-        .action-btn.secondary:hover {
-            background: #333333;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .action-btn.tertiary {
-            background: transparent;
-            color: #007aff;
-            border-color: #007aff;
-        }
-        
-        .action-btn.tertiary:hover {
-            background: #007aff;
-            color: white;
-        }
-        
-        /* Expertise Highlights */
-        .expertise-highlights {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .expertise-item {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border-radius: 16px;
-            border: 1px solid rgba(0, 122, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .expertise-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #007aff 0%, #00c9ff 100%);
-            transform: scaleY(0);
-            transform-origin: bottom;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .expertise-item:hover::before {
-            transform: scaleY(1);
-        }
-        
-        .expertise-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 122, 255, 0.15);
-            border-color: rgba(0, 122, 255, 0.3);
-        }
-        
-        .expertise-item-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .expertise-item i {
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
-            color: white !important;
-            border-radius: 12px;
-            font-size: 1.3em;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-        
-        .expertise-item i::before {
-            color: white !important;
-        }
-        
-        .expertise-item:hover i {
-            transform: rotate(10deg) scale(1.1);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-        
-        .expertise-item-title {
-            font-weight: 600;
-            font-size: 1.05em;
-            color: #1e3c72;
-            margin: 0;
-        }
-        
-        .expertise-item span {
-            color: #555;
+        .featured-card h3 {
             font-size: 0.95em;
-            line-height: 1.6;
-        }
-        
-        .expertise-item strong {
-            color: #1e3c72;
-            font-weight: 600;
-        }
-        
-        /* Full-width highlight section */
-        .highlight-section.full-width {
-            width: 100%;
-            max-width: 100%;
-            margin: 30px 0;
-            box-sizing: border-box;
-        }
-        
-        .highlight-section.full-width .highlight-card {
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            box-sizing: border-box;
-        }
-        
-        /* Ensure all about section elements are full-width on desktop */
-        @media (min-width: 1024px) {
-            .about-text {
-                width: 100%;
-            }
-            
-            .intro-card {
-                width: 100%;
-            }
-            
-            .highlight-section {
-                width: 100%;
-            }
-            
-            .action-buttons {
-                width: 100%;
-            }
-        }
-        
-        /* Research Interests Styles */
-        .research-interests {
-            margin: 40px 0 20px 0;
-        }
-        
-        .research-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            padding: 15px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .research-header i {
-            font-size: 1.5em;
-        }
-        
-        .research-header h3 {
-            margin: 0;
-            font-size: 1.3em;
-            font-weight: 600;
-        }
-        
-        .research-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .research-card {
-            padding: 30px 25px;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .research-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, currentColor, transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .research-card:hover::before {
-            opacity: 1;
-        }
-        
-        .research-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .research-card.reasoning {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #333;
-        }
-        
-        .research-card.safety {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #333;
-        }
-        
-        .research-card.performance {
-            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
-            color: #333;
-        }
-        
-        .research-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-        
-        .research-card:hover .research-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        .research-card.reasoning .research-icon {
-            color: #ff6b6b;
-        }
-        
-        .research-card.safety .research-icon {
-            color: #4ecdc4;
-        }
-        
-        .research-card.performance .research-icon {
-            color: #45b7d1;
-        }
-        
-        .research-card h4 {
-            margin: 0 0 12px 0;
-            font-size: 1.2em;
-            font-weight: 600;
-        }
-        
-        .research-card p {
-            margin: 0;
-            font-size: 0.95em;
-            line-height: 1.5;
-            opacity: 0.9;
-        }
-        .skills {
-            text-align: center;
-            padding: 20px;
-        }
-        .skills .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        /* Desktop layout: 2 rows with 3 blocks per row */
-        @media (min-width: 1024px) {
-            .skills .skill-grid {
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(2, 1fr);
-            }
-            
-            .skill {
-                min-height: 180px;
-            }
-            
-            .research-card {
-                min-height: 180px;
-            }
-        }
-        
-        .skill {
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .skill {
-            background: linear-gradient(135deg, #fff7e6, #ffe4c4);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 10px 0;
-        }
-        .skill:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-        .skill h3 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            font-size: 1.2em;
-            color: #007aff;
-        }
-        .skill h3 i {
-            font-size: 1em;
-            display: flex;
-            align-items: center;
-        }
-        .skill p {
-            font-size: 0.95em;
-            color: #555;
-        }
-        .skill i {
-            font-size: 3em;
-            color: #007aff;
+            font-weight: 700;
+            color: #2d2926;
+            line-height: 1.4;
             margin-bottom: 10px;
         }
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            margin-top: 40px;
-            border-radius: 12px;
-            color: #333;
-            font-size: 14px;
+        .featured-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
         }
-        footer a {
-            color: #007aff;
+        .featured-stat .stat-num {
+            font-size: 1.5em;
+            font-weight: 800;
+            color: #c96b30;
+            line-height: 1;
+        }
+        .featured-stat .stat-text {
+            font-size: 0.75em;
+            color: #888;
+            line-height: 1.3;
+        }
+        .featured-link {
+            font-size: 0.78em;
+            font-weight: 600;
+            color: #0A66C2;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ── Section ── */
+        .section { padding: 28px 0; }
+        .section-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #2d2926;
+            margin-bottom: 16px;
+            display: inline-block;
+            border-bottom: 3px solid #c96b30;
+            padding-bottom: 4px;
+        }
+
+        /* ── Past Work Cards ── */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .work-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .work-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+        }
+        .work-card-header {
+            padding: 28px 28px 20px;
+            position: relative;
+        }
+        .work-card-header {
+            background: linear-gradient(135deg, #c96b30 0%, #d98b56 100%);
+        }
+        .work-card-header .work-company {
+            font-size: 0.78em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 6px;
+        }
+        .work-card-header .work-role {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.3;
+        }
+        .work-card-header .work-date {
+            font-size: 0.82em;
+            color: rgba(255,255,255,0.7);
+            margin-top: 8px;
+        }
+        .work-card-body {
+            padding: 24px 28px 28px;
+        }
+        .work-card-body p {
+            font-size: 0.93em;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .work-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .work-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff7f0;
+            border: 1px solid #ffe0c2;
+            border-radius: 8px;
+            padding: 8px 14px;
+        }
+        .work-stat .stat-num {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: #c96b30;
+        }
+        .work-stat .stat-label {
+            font-size: 0.78em;
+            color: #888;
+            line-height: 1.3;
+        }
+        .work-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .work-card-link:hover { color: #0A66C2; }
+        .work-card-link i { font-size: 0.9em; }
+
+        /* ── Featured Projects ── */
+        .project-spotlight {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .project-spotlight:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+        }
+        .spotlight-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .spotlight-top h3 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2d2926;
+        }
+        .spotlight-top h3 .accent {
+            color: #c96b30;
+        }
+        .spotlight-body {
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+        }
+        .spotlight-text {
+            flex: 1;
+        }
+        .spotlight-text p {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            background: rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 8px;
+            padding: 12px 16px;
+        }
+        .spotlight-text .detail-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .detail-list li {
+            font-size: 0.87em;
+            color: #777;
+            line-height: 1.6;
+            padding-left: 18px;
+            position: relative;
+        }
+        .detail-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 6px;
+            height: 6px;
+            background: #c96b30;
+            border-radius: 50%;
+        }
+        .detail-list li:nth-child(2)::before { background: #d98b56; }
+        .detail-list li:nth-child(3)::before { background: #b85d28; }
+        .detail-list li:nth-child(4)::before { background: #e8a06a; }
+        .detail-list li:nth-child(5)::before { background: #a04e1e; }
+        .detail-list li strong {
+            color: #1a5fb4;
+        }
+        .spotlight-pipeline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 100%;
+            background: #fff7f0;
+            border: 1px solid #ffe0c2;
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #b85d28;
+        }
+        .pipeline-step i { font-size: 0.85em; }
+        .pipeline-arrow {
+            color: #ccc;
+            font-size: 0.75em;
+        }
+        .spotlight-sidebar {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 200px;
+        }
+        .sidebar-label {
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+        }
+        .spotlight-stack {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .stack-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f7f7f7;
+            border-radius: 6px;
+            padding: 7px 12px;
+            font-size: 0.78em;
+            font-weight: 600;
+            color: #555;
+        }
+        .stack-item i { color: #c96b30; font-size: 0.9em; width: 14px; text-align: center; }
+        .spotlight-footer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 14px;
+        }
+        .project-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .project-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .project-label {
+            display: inline-block;
+            background: #c96b30;
+            color: #fff;
+            font-size: 0.7em;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .project-card h3 {
+            font-size: 1.1em;
+            color: #2d2926;
+            margin-bottom: 8px;
+        }
+        .project-card p {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .project-tags span {
+            background: #f0f0f0;
+            color: #555;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.78em;
+            font-weight: 500;
+        }
+        .project-link {
+            color: #b85d28;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.9em;
+            transition: color 0.2s;
         }
-        footer a:hover {
-            color: #0056b3;
+        .project-link:hover { color: #c96b30; text-decoration: underline; }
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #24292e;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
         }
+        .github-btn:hover {
+            background: #000;
+            transform: translateY(-1px);
+        }
+        .view-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            color: #2d2926;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95em;
+            transition: color 0.2s;
+        }
+        .view-all:hover { color: #c96b30; }
+
+
+        /* ── Blog Posts ── */
+        .blog-section {
+            background: rgba(255,255,255,0.45);
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 16px;
+            padding: 28px 24px;
+        }
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .blog-item {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 16px 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .blog-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .blog-item h4 {
+            font-size: 1em;
+            color: #2d2926;
+            margin-bottom: 4px;
+        }
+        .blog-item h4 a {
+            color: #2d2926;
+            text-decoration: none;
+        }
+        .blog-item h4 a:hover { color: #b85d28; }
+        .blog-item .blog-meta {
+            font-size: 0.85em;
+            color: #999;
+        }
+        .blog-item .blog-excerpt {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* ── Contact ── */
         .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
         }
         .contact-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 10px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.7);
+            background: #fff;
+            border: 1px solid #e8e8e8;
             border-radius: 12px;
+            padding: 12px 20px;
             text-decoration: none;
             color: #333;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.92em;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        .contact-item i {
-            font-size: 2em;
-            transition: transform 0.3s ease;
-        }
-        .contact-item:hover i {
-            transform: scale(1.2);
-        }
-        .skill-tags .tag {
-            padding: 8px 12px;
-            font-size: 0.85em;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            margin: 4px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            transition: all 0.3s ease;
-        }
-        .skill-tags .tag i {
-            font-size: 0.9em;
-            margin-right: 6px;
-            display: flex;
-            align-items: center;
-        }
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-            padding: 5px;
-        }
-        .tag:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        .skills .skill-grid {
-            gap: 20px;
-        }
-        /* Add these styles for specific nav link colors */
-        nav a.medium-link {
-            color: #000000;
-        }
+        .contact-item i { font-size: 1.2em; }
 
-        nav a.resume-link {
-            color: #DC3545;  /* Bootstrap-like red */
+        /* ── Footer ── */
+        .footer {
+            background: #2d2926;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px 0;
+            margin-top: 32px;
+            font-size: 0.88em;
         }
-
-        nav a.contact-link {
-            color: #FFC107;  /* Bootstrap-like yellow */
+        .footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
         }
+        .footer a:hover { color: #fff; }
 
-        /* Update hover states */
-        nav a.medium-link:hover {
-            color: #333333;
-        }
-
-        nav a.resume-link:hover {
-            color: #C82333;
-        }
-
-        nav a.contact-link:hover {
-            color: #D39E00;  /* Darker yellow on hover */
-        }
-
-        /* Add this with your other nav link colors */
-        nav a.projects-link {
-            color: #28A745;  /* Bootstrap-like green */
-        }
-
-        nav a.projects-link:hover {
-            color: #218838;  /* Darker green on hover */
-        }
-
-        /* Update the papers-link styling to violet */
-        nav a.papers-link {
-            color: #9400D3;  /* Keep the violet color */
-            transition: color 0.3s ease;
-        }
-
-        nav a.papers-link:hover {
-            color: #7B1FA2;  /* Keep the hover color */
-        }
-
-        /* Comprehensive Mobile Responsive Design */
-        @media (max-width: 768px) {
-            body {
-                padding: 0;
-                margin: 0;
+        /* ── Mobile ── */
+        @media (max-width: 900px) {
+            .project-row, .work-grid {
+                grid-template-columns: 1fr;
             }
-            
-            header {
-                padding: 15px 20px;
-                margin: 10px;
-                width: calc(100% - 20px);
+            .spotlight-body {
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
             }
-            
-            .mobile-menu-toggle {
-                display: flex;
-            }
-            
-            .nav-menu {
-                display: none;
-                position: fixed;
-                top: 80px;
-                left: 10px;
-                right: 10px;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(10px);
-                border-radius: 12px;
-                padding: 20px;
-                flex-direction: column;
-                gap: 15px;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-                z-index: 9999;
-            }
-            
-            .nav-menu.active {
-                display: flex;
-            }
-            
-            .nav-menu a {
-                padding: 12px 20px;
-                border-radius: 8px;
-                text-align: center;
-                transition: all 0.3s ease;
-            }
-            
-            .nav-menu a:hover {
-                background: rgba(0, 122, 255, 0.1);
-                transform: translateX(5px);
-            }
-            
-            header h1 {
-                font-size: 1.5em;
-                margin: 0;
-            }
-            
-            nav {
-                flex-direction: column;
-                gap: 10px;
+            .spotlight-sidebar {
                 width: 100%;
             }
-            
-            nav a {
-                padding: 10px 15px;
-                border-radius: 8px;
-                background: rgba(255, 255, 255, 0.1);
-                text-align: center;
-                font-size: 0.9em;
+            .spotlight-stack {
+                grid-template-columns: repeat(3, 1fr);
             }
-            
-            .section {
-                padding: 20px;
-                margin: 10px;
-                width: calc(100% - 20px);
-            }
-            
-            .section h2 {
-                font-size: 1.5em;
-                margin-bottom: 20px;
-            }
-            
-            .about-content {
-                gap: 25px;
-                margin-top: 20px;
-            }
-            
-            .profile-section {
-                margin: 20px 0;
-                padding: 20px;
-            }
-            
-            /* Ensure mobile layout overrides desktop */
-            .about-content {
-                display: flex !important;
-                flex-direction: column !important;
-            }
-            
-            .profile-section {
-                order: 1 !important;
-                margin: 20px 0 !important;
-                padding: 20px !important;
-                background: rgba(255, 255, 255, 0.1) !important;
-                backdrop-filter: blur(10px) !important;
-                border-radius: 20px !important;
-            }
-            
-            .about-text {
-                order: 2 !important;
-            }
-            
-            .expertise-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .action-btn {
-                justify-content: center;
-                padding: 10px 15px;
-            }
-            
-            /* Enhanced mobile responsive for new elements */
-            .profile-badges {
+            .spotlight-pipeline {
                 flex-direction: row;
                 flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
             }
-            
-            .badge {
-                font-size: 0.8em;
-                padding: 8px 12px;
+            .pipeline-step {
+                width: auto;
             }
-            
-            .intro-card {
-                padding: 20px;
-            }
-            
-            .intro-title {
-                font-size: 1.2em;
-            }
-            
-            .intro-text {
-                font-size: 1em;
-            }
-            
-            .research-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .research-card {
-                padding: 20px;
-            }
-            
-            .research-icon {
-                font-size: 2.5em;
-            }
-            
-            .research-card h4 {
-                font-size: 1.1em;
-            }
-            
-            .research-card p {
-                font-size: 0.9em;
-            }
-            
-            .highlight-card {
-                padding: 15px;
-            }
-            
-            .highlight-header h4 {
-                font-size: 1em;
-            }
-            
-            .about-content img {
-                width: 180px;
-                height: 180px;
-                margin: 0 auto;
-            }
-            
-            .about-content p {
-                text-align: left;
-                line-height: 1.6;
-            }
-            
-            .skill-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .skill {
-                padding: 20px;
-            }
-            
-            .skill h3 {
-                font-size: 1.2em;
-                margin-bottom: 15px;
-            }
-            
-            .skill-tags {
-                display: flex;
+            .hero {
                 flex-wrap: wrap;
-                gap: 8px;
-                justify-content: center;
             }
-            
-            .tag {
-                font-size: 0.8em;
-                padding: 6px 12px;
-            }
-            
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .contact-item {
-                padding: 15px;
-                font-size: 0.9em;
+            .hero-featured {
+                width: 100%;
             }
         }
-        
+
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; }
+            .mobile-menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: rgba(255,250,245,0.97);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            }
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links.active { display: flex; }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 28px 0 16px;
+                gap: 24px;
+            }
+            .hero-text h1 { font-size: 2em; }
+            .hero-featured { width: 100%; }
+
+            .section { padding: 20px 0; }
+            .section-title { font-size: 1.4em; }
+
+            .contact-grid { flex-direction: column; }
+        }
+
         @media (max-width: 480px) {
-            header {
-                padding: 10px 15px;
-                margin: 5px;
-                width: calc(100% - 10px);
-            }
-            
-            header h1 {
-                font-size: 1.3em;
-            }
-            
-            nav a {
-                padding: 8px 12px;
-                font-size: 0.8em;
-            }
-            
-            .section {
-                padding: 15px;
-                margin: 5px;
-                width: calc(100% - 10px);
-            }
-            
-            .section h2 {
-                font-size: 1.3em;
-            }
-            
-            .about-content img {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .about-content p {
-                font-size: 0.9em;
-            }
-            
-            /* Extra small screens (phones) */
-            .profile-image {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .badge {
-                font-size: 0.75em;
-                padding: 6px 10px;
-            }
-            
-            .intro-card {
-                padding: 15px;
-            }
-            
-            .expertise-highlights {
-                grid-template-columns: 1fr;
-                gap: 12px;
-                margin-top: 15px;
-            }
-            
-            .expertise-item {
-                padding: 18px;
-            }
-            
-            .expertise-item-header {
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .expertise-item i {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2em;
-            }
-            
-            .highlight-section.full-width {
-                margin: 20px 0;
-            }
-            
-            
-            .intro-title {
-                font-size: 1.1em;
-            }
-            
-            .intro-text {
-                font-size: 0.95em;
-            }
-            
-            .research-header {
-                padding: 12px 15px;
-            }
-            
-            .research-header h3 {
-                font-size: 1.1em;
-            }
-            
-            .research-card {
-                padding: 15px;
-            }
-            
-            .research-icon {
-                font-size: 2em;
-            }
-            
-            .research-card h4 {
-                font-size: 1em;
-            }
-            
-            .research-card p {
-                font-size: 0.85em;
-            }
-            
-            .highlight-card {
-                padding: 12px;
-            }
-            
-            .action-btn {
-                padding: 8px 12px;
-                font-size: 0.9em;
-            }
-            
-            .skill {
-                padding: 15px;
-            }
-            
-            .skill h3 {
-                font-size: 1.1em;
-            }
-            
-            .tag {
-                font-size: 0.75em;
-                padding: 5px 10px;
-            }
-            
-            .contact-item {
-                padding: 12px;
-                font-size: 0.8em;
-            }
+            .hero-text h1 { font-size: 1.7em; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Akhil Shekkari</h1>
-        
-        <!-- Mobile Hamburger Menu -->
-        <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+    <!-- Nav -->
+    <nav class="navbar">
+        <div class="mobile-menu-toggle" id="mobile-toggle">
             <span></span>
             <span></span>
             <span></span>
         </div>
-        
-        <nav class="nav-menu" id="nav-menu">
-            <a href="#about"><i class="fas fa-user"></i>About</a>
-            <a href="projects.html" class="projects-link"><i class="fas fa-code"></i>Projects</a>
-            <a href="blogs.html"><i class="fas fa-book"></i> Blogs</a>
-            <a href="papers.html" class="papers-link"><i class="fas fa-trophy"></i> Achievements</a>
-            <a href="Akhil_Shekkari_resume.pdf" class="resume-link"><i class="fas fa-file-alt"></i>Resume</a>
-            <a href="#contact" class="contact-link"><i class="fas fa-envelope"></i>Contact</a>
-        </nav>
-    </header>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#blogs">Blogs</a></li>
+            <li><a href="timeline.html">Experience</a></li>
+            <li><a href="papers.html">Achievements</a></li>
+            <li><a href="Akhil_Shekkari_resume.pdf" target="_blank">Resume</a></li>
+            <li><a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" class="nav-icon nav-icon-linkedin"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://github.com/shekkari1999" target="_blank" class="nav-icon nav-icon-github"><i class="fab fa-github"></i></a></li>
+        </ul>
+    </nav>
 
     <div class="container">
-        <section id="about" class="section">
-    <h2><i class="fas fa-user"></i> About Me</h2>
-    
-    <!-- About Content - Vertical Stack -->
-    <div class="about-content">
-        <!-- Profile Section - Photo and Badges -->
-        <div class="profile-section">
-            <img src="akhil.jpg" alt="Akhil Shekkari" class="profile-image">
-            <div class="profile-badges">
-                <div class="badge ai-engineer">
-                    <i class="fas fa-brain"></i>
-                    <span>AI Engineer</span>
-                </div>
-                <div class="badge contributor">
-                    <i class="fas fa-feather-alt"></i>
-                    <span>Towards AI Contributor</span>
-                </div>
-                <div class="badge student">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>UMD Graduate Student</span>
-                </div>
-            </div>
-        </div>
 
-        <!-- About Text Content -->
-        <div class="about-text">
-            <div class="intro-card">
-                <h3 class="intro-title">
-                    <i class="fas fa-sparkles"></i>
-                    Building the Future of AI
-                </h3>
-                <p class="intro-text">
-                    Hi, I'm <strong>Akhil Shekkari</strong>, an AI engineer with over <strong>3+ years of industry experience</strong> 
-                    specializing in building production-grade AI systems that are fast, smart, and aligned with human goals.
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Akhil Shekkari</h1>
+                <p class="hero-subtitle">AI Engineer &mdash; Agents, Post-Training, Inference</p>
+                <p class="tagline">Excited about building <span class="hl">agents</span> that can plan, reason, and act across complex multi-step tasks, <span class="hl">post-training</span> techniques that unlock new capabilities, and pushing <span class="hl">inference</span> to go faster at scale.</p>
+                <p class="hero-context">
+                    <span>Currently:</span> MS in Applied Machine Learning at University of Maryland, College Park<br>
+                    <span>Previously:</span> AI Engineer at Atrium (client: Pfizer) &middot; 3 years building ML systems at Tezo
                 </p>
-                <div class="expertise-highlights">
-                    <div class="expertise-item">
-                        <div class="expertise-item-header">
-                            <i class="fas fa-brain"></i>
-                            <h4 class="expertise-item-title">Deep Learning & NLP</h4>
-                        </div>
-                        <span>Expertise in PyTorch, Transformers, and advanced neural architectures</span>
+            </div>
+            <div class="hero-featured">
+                <a href="blog/gpu-fundamentals.html" class="featured-card">
+                    <div class="featured-label"><i class="fas fa-fire"></i> Featured</div>
+                    <h3>GPU Fundamentals &amp; LLM Inference Mental Models</h3>
+                    <div class="featured-stat">
+                        <span class="stat-num">10k+</span>
+                        <span class="stat-text">people reached<br>on LinkedIn</span>
                     </div>
-                    <div class="expertise-item">
-                        <div class="expertise-item-header">
-                            <i class="fas fa-search"></i>
-                            <h4 class="expertise-item-title">RAG Systems</h4>
-                        </div>
-                        <span>Building intelligent retrieval systems with vector databases and embeddings</span>
+                    <span class="featured-link"><i class="fas fa-arrow-right"></i> Read the post</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- My Best Past Work -->
+        <section class="section">
+            <h2 class="section-title">My Best Past Work</h2>
+            <div class="work-grid">
+                <div class="work-card">
+                    <div class="work-card-header">
+                        <div class="work-company">Atrium &middot; Pfizer &middot; United States</div>
+                        <div class="work-role">AI Engineer</div>
+                        <div class="work-date">Jun 2025 &ndash; Aug 2025</div>
                     </div>
-                    <div class="expertise-item">
-                        <div class="expertise-item-header">
-                            <i class="fas fa-cogs"></i>
-                            <h4 class="expertise-item-title">Production AI</h4>
+                    <div class="work-card-body">
+                        <p>Worked at Atrium with Pfizer's AI team to automate how statisticians write analysis plans. Built a RAG pipeline that cut drafting time by 60%, and an LLM-as-a-Judge system that catches hallucinations with 80% precision.</p>
+                        <div class="work-stats">
+                            <div class="work-stat">
+                                <span class="stat-num">60%</span>
+                                <span class="stat-label">faster<br>drafting</span>
+                            </div>
+                            <div class="work-stat">
+                                <span class="stat-num">80%</span>
+                                <span class="stat-label">hallucination<br>precision</span>
+                            </div>
                         </div>
-                        <span>Deploying scalable AI solutions with Docker, CI/CD, and cloud infrastructure</span>
+                        <a href="https://www.linkedin.com/in/akhilshekkari/details/recommendations/" target="_blank" class="work-card-link"><i class="fab fa-linkedin"></i> What my manager said</a>
+                    </div>
+                </div>
+                <div class="work-card">
+                    <div class="work-card-header">
+                        <div class="work-company">Tezo &middot; 3 years &middot; India</div>
+                        <div class="work-role">Software Developer (ML)</div>
+                        <div class="work-date">Jul 2021 &ndash; Jul 2024</div>
+                    </div>
+                    <div class="work-card-body">
+                        <p>Built a RAG-powered chatbot that let employees search across 10,000+ internal documents. Reduced document lookup time by 60%. Also trained fraud detection models that improved recall by 15%.</p>
+                        <div class="work-stats">
+                            <div class="work-stat">
+                                <span class="stat-num">10k+</span>
+                                <span class="stat-label">docs<br>indexed</span>
+                            </div>
+                            <div class="work-stat">
+                                <span class="stat-num">60%</span>
+                                <span class="stat-label">faster<br>lookups</span>
+                            </div>
+                            <div class="work-stat">
+                                <span class="stat-num">15%</span>
+                                <span class="stat-label">fraud recall<br>improvement</span>
+                            </div>
+                        </div>
+                        <a href="https://www.linkedin.com/in/akhilshekkari/details/recommendations/" target="_blank" class="work-card-link"><i class="fab fa-linkedin"></i> What my manager said</a>
+                    </div>
+                </div>
+            </div>
+            <a href="timeline.html" class="view-all">View Full Timeline <i class="fas fa-arrow-right"></i></a>
+        </section>
+
+
+        <!-- Featured Projects -->
+        <section class="section">
+            <h2 class="section-title" id="projects">Projects</h2>
+
+            <!-- Spotlight: AI Agents -->
+            <div class="project-spotlight">
+                <div class="spotlight-top">
+                    <h3 style="color: #c96b30;">AI Agents from Scratch</h3>
+                    <span class="project-label">Featured</span>
+                </div>
+                <div class="spotlight-body">
+                    <div class="spotlight-text">
+                        <p>Designed and implemented a modular AI agent framework in Python, without relying on LangChain, CrewAI, or any existing agent library. Features a <strong style="color:#2d2926;">think-act reasoning loop</strong> that enables LLMs to autonomously chain tool calls across multiple steps to solve complex tasks.</p>
+                        <ul class="detail-list">
+                            <li><strong>Agent core:</strong> Async-first agent loop with <strong>Pydantic</strong> data models, structured output support, and execution tracing for full observability</li>
+                            <li><strong>Tool system + MCP:</strong> Extensible <strong>@tool</strong> decorator with auto function-to-JSON-schema conversion, <strong>MCP client</strong> for dynamically loading external tool servers, and <strong>human-in-the-loop</strong> confirmation for dangerous operations</li>
+                            <li><strong>Memory &amp; context:</strong> Hierarchical optimization combining sliding window truncation, tool result compaction, <strong>tiktoken</strong> counting, and LLM-based summarization to stay within context limits</li>
+                            <li><strong>RAG pipeline:</strong> Text chunking, <strong>OpenAI embeddings</strong>, and cosine-similarity search to compress long search results before feeding them back to the agent</li>
+                            <li><strong>Multi-format files:</strong> Unified tool for text, CSV, Excel, PDF, images, and audio with <strong>multimodal LLM</strong> vision/audio analysis</li>
+                        </ul>
+                        <div class="spotlight-footer">
+                            <a href="https://github.com/shekkari1999/Agents" target="_blank" class="github-btn"><i class="fab fa-github"></i> View on GitHub</a>
+                            <span style="font-size:0.82em; color:#888;"><strong style="color:#2d2926;">GAIA benchmark</strong> eval harness (GPT vs Claude) &middot; FastAPI app with session persistence &amp; file upload</span>
+                        </div>
+                    </div>
+                    <div class="spotlight-sidebar">
+                        <div class="spotlight-stack">
+                            <div class="stack-item"><i class="fab fa-python"></i> Python</div>
+                            <div class="stack-item"><i class="fas fa-robot"></i> OpenAI</div>
+                            <div class="stack-item"><i class="fas fa-plug"></i> MCP</div>
+                            <div class="stack-item"><i class="fas fa-shield-alt"></i> Pydantic</div>
+                            <div class="stack-item"><i class="fas fa-bolt"></i> LiteLLM</div>
+                            <div class="stack-item"><i class="fas fa-server"></i> FastAPI</div>
+                        </div>
+                        <div class="sidebar-label">Agent Loop</div>
+                        <div class="spotlight-pipeline">
+                            <span class="pipeline-step">Message</span>
+                            <span class="pipeline-step">Reason</span>
+                            <span class="pipeline-step">Tool Call</span>
+                            <span class="pipeline-step">Callbacks</span>
+                            <span class="pipeline-step">Memory</span>
+                            <span class="pipeline-step">Loop</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="highlight-section full-width">
-                <div class="highlight-card">
-                    <div class="highlight-header">
-                        <i class="fas fa-trophy"></i>
-                        <h4>Recent Achievement</h4>
-                    </div>
-                    <p>
-                        Collaborated with <strong>Pfizer's AI team</strong> to automate Statistical Analysis Plan generation, 
-                        reducing drafting time by <strong>60%</strong> through innovative RAG pipelines and LLM-as-a-Judge systems.
-                    </p>
+            <a href="projects.html" class="view-all">View All Projects <i class="fas fa-arrow-right"></i></a>
+        </section>
+
+
+
+        <!-- Latest Blog Posts -->
+        <section class="section" id="blogs">
+            <h2 class="section-title">Latest Blog Posts</h2>
+            <div class="blog-list">
+                <div class="blog-item">
+                    <h4><a href="blog/improving-context.html">Improving Context: Reasoning & Long Context in LLMs</a></h4>
+                    <div class="blog-meta">Feb 6, 2026 &middot; 25 min read</div>
+                    <p class="blog-excerpt">A deep dive into how LLMs reason over long-horizon tasks, the mechanics behind context length, and why smart agents with surgical retrieval beat brute-force long context windows.</p>
+                </div>
+                <div class="blog-item">
+                    <h4><a href="blog/gpu-fundamentals.html">GPU Fundamentals & LLM Inference Mental Models</a></h4>
+                    <div class="blog-meta">Summary &middot; 20 min read</div>
+                    <p class="blog-excerpt">Build intuition for LLM inference from first principles: GPU architecture, the roofline model, memory estimation, and latency.</p>
+                </div>
+                <div class="blog-item">
+                    <h4><a href="blog/vllm-runpod-serving.html">Serving LLMs with vLLM on RunPod: A Complete Guide</a></h4>
+                    <div class="blog-meta">Feb 3, 2026 &middot; 12 min read</div>
+                    <p class="blog-excerpt">A deep dive into self-hosting LLMs using vLLM on RunPod. Covers PagedAttention, continuous batching, and cost analysis.</p>
                 </div>
             </div>
+            <a href="blogs.html" class="view-all">Read All Posts <i class="fas fa-arrow-right"></i></a>
+        </section>
 
-            <div class="action-buttons">
-                <a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" class="action-btn primary">
-                    <i class="fab fa-linkedin"></i>
-                    <span>Connect on LinkedIn</span>
-                </a>
-                <a href="timeline.html" class="action-btn secondary">
-                    <i class="fas fa-briefcase"></i>
-                    <span>View Timeline</span>
-                </a>
-                <a href="blogs.html" class="action-btn tertiary">
-                    <i class="fas fa-book"></i>
-                    <span>Read My Blogs</span>
-                </a>
-            </div>
-        </div>
-        </div>
-    </div>
-</section>
-
-      <section id="skills" class="section skills">
-    <h2><i class="fas fa-lightbulb"></i>Skills and Interests</h2>
-    <div class="skill-grid">
-        <div class="skill">
-            <h3><i class="fas fa-code" style="color: #007aff;"></i> Programming & Tools</h3>
-            <div class="skill-tags">
-                <span class="tag"><i class="fab fa-python" style="color: #3776AB;"></i> Python</span>
-                <span class="tag"><i class="fas fa-fire" style="color: #EE4C2C;"></i> PyTorch</span>
-                <span class="tag"><i class="fas fa-database" style="color: #336791;"></i> SQL</span>
-                <span class="tag"><i class="fas fa-cogs" style="color: #3F51B5;"></i> ClearML</span>
-                <span class="tag"><i class="fab fa-docker" style="color: #2496ED;"></i> Docker</span>
-                <span class="tag"><i class="fas fa-cube" style="color: #D00000;"></i> Kubernetes</span>
-                <span class="tag"><i class="fab fa-github" style="color: #171515;"></i> GitHub Actions</span>
-                <span class="tag"><i class="fas fa-link" style="color: #00A67E;"></i> LangChain</span>
-                <span class="tag"><i class="fas fa-project-diagram" style="color: #9C27B0;"></i> LangGraph</span>
-                <span class="tag"><i class="fas fa-brain" style="color: #FF6F61;"></i> Scikit-learn</span>
-            </div>
-        </div>
-        <div class="skill">
-            <h3><i class="fas fa-cloud" style="color: #007aff;"></i> Cloud & Infrastructure</h3>
-            <div class="skill-tags">
-                <span class="tag"><i class="fas fa-snowflake" style="color: #29B5E8;"></i> Snowflake</span>
-                <span class="tag"><i class="fab fa-aws" style="color: #FF9900;"></i> AWS SageMaker</span>
-                <span class="tag"><i class="fab fa-microsoft" style="color: #00A4EF;"></i> Azure ML</span>
-                <span class="tag"><i class="fas fa-sync-alt" style="color: #4CAF50;"></i> CI/CD</span>
-            </div>
-        </div>
-        <div class="skill">
-            <h3><i class="fas fa-bullseye" style="color: #007aff;"></i> Core Competencies</h3>
-            <div class="skill-tags">
-                <span class="tag"><i class="fas fa-brain" style="color: #E91E63;"></i> Deep Learning</span>
-                <span class="tag"><i class="fas fa-robot" style="color: #FFD700;"></i> Generative Models</span>
-                <span class="tag"><i class="fas fa-cogs" style="color: #3F51B5;"></i> Machine Learning</span>
-                <span class="tag"><i class="fas fa-comments" style="color: #4CAF50;"></i> NLP</span>
-                <span class="tag"><i class="fas fa-search" style="color: #4CAF50;"></i> RAG</span>
-                <span class="tag"><i class="fas fa-project-diagram" style="color: #9C27B0;"></i> Agentic Workflows</span>
-                <span class="tag"><i class="fas fa-chart-line" style="color: #2196F3;"></i> Model Evaluation</span>
-                <span class="tag"><i class="fas fa-trophy" style="color: #FF6B6B;"></i> Reinforcement Learning</span>
-                <span class="tag"><i class="fas fa-image" style="color: #667eea;"></i> Diffusion Models</span>
-            </div>
-        </div>
-        
-        <!-- Research Interests as skill blocks -->
-        <div class="research-card reasoning">
-            <div class="research-icon">
-                <i class="fas fa-lightbulb"></i>
-            </div>
-            <h4>AI Reasoning</h4>
-            <p>Developing models that can think step-by-step and solve complex problems</p>
-        </div>
-        
-        <div class="research-card safety">
-            <div class="research-icon">
-                <i class="fas fa-shield-alt"></i>
-            </div>
-            <h4>AI Safety & Alignment</h4>
-            <p>Ensuring AI systems are safe, reliable, and aligned with human values</p>
-        </div>
-        
-        <div class="research-card performance">
-            <div class="research-icon">
-                <i class="fas fa-rocket"></i>
-            </div>
-            <h4>Performance Optimization</h4>
-            <p>Making code run faster and GPUs go brrr! 🚀</p>
-        </div>
-    </div>
-</section>
-
-        <section id="contact" class="section contact">
-            <h2><i class="fas fa-envelope"></i> Contact</h2>
+        <!-- Contact -->
+        <section class="section" id="contact">
+            <h2 class="section-title">Get in Touch</h2>
             <div class="contact-grid">
                 <a href="mailto:akhil.masters21@gmail.com" class="contact-item">
-                    <i class="fas fa-envelope" style="color: #EA4335;"></i>
-                    <span>Email</span>
+                    <i class="fas fa-envelope" style="color:#EA4335;"></i> akhil.masters21@gmail.com
                 </a>
                 <a href="https://github.com/shekkari1999" target="_blank" class="contact-item">
-                    <i class="fab fa-github" style="color: #171515;"></i>
-                    <span>GitHub</span>
+                    <i class="fab fa-github" style="color:#171515;"></i> GitHub
                 </a>
                 <a href="https://www.linkedin.com/in/akhilshekkari/" target="_blank" class="contact-item">
-                    <i class="fab fa-linkedin" style="color: #0A66C2;"></i>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="blogs.html" class="contact-item">
-                    <i class="fab fa-medium" style="color: #000000;"></i>
-                    <span>Blogs</span>
+                    <i class="fab fa-linkedin" style="color:#0A66C2;"></i> LinkedIn
                 </a>
             </div>
         </section>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Akhil Shekkari &middot; <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
     </footer>
-    
+
     <script>
-        // Mobile Hamburger Menu Toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const navMenu = document.getElementById('nav-menu');
-            
-            mobileMenuToggle.addEventListener('click', function() {
-                mobileMenuToggle.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
-            
-            // Close menu when clicking on a link
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    mobileMenuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                });
-            });
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!mobileMenuToggle.contains(event.target) && !navMenu.contains(event.target)) {
-                    mobileMenuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-links').classList.remove('active');
             });
         });
     </script>

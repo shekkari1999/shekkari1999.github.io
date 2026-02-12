@@ -3,370 +3,462 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline | Akhil Shekkari</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Experience | Akhil Shekkari</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #e3f2fd, #e1bee7);
+            background: linear-gradient(160deg, #fffaf5 0%, #f0ece8 50%, #ebedee 100%);
+            min-height: 100vh;
             color: #333;
-            overflow-x: hidden;
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            text-align: center;
-            border-radius: 12px;
-            margin: 20px auto;
-            max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-home {
-            display: inline-block;
-            background: #007aff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-top: 15px;
-        }
-
-        .back-home:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        .timeline-container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background: #007aff;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 122, 255, 0.3);
-        }
-
-        .timeline-item {
-            margin-bottom: 40px;
-            position: relative;
-            width: 50%;
-            opacity: 0;
-            transform: translateX(-100px);
-            transition: all 0.8s ease;
-        }
-
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .timeline-item:nth-child(even) {
-            margin-left: 50%;
-            transform: translateX(100px);
-        }
-
-        .timeline-item:nth-child(even).visible {
-            transform: translateX(0);
-        }
-
-        .timeline-content {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .timeline-date {
-            font-size: 0.9em;
-            color: #007aff;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .timeline-title {
-            color: #333;
-            font-size: 1.4em;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .timeline-title i {
-            color: #007aff;
-        }
-
-        .timeline-description {
             line-height: 1.6;
+        }
+
+        /* ── Nav ── */
+        .navbar {
+            background: transparent;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .nav-links { display: flex; gap: 10px; list-style: none; }
+        .nav-links a {
+            color: #2d2926;
+            text-decoration: none;
+            font-size: 0.88em;
+            font-weight: 600;
+            padding: 8px 18px;
+            border: 2px solid #2d2926;
+            border-radius: 50px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover {
+            background: #2d2926;
+            color: #fff;
+        }
+        .mobile-menu-toggle { display: none; flex-direction: column; cursor: pointer; padding: 10px; gap: 5px; }
+        .mobile-menu-toggle span { width: 24px; height: 2px; background: #2d2926; transition: 0.3s; }
+
+        /* ── Back Link ── */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 24px 0;
+            color: #2d2926;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #c96b30; }
+
+        /* ── Page Header ── */
+        .page-header {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 24px 0;
+        }
+        .page-header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #2d2926;
+            display: inline-block;
+            border-bottom: 3px solid #c96b30;
+            padding-bottom: 4px;
+        }
+        .page-header p {
+            color: #888;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+
+        /* ── Section Label ── */
+        .bento-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .bento-section-label {
+            font-size: 0.78em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #aaa;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            padding-left: 4px;
+        }
+        .bento-section-label:first-of-type {
+            margin-top: 32px;
+        }
+
+        /* ── Bento Grid ── */
+        .bento {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: auto;
+            gap: 16px;
+        }
+
+        .bento-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .bento-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+        }
+
+        /* Size variants */
+        .bento-wide { grid-column: span 2; }
+        .bento-full { grid-column: span 3; }
+
+        /* Card header */
+        .bento-header {
+            background: linear-gradient(135deg, #c96b30 0%, #d98b56 100%);
+            padding: 24px;
+        }
+        .bento-header .bento-label {
+            font-size: 0.72em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 6px;
+        }
+        .bento-header h3 {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.3;
+        }
+        .bento-header .bento-date {
+            font-size: 0.82em;
+            color: rgba(255,255,255,0.7);
+            margin-top: 6px;
+        }
+
+        /* Dark header variant */
+        .bento-header-dark {
+            background: linear-gradient(135deg, #2d2926 0%, #4a4340 100%);
+        }
+
+        /* Card body */
+        .bento-body {
+            padding: 24px;
+        }
+        .bento-body p {
+            font-size: 0.93em;
             color: #555;
+            line-height: 1.7;
         }
-
-        .timeline-description ul {
-            padding-left: 20px;
-            margin: 10px 0;
+        .bento-body ul {
+            padding-left: 0;
+            margin: 0;
+            list-style: none;
         }
-
-        .timeline-description li {
+        .bento-body li {
+            font-size: 0.93em;
+            color: #555;
+            line-height: 1.7;
             margin: 8px 0;
+            padding-left: 20px;
             position: relative;
-            padding-left: 25px;
         }
-
-        .timeline-description li::before {
-            content: '→';
+        .bento-body li::before {
+            content: '\2192';
             position: absolute;
             left: 0;
-            color: #007aff;
-        }
-
-        .certification {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .certification i {
-            color: #007aff;
-            font-size: 1.5em;
-        }
-
-        @media screen and (max-width: 768px) {
-            .timeline::before {
-                left: 30px;
-            }
-
-            .timeline-item {
-                width: calc(100% - 60px);
-                margin-left: 60px !important;
-            }
-
-            .timeline-content {
-                padding: 15px;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            margin-top: 40px;
-            border-radius: 12px;
-            color: #333;
-            font-size: 14px;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        footer a {
-            color: #007aff;
-            text-decoration: none;
+            color: #c96b30;
             font-weight: 600;
         }
 
-        footer a:hover {
-            color: #0056b3;
-        }
-
-        /* New back arrow styling */
-        .back-arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            color: #007aff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        /* Stat-only card (no header) */
+        .bento-stat-card {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            z-index: 1000;
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .bento-stat-card .big-num {
+            font-size: 3em;
+            font-weight: 800;
+            color: #c96b30;
+            line-height: 1;
+        }
+        .bento-stat-card .big-label {
+            font-size: 0.88em;
+            color: #888;
+            margin-top: 8px;
+            font-weight: 500;
         }
 
-        .back-arrow:hover {
-            transform: translateX(-5px);
-            background: #007aff;
-            color: white;
+        /* Dark stat variant for Tezo */
+        .bento-stat-dark .big-num {
+            color: #2d2926;
         }
 
+        /* Achievement card */
+        .bento-achievement {
+            background: #fff7f0;
+            border-color: #ffe0c2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 28px 24px;
+        }
+        .bento-achievement .ach-icon {
+            font-size: 1.6em;
+            color: #c96b30;
+            margin-bottom: 10px;
+        }
+        .bento-achievement h4 {
+            font-size: 1em;
+            font-weight: 700;
+            color: #2d2926;
+            margin-bottom: 4px;
+        }
+        .bento-achievement p {
+            font-size: 0.88em;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: #2d2926;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px 0;
+            margin-top: 60px;
+            font-size: 0.88em;
+        }
+        .footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
+        .footer a:hover { color: #fff; }
+
+        /* ── Mobile ── */
+        @media (max-width: 900px) {
+            .bento {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .bento-wide { grid-column: span 2; }
+            .bento-full { grid-column: span 2; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; }
+            .mobile-menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 56px; left: 0; right: 0;
+                background: rgba(255,250,245,0.97);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            }
+            .nav-links a { width: 100%; text-align: center; }
+            .nav-links.active { display: flex; }
+        }
+
+        @media (max-width: 600px) {
+            .bento {
+                grid-template-columns: 1fr;
+            }
+            .bento-wide, .bento-full { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html" class="back-arrow">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1>Professional Timeline</h1>
-    </header>
+    <nav class="navbar">
+        <div class="mobile-menu-toggle" id="mobile-toggle">
+            <span></span><span></span><span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="blogs.html">Blog</a></li>
+            <li><a href="papers.html">Achievements</a></li>
+            <li><a href="Akhil_Shekkari_resume.pdf" target="_blank">Resume</a></li>
+        </ul>
+    </nav>
 
-    <div class="timeline-container">
-        <div class="timeline">
-            <!-- AI Engineer Role -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">June 2025 - August 2025</div>
-                    <h2 class="timeline-title">
-                        <i class="fas fa-robot"></i>
-                        AI Engineer at Atrium
-                    </h2>
-                    <div class="timeline-description">
-                        <ul>
-                            <li>Collaborated with Pfizer's AI team to automate key components of Statistical Analysis Plan generation using a RAG pipeline, reducing statisticians' drafting time by up to 60%</li>
-                            <li>Architected a custom LLM-as-a-Judge system combining prompting and structured rubric evaluation to detect hallucinations and guideline deviations in generated SAPs with over 80% precision</li>
-                            <li>Designed Prompt Evaluation Experiments by testing variations in temperature, system prompts, and input formatting resulting in a 20% improvement in generation consistency for critical SAP tasks</li>
-                        </ul>
-                        <div class="certification">
-                            <i class="fas fa-star"></i>
-                            <div>
-                                <strong>Achievement:</strong> 60% reduction in drafting time, 80% precision in hallucination detection
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    <div class="page-header">
+        <h1>My Journey</h1>
+        <p>The roles, impact, and milestones that shaped how I build.</p>
+    </div>
 
-            <!-- Master's Student -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">August 2024 - Present</div>
-                    <h2 class="timeline-title">
-                        <i class="fas fa-graduation-cap"></i>
-                        Master's Student at University of Maryland
-                    </h2>
-                    <div class="timeline-description">
-                        <ul>
-                            <li>Pursuing Master's in Applied Machine Learning at University of Maryland, College Park</li>
-                            <li>Achieved exceptional academic performance with 3.9/4.0 GPA in first semester</li>
-                            <li>Completed coursework in Applied Machine Learning</li>
-                        </ul>
-                        <div class="certification">
-                            <i class="fas fa-star"></i>
-                            <div>
-                                <strong>Achievement:</strong> 3.9/4.0 GPA
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- ── Pfizer / Atrium ── -->
+    <div class="bento-section">
+        <div class="bento-section-label">Atrium &middot; Pfizer &middot; United States</div>
+    </div>
+    <div class="bento">
+        <div class="bento-card bento-wide">
+            <div class="bento-header">
+                <div class="bento-label">AI Engineer</div>
+                <h3>Automating clinical trial documentation with AI</h3>
+                <div class="bento-date">Jun 2025 &ndash; Aug 2025</div>
             </div>
-
-            <!-- Software Developer Role -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">July 2022 - July 2024</div>
-                    <h2 class="timeline-title">
-                        <i class="fas fa-code"></i>
-                        Software Developer (ML Domain) at Tezo
-                    </h2>
-                    <div class="timeline-description">
-                        <ul>
-                            <li>Built a RAG-powered chatbot integrated with SharePoint project repositories, providing employees a unified interface to query across 10k+ internal documents including project charters, design specs, and status reports</li>
-                            <li>Engineered a semantic search pipeline with embeddings + vector DB, reducing document lookup time by 60% and improving cross-team visibility into ongoing projects</li>
-                            <li>Extended capabilities with LLM-based summarization of lengthy project documentation, cutting manual review time for managers by 35% and enabling quicker decision-making</li>
-                            <li>Containerized and deployed the system with Docker + CI/CD, ensuring smooth secure on-prem access control</li>
-                        </ul>
-                        <div class="certification">
-                            <i class="fas fa-star"></i>
-                            <div>
-                                <strong>Achievement:</strong> 60% reduction in document lookup time, 35% reduction in manual review time
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="bento-body">
+                <p>Worked with Pfizer's AI team to automate how statisticians write analysis plans. Built a RAG pipeline and an LLM-as-a-Judge system for hallucination detection.</p>
+                <ul>
+                    <li>Automated Statistical Analysis Plan generation using a RAG pipeline</li>
+                    <li>Architected LLM-as-a-Judge for hallucination detection with structured rubric evaluation</li>
+                    <li>Designed prompt evaluation experiments improving generation consistency by 20%</li>
+                </ul>
             </div>
-
-            <!-- Junior Software Developer Role -->
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-date">July 2021 - July 2022</div>
-                    <h2 class="timeline-title">
-                        <i class="fas fa-laptop-code"></i>
-                        Junior Software Developer (ML Domain) at Tezo
-                    </h2>
-                    <div class="timeline-description">
-                        <ul>
-                            <li>Migrated policy and claims data to Snowflake, streamlining ETL pipelines and reducing average query times by 40% compared to the legacy warehouse</li>
-                            <li>Trained ML models to score policies and detect fraudulent claims, improving recall of fraud cases by 15% and enabling earlier intervention to prevent financial losses</li>
-                            <li>Built SQL and BI dashboards for stakeholders, cutting manual report preparation time by 25%, increasing adoption to 50+ active users, and improving decision-making speed across actuarial and operations teams</li>
-                        </ul>
-                        <div class="certification">
-                            <i class="fas fa-star"></i>
-                            <div>
-                                <strong>Achievement:</strong> 40% reduction in query times, 15% improvement in fraud detection recall
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="bento-card bento-stat-card">
+            <div class="big-num">60%</div>
+            <div class="big-label">Faster SAP<br>drafting</div>
+        </div>
+        <div class="bento-card bento-stat-card">
+            <div class="big-num">80%</div>
+            <div class="big-label">Hallucination<br>detection precision</div>
+        </div>
+        <div class="bento-card bento-stat-card">
+            <div class="big-num">20%</div>
+            <div class="big-label">Generation<br>consistency gain</div>
+        </div>
+        <div class="bento-card bento-achievement">
+            <div class="ach-icon"><i class="fas fa-quote-left"></i></div>
+            <h4>Manager's recommendation</h4>
+            <p>"He brought in new techniques for prompt engineering and automated evaluation that we did not have yet."<br><em>&mdash; Rogier Landman, Pfizer R&amp;D</em></p>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Akhil Shekkari | <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
+    <!-- ── Tezo ── -->
+    <div class="bento-section">
+        <div class="bento-section-label">Tezo &middot; 3 Years &middot; India</div>
+    </div>
+    <div class="bento">
+        <div class="bento-card bento-wide">
+            <div class="bento-header bento-header-dark">
+                <div class="bento-label">Software Developer (ML)</div>
+                <h3>RAG chatbot over 10k+ internal documents</h3>
+                <div class="bento-date">Jul 2022 &ndash; Jul 2024</div>
+            </div>
+            <div class="bento-body">
+                <ul>
+                    <li>Built a RAG-powered chatbot over project charters, design specs, and status reports</li>
+                    <li>Engineered semantic search with embeddings + vector DB, reducing lookup time by 60%</li>
+                    <li>LLM-based summarization cut manual review time for managers by 35%</li>
+                    <li>Containerized deployment with Docker + CI/CD for secure on-prem access</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bento-card bento-stat-card bento-stat-dark">
+            <div class="big-num">10k+</div>
+            <div class="big-label">Internal docs<br>indexed</div>
+        </div>
+        <div class="bento-card bento-stat-card bento-stat-dark">
+            <div class="big-num">60%</div>
+            <div class="big-label">Faster document<br>lookups</div>
+        </div>
+        <div class="bento-card bento-stat-card bento-stat-dark">
+            <div class="big-num">35%</div>
+            <div class="big-label">Less manual<br>review time</div>
+        </div>
+        <div class="bento-card bento-achievement">
+            <div class="ach-icon"><i class="fas fa-arrow-up"></i></div>
+            <h4>Promoted in 1 year</h4>
+            <p>Junior to Software Developer, recognized for initiative and delivery.</p>
+        </div>
+
+        <div class="bento-card bento-wide">
+            <div class="bento-header bento-header-dark">
+                <div class="bento-label">Junior Software Developer (ML)</div>
+                <h3>Fraud detection &amp; data infrastructure</h3>
+                <div class="bento-date">Jul 2021 &ndash; Jul 2022</div>
+            </div>
+            <div class="bento-body">
+                <ul>
+                    <li>Migrated policy and claims data to Snowflake, reducing query times by 40%</li>
+                    <li>Trained ML models for fraud detection, improving recall by 15%</li>
+                    <li>Built BI dashboards adopted by 50+ users across actuarial and operations teams</li>
+                </ul>
+            </div>
+        </div>
+        <div class="bento-card bento-stat-card bento-stat-dark">
+            <div class="big-num">15%</div>
+            <div class="big-label">Fraud recall<br>improvement</div>
+        </div>
+    </div>
+
+    <!-- ── Education ── -->
+    <div class="bento-section">
+        <div class="bento-section-label">Education</div>
+    </div>
+    <div class="bento">
+        <div class="bento-card bento-achievement" style="grid-column: span 2;">
+            <div class="ach-icon"><i class="fas fa-graduation-cap"></i></div>
+            <h4>MS Applied Machine Learning</h4>
+            <p>University of Maryland, College Park &middot; 3.9 GPA<br>Coursework in deep learning, NLP, and inference optimization.<br>Aug 2024 &ndash; Present</p>
+        </div>
+        <div class="bento-card bento-stat-card">
+            <div class="big-num">3.9</div>
+            <div class="big-label">GPA</div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Akhil Shekkari &middot; <a href="https://github.com/shekkari1999" target="_blank">GitHub</a></p>
     </footer>
 
     <script>
-        // Intersection Observer for timeline animations
+        const cards = document.querySelectorAll('.bento-card');
+        let delay = 0;
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, delay);
+                    delay += 80;
+                    observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1
+        }, { threshold: 0.05 });
+
+        cards.forEach(card => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
         });
 
-        // Observe all timeline items
-        document.querySelectorAll('.timeline-item').forEach((item) => {
-            observer.observe(item);
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
         });
     </script>
 </body>
-</html> 
+</html>
