@@ -529,15 +529,29 @@
         .view-all {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 12px;
+            gap: 8px;
+            margin-top: 16px;
             color: #2d2926;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95em;
-            transition: color 0.2s;
+            font-weight: 600;
+            font-size: 0.88em;
+            padding: 10px 20px;
+            background: #ffd960;
+            border: none;
+            border-radius: 50px;
+            transition: all 0.25s ease;
         }
-        .view-all:hover { color: #c96b30; }
+        .view-all:hover {
+            background: #ffce3a;
+            transform: translateY(-1px);
+        }
+        .view-all i {
+            font-size: 0.8em;
+            transition: transform 0.25s ease;
+        }
+        .view-all:hover i {
+            transform: translateX(3px);
+        }
 
 
         /* ── Blog Posts ── */
