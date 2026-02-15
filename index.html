@@ -171,6 +171,14 @@
         }
         .featured-label i {
             font-size: 0.9em;
+            animation: flicker 1.2s ease-in-out infinite alternate;
+        }
+        @keyframes flicker {
+            0%   { opacity: 1; transform: scale(1) rotate(0deg); }
+            25%  { opacity: 0.85; transform: scale(1.15) rotate(-4deg); }
+            50%  { opacity: 1; transform: scale(1.05) rotate(2deg); }
+            75%  { opacity: 0.9; transform: scale(1.2) rotate(-2deg); }
+            100% { opacity: 1; transform: scale(1.1) rotate(3deg); }
         }
         .featured-card h3 {
             font-size: 0.95em;
