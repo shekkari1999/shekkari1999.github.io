@@ -1,0 +1,1 @@
+I had to automate generating Statistical Analysis Plans from clinical documents. Initially they thorught of storing data in knowledge graphs and later they could retrieve. but you imagine how you could have done improving their system. I designed an evaluation sysytem with LLM as a judge saying how close was generated sample with the ground truth SAP.

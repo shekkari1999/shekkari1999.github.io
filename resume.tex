@@ -1,0 +1,258 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+\usepackage[a4paper, top=0.7in, left=0.75in, right=0.75in, bottom=1in]{geometry}
+
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      #1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
+%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
+% \end{tabular*}
+
+\begin{center}
+    \textbf{\Huge \scshape Akhil Shekkari} \\ \vspace{1pt}
+     \href{https://shekkari1999.github.io}{\textit{Portfolio}} \textbar\ 
+      \href{https://github.com/shekkari1999}{\textit{GitHub}} \textbar\ 
+    \href{https://www.linkedin.com/in/akhilshekkari/}{\textit{LinkedIn}} \textbar\ 
+    \href{mailto:shekkari.akhil@gmail.com}{\textit{shekkari.akhil@gmail.com}} \textbar\ 
+    \href{tel:+1 (425) 426-8292} {+1 (425) 426-8292}
+\end{center}
+
+%-----------Professional Summary-----------
+\section{Professional Summary}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{
+    
+\item \textbf{AI engineer with 3+ years} of industry experience specializing in building production-grade AI systems that are fast, smart, and aligned with human goals. Proven track record of \textbf{training, optimizing, and deploying scalable AI systems}, while ensuring they adhere to ethical guidelines and are aligned with real-world applications.
+}
+\end{itemize}
+   \vspace{-0.7cm}
+
+%-----------SKILLS-----------
+
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{
+    \item \textbf{Programming \& Tools:} Python, PyTorch,  SQL, ClearML, Docker, Kubernetes, GitHub actions, Llama parse, Llama index, Lang-chain, Lang-graph, Scikit-learn.
+    \vspace{-0.3cm}
+
+    \item \textbf{Cloud \& Infrastructure:} Snowflake, AWS SageMaker, Azure ML, CI/CD.
+    \vspace{-0.3cm}
+
+    \item \textbf{Core Competencies:} Deep learning, Generative models, Machine learning,  NLP, RAG, Agentic workflows, Model evaluation, Reinforcement learning.
+  }
+\end{itemize}
+   \vspace{-0.7cm}
+
+%-----------EXPERIENCE-----------
+\section{Work Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {AI Engineer -- Atrium (client: Pfizer) -- Silver Spring, USA}{June 2025 -- August 2025}
+      {}{}
+      \vspace{-0.65cm}
+      \resumeItemListStart
+        \resumeItem{Automated key components of \textbf{Statistical Analysis Plan} generation using a \textbf{RAG pipeline}, reducing statisticians' drafting time by \textbf{up to 60\%}.}
+        \resumeItem{Architected a custom \textbf{LLM-as-a-Judge} system combining prompting and structured rubric evaluation to detect hallucinations and guideline deviations in generated SAPs with over \textbf{80\% precision}.}
+        \resumeItem{Designed \textbf{Prompt Evaluation} experiments by testing variations in temperature, system prompts, and input formatting resulting in a \textbf{20\%} improvement in generation consistency for critical SAP tasks.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Software Developer (ML Domain) -- Tezo -- India}{July 2022 -- July 2024}
+      {}{}
+      \vspace{-0.65cm}
+      \resumeItemListStart
+        \resumeItem{Built a \textbf{RAG-powered chatbot} integrated with \textbf{SharePoint project repositories}, providing employees a unified interface to query across \textbf{10k+} internal documents including project charters, design specs, and status reports.}
+        \resumeItem{Engineered a \textbf{semantic search pipeline with embeddings + vector DB}, reducing document lookup time by \textbf{~60\%} and improving cross-team visibility into ongoing projects.}
+        \resumeItem{Extended capabilities with \textbf{LLM-based summarization} of lengthy project documentation, cutting manual review time for managers by \textbf{~35\%} and enabling quicker decision-making.}
+        \resumeItem{Containerized and deployed the system with \textbf{Docker + CI/CD}, ensuring smooth secure on-prem access control.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Junior Software Developer (ML Domain) -- Tezo -- India}{July 2021 -- July 2022}
+      {}{}
+      \vspace{-0.65cm}
+      \resumeItemListStart
+        \resumeItem{Migrated policy and claims data to \textbf{Snowflake}, streamlining ETL pipelines and reducing average query times by \textbf{~40\%} compared to the legacy warehouse.}
+        \resumeItem{Trained \textbf{ML models} to score policies and detect fraudulent claims, improving recall of fraud cases by \textbf{~15\%} and enabling earlier intervention to prevent financial losses.}
+        \resumeItem{Built \textbf{SQL and BI dashboards} for stakeholders, cutting manual report preparation time by \textbf{~25\%}, increasing adoption to \textbf{50+ active users}, and improving decision-making speed across actuarial and operations teams.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+\vspace{-0.2cm}
+%-----------RESEARCH AND TECHNICAL CONTRIBUTIONS-----------
+\section{Projects}
+\resumeSubHeadingListStart
+
+  \resumeProjectHeading
+      {\textbf{AI Agent Framework} {\small\href{https://github.com/shekkari1999/Agents}{[GitHub]}}}{2025}
+      \resumeItemListStart
+        \resumeItem{Built a \textbf{multi-step reasoning agent} from scratch with OpenAI function calling, \textbf{MCP integration} for external tool servers, Pydantic schemas for structured outputs, and sliding-window memory with compaction.}
+        \resumeItem{Implemented tool orchestration (web search, code execution, file handling) with \textbf{callback-driven observability} and session persistence via FastAPI backend.}
+        \resumeItem{Evaluated on the \textbf{GAIA benchmark} (GPT-4o vs Claude), achieving competitive scores on multi-step real-world tasks.}
+      \resumeItemListEnd
+
+  \resumeProjectHeading
+      {\textbf{Building a Reasoning LLM from Scratch} {\small\href{https://github.com/shekkari1999}{[GitHub]}}}{2025}
+      \resumeItemListStart
+        \resumeItem{Implemented the complete \textbf{post-training pipeline} to turn a base LLM (Qwen-2.5) into a reasoning model — inference-time scaling, self-refinement, and \textbf{GRPO reinforcement learning} — entirely from scratch (no TRL).}
+        \resumeItem{Built a custom inference engine with \textbf{KV-cache}, temperature/top-p sampling, and a math evaluation harness with \textbf{SymPy-based symbolic equivalence} checking on GSM8K and MATH benchmarks.}
+        \resumeItem{Implemented \textbf{chain-of-thought prompting, self-consistency} (majority voting), and iterative self-refinement with log-probability confidence scoring.}
+      \resumeItemListEnd
+
+  \resumeProjectHeading
+      {\textbf{Mini Inference Engine from Scratch} {\small\href{https://github.com/shekkari1999}{[GitHub]}}}{2025}
+      \resumeItemListStart
+        \resumeItem{Built a modular transformer inference engine from scratch to study LLM serving internals: implemented \textbf{naive, streaming (online softmax), and Triton-fused attention} kernels with benchmarked latency and memory comparisons.}
+        \resumeItem{Designed \textbf{paged KV-cache} with on-demand page allocation to eliminate memory fragmentation, and \textbf{contiguous KV-cache} as baseline — benchmarked prefill (4K--16K tokens) and decode throughput across context lengths.}
+        \resumeItem{Demonstrated \textbf{O(T) memory} for streaming attention vs O(T\textsuperscript{2}) for naive, and quantified kernel-fusion speedups via Triton over Python-level page loops.}
+      \resumeItemListEnd
+
+  \resumeProjectHeading
+      {\textbf{Qwen 3B -- Chat \& Function Calling Finetuning} {\small\href{https://github.com/shekkari1999}{[GitHub]}}}{2025}
+      \resumeItemListStart
+        \resumeItem{Took the base Qwen 3B model and \textbf{LoRA fine-tuned} it in two stages: conversational data for chat capabilities, then function-calling datasets for structured \textbf{tool use}.}
+        \resumeItem{Used \textbf{QLoRA} for memory-efficient training on a single consumer GPU, producing separate LoRA adapters for each stage.}
+      \resumeItemListEnd
+
+  \resumeProjectHeading
+      {\textbf{Image Super-Resolution -- ResShift} {\small\href{https://github.com/shekkari1999/DiffusionSR}{[GitHub]}}}{2025}
+      \resumeItemListStart
+        \resumeItem{Implemented ResShift from scratch: \textbf{U-Net} with 4-stage encoder-decoder and \textbf{Swin Transformer} bottleneck, residual shifting mechanism reducing diffusion steps to just \textbf{15}.}
+        \resumeItem{Evaluated using \textbf{PSNR, SSIM, and LPIPS}, achieving competitive results on DIV2K with significantly fewer inference steps than standard diffusion SR.}
+      \resumeItemListEnd
+
+  \resumeProjectHeading
+      {\textbf{Code Reviewer -- Knowledge Distillation} {\small\href{https://github.com/shekkari1999/MSML605CodeReviewer}{[GitHub]}}}{2025}
+      \resumeItemListStart
+        \resumeItem{LoRA fine-tuned a \textbf{220M parameter} Microsoft model on 150k code samples, then \textbf{distilled to 80M parameters}, cutting inference cost by \textbf{~60\%} while maintaining quality.}
+        \resumeItem{Containerized with Docker and tracked experiments with \textbf{ClearML} for dataset/model versioning and checkpoint management.}
+      \resumeItemListEnd
+
+  \resumeProjectHeading
+      {\textbf{Technical Blogs} {\small\href{https://shekkari1999.github.io/blogs.html}{[Link]}}}{}
+      \resumeItemListStart
+        \resumeItem{\textbf{Contributor at \textit{Towards AI}}, writing on GPT internals, fine-tuning, and memory-efficient model engineering.}
+      \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-0.2cm}
+%-----------EDUCATION-----------
+
+\section{Education}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{
+    \item \textbf{University of Maryland, College Park} \hfill Expected May 2026 \\
+          Master of Science in Applied Machine Learning \\
+          \textbf{Relevant coursework:} Probability \& Statistics; Advanced Machine Learning; Deep Learning; NLP; Optimization. \\[-0.2cm]
+
+\end{itemize}
+\vspace{-0.6cm}
+
+%-------------------------------------------
+\end{document}

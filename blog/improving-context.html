@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Improving Context: Reasoning & Long Context in LLMs | Akhil Shekkari</title>
+    <title>Context in LLMs: What Determines It, What It Costs, and What Actually Works | Akhil Shekkari</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
@@ -20,95 +20,26 @@
     <a href="../blogs.html" class="back-link">&larr; Back to Blog</a>
 
     <article>
-        <h1>Improving Context: Reasoning & Long Context in LLMs</h1>
+        <h1>Context in LLMs: What Determines It, What It Costs, and What Actually Works</h1>
 
-        <p class="blog-meta">Feb 6th, 2026 &middot; 25 min read</p>
+        <p class="blog-meta">Feb 6th, 2026 &middot; 30 min read</p>
         <hr class="section-break">
 
-        <h2>1. Reasoning Over Long-Horizon Tasks</h2>
+        <h2>1. What Determines Context Length</h2>
 
         <p>
-            <strong>Long-horizon tasks</strong> are tasks that require many sequential steps, decisions, or
-            intermediate sub-goals before reaching a final outcome. "Reasoning over" them means the model must
-            plan, track state, and make coherent decisions across that entire chain.
-        </p>
-
-        <h3>Concrete Examples</h3>
-
-        <div class="quantization-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Domain</th>
-                        <th>Short-Horizon</th>
-                        <th>Long-Horizon</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Coding</td>
-                        <td>"Fix this typo"</td>
-                        <td>"Build a REST API with auth, DB, tests, and deploy it"</td>
-                    </tr>
-                    <tr>
-                        <td>Math</td>
-                        <td>"What is 2+3?"</td>
-                        <td>"Prove this theorem using 15 intermediate lemmas"</td>
-                    </tr>
-                    <tr>
-                        <td>Agents</td>
-                        <td>"Search the web"</td>
-                        <td>"Research a topic, synthesize findings, write a report, iterate on feedback"</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <h3>Why It's Hard for LLMs</h3>
-
-        <ol>
-            <li><strong>Error compounding</strong> &mdash; A small mistake in step 3 of 20 derails everything downstream. Errors accumulate multiplicatively.</li>
-            <li><strong>State tracking</strong> &mdash; The model must remember what it has done, what remains, and what intermediate results it produced, across a long context.</li>
-            <li><strong>Planning under uncertainty</strong> &mdash; Early decisions constrain later options. The model needs to reason about consequences several steps ahead.</li>
-            <li><strong>Credit assignment</strong> &mdash; When the final answer is wrong, it's hard to identify <em>which</em> step failed.</li>
-        </ol>
-
-        <h3>How Models Address This</h3>
-
-        <ul>
-            <li><strong>Chain-of-thought (CoT)</strong> &mdash; Explicit step-by-step reasoning reduces the per-step difficulty.</li>
-            <li><strong>Tree/graph search (e.g., ToT, GoT)</strong> &mdash; Explore multiple reasoning paths, backtrack when stuck.</li>
-            <li><strong>Reinforcement learning (GRPO, PPO on reasoning traces)</strong> &mdash; Train models to get reward for correct <em>final</em> answers, forcing them to learn robust multi-step strategies. This is what DeepSeek-R1 and OpenAI's o1/o3 do.</li>
-            <li><strong>Process reward models (PRMs)</strong> &mdash; Give reward at <em>each step</em>, not just the final answer, so the model learns which intermediate steps are good.</li>
-            <li><strong>Decomposition</strong> &mdash; Break the long task into sub-tasks, solve each, then compose.</li>
-        </ul>
-
-        <h3>Why This Matters</h3>
-
-        <ul>
-            <li>Fine-tuning a model with <strong>outcome-based RL</strong> (like GRPO) teaches it to solve long-horizon tasks by trial and error over reasoning traces.</li>
-            <li><strong>Distillation</strong> from a strong reasoning model (e.g., DeepSeek-R1 into a smaller model) transfers long-horizon reasoning ability cheaply.</li>
-            <li>The key insight: <strong>supervised fine-tuning alone struggles with long-horizon reasoning</strong> because it only imitates. RL lets the model <em>discover</em> better strategies through exploration.</li>
-        </ul>
-
-        <div class="note-block">
-            <strong>Key Insight:</strong> This is exactly the frontier of "reasoning models" right now &mdash; the gap
-            between models that can chain 5 steps vs. 50 steps reliably.
-        </div>
-
-        <hr class="section-break">
-
-        <h2>2. How Context Length Is Decided &mdash; Positional Encodings, Attention Cost & KV Cache</h2>
-
-        <p>
-            Context length is not a single knob. It's jointly determined by three interacting constraints.
+            When people say a model "supports 128K context," that sounds like a single setting you can crank up.
+            It's not. Context length is actually limited by three things at once: how the model tracks token
+            position, how expensive attention gets as sequences grow, and how much memory you need to store
+            past tokens during inference. Each one puts a ceiling on how far you can go.
         </p>
 
         <h3>Constraint 1: Positional Encoding Scheme</h3>
 
         <p>
-            Transformers have no inherent notion of order &mdash; self-attention is permutation-invariant.
-            Positional encodings inject order. The scheme you pick dictates the ceiling.
+            Transformers have no built-in sense of order. Self-attention is permutation-invariant, meaning
+            it treats "the cat sat" the same as "sat cat the" unless you explicitly tell it which token came
+            first. Positional encodings inject that order. The scheme you pick dictates the ceiling.
         </p>
 
         <div class="quantization-table">
@@ -145,7 +76,7 @@
             </table>
         </div>
 
-        <h3>RoPE &mdash; The Dominant Approach (and Its Limitation)</h3>
+        <h4>RoPE: The Dominant Approach (and Its Limitation)</h4>
 
         <p>
             Most modern models use <strong>Rotary Position Embedding (RoPE)</strong>. For each dimension pair (i),
@@ -160,7 +91,7 @@ where base = 10000 (typically), d = head dimension</div>
         <p>
             <strong>The problem:</strong> If you train on positions 0 to 4096, the model has only ever seen
             rotation angles in that range. Position 8000 produces rotations the model has never encountered. It's
-            like teaching someone a 12-hour clock then asking them to read a 24-hour clock &mdash; the mechanism
+            like teaching someone a 12-hour clock then asking them to read a 24-hour clock. The mechanism
             is the same but the values are foreign. This is a <strong>distribution shift</strong>, and the model's
             output degrades unpredictably.
         </p>
@@ -238,7 +169,7 @@ At different context lengths:
 
         <div class="note-block">
             <strong>Important:</strong> This is <strong>per request</strong>. A serving system handling 100 concurrent
-            users at 128K context needs 4.2 TB just for KV cache &mdash; before any model weights.
+            users at 128K context needs 4.2 TB just for KV cache, before any model weights.
         </div>
 
         <h3>Why You Can't "Just Extend" the Context</h3>
@@ -274,7 +205,7 @@ End:       &block;&block;&block;&block;&block;&block;&block;&block;&block;&block
 
         <p>
             Softmax attention distributes probability mass. Over long sequences, the middle tokens get starved
-            &mdash; neither benefiting from primacy nor recency bias.
+            because they don't benefit from primacy or recency bias.
         </p>
 
         <h4>Problem 3: Effective vs. Claimed Context</h4>
@@ -292,7 +223,34 @@ Needle retrieval at 4K:   ~99%</div>
             The spec sheet number is the architectural limit. The effective limit is much lower.
         </p>
 
-        <h3>Context Extension Techniques &mdash; What Works and What Breaks</h3>
+        <h3>The Fundamental Trilemma</h3>
+
+        <div class="code-example">
+        Long Context
+           /\
+          /  \
+         /    \
+        /      \
+Quality -------- Efficiency</div>
+
+        <p>Pick at most two:</p>
+
+        <ul>
+            <li><strong>Long + Quality</strong> = massive compute (full attention, long training)</li>
+            <li><strong>Long + Efficient</strong> = sparse/approximate attention (loses quality)</li>
+            <li><strong>Quality + Efficient</strong> = short context (what most models do best)</li>
+        </ul>
+
+        <hr class="section-break">
+
+        <h2>2. Strategies for Extending and Managing Context</h2>
+
+        <p>
+            There are two fundamentally different approaches: <strong>make the window bigger</strong> (architectural)
+            or <strong>make the model smarter within the window it has</strong> (behavioral). Both have their place.
+        </p>
+
+        <h3>Architectural Strategies: Making the Window Bigger</h3>
 
         <div class="quantization-table">
             <table>
@@ -316,12 +274,12 @@ Needle retrieval at 4K:   ~99%</div>
                     </tr>
                     <tr>
                         <td><strong>YaRN</strong></td>
-                        <td>Combines NTK scaling with attention scaling.</td>
-                        <td>Best extrapolation without full retraining. But still an approximation.</td>
+                        <td>Different scaling for different frequency dimensions. High-frequency (local patterns): minimal scaling. Low-frequency (global patterns): aggressive scaling. Plus temperature scaling on attention logits.</td>
+                        <td>Best extrapolation quality. Most complex to implement. Still needs some continued training.</td>
                     </tr>
                     <tr>
                         <td><strong>ALiBi</strong></td>
-                        <td>Linear distance bias on attention scores &mdash; no learned positions at all.</td>
+                        <td>Linear distance bias on attention scores. No learned positions at all.</td>
                         <td>Good extrapolation, but linearly penalizes distance, limiting long-range attention by design.</td>
                     </tr>
                     <tr>
@@ -332,108 +290,557 @@ Needle retrieval at 4K:   ~99%</div>
                     <tr>
                         <td><strong>Ring Attention</strong></td>
                         <td>Split sequence across GPUs, pass KV in a ring.</td>
-                        <td>Solves memory. Does NOT solve the learning problem &mdash; model still must learn long-range patterns.</td>
+                        <td>Solves memory. Does NOT solve the learning problem. Model still must learn long-range patterns.</td>
                     </tr>
                     <tr>
                         <td><strong>Sparse Attention</strong> (Longformer, BigBird)</td>
-                        <td>Local + global + random attention patterns.</td>
-                        <td>O(n) cost. But some token pairs never directly attend to each other &mdash; information is lost.</td>
+                        <td>Local + global + random attention patterns. O(n) cost.</td>
+                        <td>Some token pairs never directly attend to each other, so information is lost. Replaced in practice by Flash Attention.</td>
                     </tr>
                     <tr>
-                        <td><strong>Continue pre-training on longer sequences</strong></td>
-                        <td>Actually train on progressively longer data: 4K &rarr; 16K &rarr; 64K &rarr; 128K.</td>
-                        <td>Actually works. But extremely expensive (quadratic cost at each stage) and needs long documents with real dependencies.</td>
+                        <td><strong>Flash Attention</strong></td>
+                        <td>Exact same math as standard attention, but tiled computation fits in GPU SRAM. O(n) memory, O(n&sup2;) compute.</td>
+                        <td><strong>No quality loss.</strong> Solves the memory problem. Does NOT reduce compute. This is what everyone actually uses.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GQA</strong> (Grouped Query Attention)</td>
+                        <td>Share KV heads across query heads (e.g., 64 query heads &rarr; 8 KV heads).</td>
+                        <td>Reduces KV cache by 8x. Minimal quality loss. Standard in all modern models (Llama 3, Qwen, Mistral).</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>The Fundamental Trilemma</h3>
+        <div class="note-block">
+            <strong>Key distinction:</strong> Flash Attention is NOT sparse attention. Sparse attention drops
+            connections (quality loss). Flash Attention computes exact full attention but tiles the computation
+            for memory efficiency (no quality loss). Don't confuse them.
+        </div>
 
-        <div class="code-example">
-        Long Context
-           /\
-          /  \
-         /    \
-        /      \
-Quality -------- Efficiency</div>
-
-        <p>Pick at most two:</p>
-
-        <ul>
-            <li><strong>Long + Quality</strong> = massive compute (full attention, long training)</li>
-            <li><strong>Long + Efficient</strong> = sparse/approximate attention (loses quality)</li>
-            <li><strong>Quality + Efficient</strong> = short context (what most models do best)</li>
-        </ul>
+        <h3>Behavioral Strategies: Making the Model Smarter Within Its Window</h3>
 
         <p>
-            The current frontier (Claude, GPT-4, Gemini) pushes all three using progressive training,
-            GQA for KV efficiency, and massive compute budgets.
+            Instead of making the window bigger, teach the model to <strong>use its existing window more
+            intelligently</strong>. These are agent-level strategies.
         </p>
+
+        <h4>Strategy 1: Surgical Retrieval. Read functions, not files</h4>
+
+        <div class="code-example">
+Dumb:   Read all of user_service.py (2000 lines)      &rarr; ~8K tokens
+Smart:  Read lines 145-178 (the one relevant function) &rarr; ~200 tokens
+                                                         40x reduction</div>
+
+        <p>
+            The agent already knows (from the stack trace or grep) which function matters. Reading the whole
+            file dumps 1800 lines of noise into context that competes for attention with the 30 lines that matter.
+        </p>
+
+        <h4>Strategy 2: Context Eviction. Proactively discard stale information</h4>
+
+        <div class="code-example">
+Turn 3:  Read models/user.py to understand schema     &rarr; 800 tokens in context
+Turn 5:  Already used that info to write the fix
+
+Current: Keep the full file verbatim forever           &rarr; 800 tokens wasted
+Smart:   Compress to "User model: id, email_address, created_at"  &rarr; 20 tokens
+                                                         40x reduction</div>
+
+        <p>
+            After you've acted on information, you rarely need it verbatim. A summary preserves the
+            decision-relevant facts while freeing context for new information.
+        </p>
+
+        <h4>Strategy 3: Structured Memory. Notes over verbatim copies</h4>
+
+        <div class="code-example">
+Current (raw context):
+  Full file stored in conversation history  &rarr; 2000 tokens per file
+  Degrades as it drifts further from attention window
+
+Optimized (structured scratchpad):
+  {
+    "file": "models/user.py",
+    "facts": ["email_address: str", "uses SQLAlchemy", "has created_at"],
+    "re_read_lines": "145-150"    &larr; pointer to re-read if needed
+  }
+  &rarr; 30 tokens, and exact lines are one tool call away</div>
+
+        <h4>Strategy 4: Plan Before Reading. Avoid wrong leads entirely</h4>
+
+        <div class="code-example">
+Dumb:   "auth broken" &rarr; reads auth.py, user.py, session.py, middleware.py,
+        config.py, database.py &rarr; discovers only auth.py + user.py mattered
+        Cost: 6 file reads &times; ~2K = 12K tokens, 4 were wasted
+
+Smart:  "auth broken" &rarr; reads stack trace (200 tokens) &rarr; thinks "crash is in
+        login() calling get_user(), need those two files only" &rarr; reads 2 files
+        Cost: 2 file reads &times; ~2K = 4K tokens, 0 wasted</div>
+
+        <p>
+            200 tokens of planning saves 8K tokens of unnecessary reads.
+        </p>
+
+        <h4>Strategy 5: Compaction as a Tool</h4>
+
+        <p>
+            Compaction doesn't have to be an external system decision. You can give the agent a
+            <code>compact()</code> tool and let it <strong>learn when to use it</strong> through
+            reinforcement learning:
+        </p>
+
+        <div class="code-example">
+Available tools:
+  search(query)         &rarr; search the web
+  calculator(expr)      &rarr; compute math
+  execute_code(code)    &rarr; run Python
+  compact(context)      &rarr; summarize working memory, free up context space
+  extract(context, key) &rarr; pull specific info from long text
+  remember(key, value)  &rarr; save a fact to persistent memory</div>
+
+        <p>
+            The model learns through trial and error: compact too early and you lose critical details.
+            Compact too late and context fills up with noise. Extract key facts before compacting and
+            you get the best of both worlds. This is trainable with RLVR.
+        </p>
+
+        <h3>The Core Principle</h3>
+
+        <div class="code-example">
+Unlimited context &rarr; lazy agent &rarr; dump everything &rarr; hope attention finds signal
+                                                    (it often doesn't)
+
+Tight context     &rarr; disciplined agent &rarr; precise retrieval &rarr; every token earns its place
+                                                             (attention concentrated on signal)</div>
+
+        <div class="note-block">
+            <strong>Key Insight:</strong> A <strong>100K agent that's selective will outperform a 1M agent
+            that's sloppy</strong> because:
+            <ul>
+                <li>Higher signal-to-noise ratio &rarr; attention works better on what's there</li>
+                <li>Less "lost in the middle" because there's less middle</li>
+                <li>Faster per-turn &rarr; more iterations possible &rarr; better refinement</li>
+                <li>Cheaper per turn &rarr; can afford longer sessions</li>
+            </ul>
+        </div>
 
         <hr class="section-break">
 
-        <h2>3. What Does "Reasoning Across Long Context for Coding" Actually Mean?</h2>
-
-        <h3>A Codebase Is Not a Document</h3>
+        <h2>3. At Which Stage Can You Do This?</h2>
 
         <p>
-            When you read a novel, information flows linearly. When you read a codebase, information is
-            a <strong>graph</strong>:
+            LLM development has four stages. Each one offers different knobs for improving context, at
+            very different cost levels. Understanding which stage to operate at is critical.
         </p>
 
         <div class="code-example">
-routes/auth.py  ──imports──►  services/user.py  ──imports──►  models/user.py
-      │                              │                              │
-      │                              ▼                              │
-      │                       utils/hashing.py                      │
-      │                                                             ▼
-      └──────reads───────►  config/settings.py  ◄──reads──  db/migrations/003.py
-                                     ▲
-                                     │
-                              tests/test_auth.py</div>
+Stage 1: Pretraining           &rarr; set context capacity, learn attention patterns
+Stage 2: Mid-Training          &rarr; extend context with RoPE scaling
+Stage 3: Post-Training (SFT/RL) &rarr; teach smart context management behaviors
+Stage 4: Agent Scaffolding      &rarr; system-level context management</div>
 
-        <p>
-            A bug in <code>routes/auth.py</code> might exist because <code>models/user.py</code> changed a
-            field name, which broke <code>services/user.py</code>, which returns <code>None</code> instead of
-            raising, which causes a silent failure in the route. The <strong>relevant information is scattered
-            across 5 files that have no linear relationship to each other</strong>.
-        </p>
+        <h3>Stage 1: Pretraining</h3>
 
-        <p>
-            This is fundamentally different from "read a long document and answer questions." This is
-            "hold a graph in your head and trace paths through it."
-        </p>
+        <p><strong>What you can do:</strong></p>
+        <ul>
+            <li>Choose the positional encoding scheme (RoPE, ALiBi)</li>
+            <li>Choose the attention architecture (full, sparse, sliding window)</li>
+            <li>Train on progressively longer sequences (4K &rarr; 16K &rarr; 64K &rarr; 128K)</li>
+            <li>Curate long-context training data (full codebases, books, legal documents)</li>
+            <li>Build in GQA for KV cache efficiency</li>
+        </ul>
 
-        <h3>What "In Context" Means for an Agentic Coding Tool</h3>
+        <p><strong>Who does this:</strong> Only frontier labs (OpenAI, Anthropic, Google, Meta, DeepSeek). This is where
+        the fundamental context capacity is set. Everything downstream is constrained by what happens here.</p>
 
-        <p>
-            An agentic coding tool runs an <strong>agentic loop</strong>, not a single prompt. Here's what
-            actually happens when you say "fix the auth bug":
-        </p>
+        <p><strong>What it costs:</strong> Tens of millions to billions of dollars. Training on 128K sequences costs
+        1,024x more per sample than 4K (quadratic attention). You need thousands of GPUs for weeks.</p>
 
-        <div class="code-example">
-Turn 1: Model reads the error → decides it needs routes/auth.py → calls Read tool
-Turn 2: Sees the route calls user_service.get_user() → calls Grep to find that function
-Turn 3: Reads services/user.py → sees it queries User model → calls Read on models/user.py
-Turn 4: Reads the model → notices field was renamed in a migration → reads migration
-Turn 5: Now has all 5 files in context → reasons across ALL of them → produces fix</div>
-
-        <p>
-            By turn 5, the context window contains the original error message, 5 source files, the grep
-            results, the model's own reasoning from turns 1-4, and maybe 30-50K tokens total.
-        </p>
+        <p><strong>What you get:</strong> A model that can physically attend to 128K-200K tokens and has
+        actually practiced using long-range attention patterns during training. This is what makes Claude, GPT-4,
+        and Gemini good at long context. They spent enormous compute on long-context pretraining.</p>
 
         <div class="note-block">
-            <strong>Key Point:</strong> "Reasoning across long context" means: at turn 5, the model is
-            simultaneously attending to information from ALL of these sources to produce a coherent fix. It's
-            not just looking at the file it's currently editing &mdash; it's cross-referencing the migration
-            from turn 4 with the model definition from turn 3 with the service call from turn 2.
+            <strong>Realistic for individuals?</strong> No. You use someone else's pretrained model.
         </div>
 
-        <h3>What "Reasoning Across" Actually Requires</h3>
+        <h3>Stage 2: Mid-Training (Context Extension)</h3>
 
-        <p>There are specific cognitive operations that "reasoning across context" implies:</p>
+        <p><strong>What you can do:</strong></p>
+        <ul>
+            <li>Take a model pretrained at 4K-8K and extend to 32K-128K</li>
+            <li>Adjust RoPE parameters (YaRN, NTK scaling, change base frequency)</li>
+            <li>Continue training on 10-100B tokens of long-context data</li>
+        </ul>
+
+        <p><strong>Real examples:</strong></p>
+        <div class="code-example">
+Llama 2 (4K)   &rarr; Code Llama (100K)     via RoPE scaling + continued training
+Mistral (8K)   &rarr; Mistral-128K           via YaRN + fine-tuning
+Qwen (32K)     &rarr; extended versions       via NTK-aware scaling</div>
+
+        <p><strong>What it costs:</strong> Still expensive. You need long-context training data (books, repos, long docs)
+        and significant GPU time. Context extension works well up to ~4x the original length. 32K &rarr; 128K is fine.
+        32K &rarr; 1M is sketchy.</p>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>Quality</th>
+                        <th>Estimated Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4K &rarr; 16K (4x)</td>
+                        <td>Good</td>
+                        <td>~$10K-50K (days on a small cluster)</td>
+                    </tr>
+                    <tr>
+                        <td>4K &rarr; 32K (8x)</td>
+                        <td>Good</td>
+                        <td>~$50K-200K</td>
+                    </tr>
+                    <tr>
+                        <td>4K &rarr; 128K (32x)</td>
+                        <td>Acceptable</td>
+                        <td>~$200K-1M</td>
+                    </tr>
+                    <tr>
+                        <td>4K &rarr; 1M (250x)</td>
+                        <td>Degraded</td>
+                        <td>~$1M+ (and quality is questionable)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note-block">
+            <strong>Realistic for individuals?</strong> Only at the small end (3B model, 4x extension). Most people
+            use models that were already extended by the original lab.
+        </div>
+
+        <h3>Stage 3: Post-Training (SFT and RL)</h3>
+
+        <p><strong>What you can do:</strong></p>
+        <ul>
+            <li>Fine-tune on long-context tasks (needle-in-a-haystack, multi-doc QA)</li>
+            <li>SFT on full multi-turn agent trajectories with tool use</li>
+            <li>RLVR to teach the model <strong>when</strong> to compact, extract, and manage context</li>
+            <li>Train with compaction/memory tools as available actions</li>
+        </ul>
+
+        <p>
+            This is where you teach the model to be <strong>smart within its window</strong>. The context
+            capacity is already set by pretraining. Post-training teaches the model behavioral strategies:
+        </p>
+
+        <div class="code-example">
+What SFT teaches:
+  "Here's what a good trajectory looks like when context gets long.
+   See how the agent compacts at step 5? Copy that."
+
+What RLVR teaches:
+  "Did you solve the task? No? You ran out of context because you didn't compact.
+   Another rollout where you compacted early succeeded. Do more of that."</div>
+
+        <p>
+            RLVR is particularly powerful here because optimal context management is <strong>task-dependent</strong>.
+            Sometimes you should compact aggressively. Sometimes you need every detail. The model learns the
+            strategy through trial and error, not imitation.
+        </p>
+
+        <p><strong>What it costs:</strong></p>
+        <div class="code-example">
+SFT on long-context trajectories:  ~$100-500 (few hours on 4x A100)
+RLVR for context management:       ~$300-700 (part of the full RLVR budget)
+Total:                              ~$500-1200</div>
+
+        <div class="note-block">
+            <strong>Realistic for individuals?</strong> Yes. This is the sweet spot. You take an existing model
+            with a 32K window and teach it to be intelligent about using that window. No architecture changes,
+            no massive compute, just better behavior.
+        </div>
+
+        <h3>Stage 4: Agent Scaffolding</h3>
+
+        <p><strong>What you can do:</strong></p>
+        <ul>
+            <li>Automatic context compaction (summarize old turns when approaching limits)</li>
+            <li>Prompt caching (don't reprocess the same system prompt every turn)</li>
+            <li>Selective file reading (tools load specific functions, not entire files)</li>
+            <li>Conversation summarization (compress old turns into key decisions)</li>
+            <li>KV cache management across turns</li>
+        </ul>
+
+        <p>
+            This is what Claude Code, Cursor, and Codex actually do. The model itself doesn't change.
+            The <strong>system around the model</strong> manages context intelligently.
+        </p>
+
+        <div class="code-example">
+What Claude Code does behind the scenes:
+
+1. Prompt caching:   System prompt (2K tokens) cached server-side.
+                     Not reprocessed every turn.
+
+2. Selective reads:  Agent uses Grep/Glob to find relevant files,
+                     then reads only those. Not the whole codebase.
+
+3. Auto compaction:  When context approaches 200K, older turns get
+                     summarized into ~3K token summaries.
+
+4. KV caching:       Cached prefixes avoid recomputing attention
+                     for the stable part of the conversation.</div>
+
+        <p><strong>What it costs:</strong> Engineering time only. No GPU costs beyond normal inference.</p>
+
+        <div class="note-block">
+            <strong>Realistic for individuals?</strong> Absolutely. Anyone building an agent can implement
+            these strategies. This is the cheapest and most accessible approach.
+        </div>
+
+        <h3>Summary: The Four Stages</h3>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>What It Does</th>
+                        <th>Cost</th>
+                        <th>Who Does It</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pretraining</strong></td>
+                        <td>Sets context capacity, trains long-range attention</td>
+                        <td>$10M-1B+</td>
+                        <td>Frontier labs only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mid-Training</strong></td>
+                        <td>Extends context window with RoPE scaling</td>
+                        <td>$10K-1M</td>
+                        <td>Labs, well-funded startups</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Post-Training (SFT/RL)</strong></td>
+                        <td>Teaches smart context management behaviors</td>
+                        <td>$500-1200</td>
+                        <td>Anyone with a few GPUs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agent Scaffolding</strong></td>
+                        <td>System-level context management</td>
+                        <td>$0 (engineering time)</td>
+                        <td>Anyone building agents</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="section-break">
+
+        <h2>4. Honest Cost Analysis</h2>
+
+        <p>
+            Everyone talks about long context. Nobody talks about what it actually costs. Here's the full picture.
+        </p>
+
+        <h3>Cost of Training with Long Context</h3>
+
+        <p>
+            Attention is O(n&sup2;). This means training costs scale quadratically with context length:
+        </p>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Context Length</th>
+                        <th>Cost per Training Sample (relative to 4K)</th>
+                        <th>What You Need</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4K</td>
+                        <td>1x (baseline)</td>
+                        <td>Standard GPU setup</td>
+                    </tr>
+                    <tr>
+                        <td>32K</td>
+                        <td>64x</td>
+                        <td>Flash Attention, multi-GPU</td>
+                    </tr>
+                    <tr>
+                        <td>128K</td>
+                        <td>1,024x</td>
+                        <td>Multi-node, Ring Attention</td>
+                    </tr>
+                    <tr>
+                        <td>1M</td>
+                        <td>62,500x</td>
+                        <td>Frontier lab compute budget</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Cost of Inference with Long Context</h3>
+
+        <p>Using Claude/GPT-4 API pricing as reference:</p>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Context Used</th>
+                        <th>Cost per Turn (approximate)</th>
+                        <th>30-Turn Session Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4K</td>
+                        <td>~$0.01</td>
+                        <td>~$0.30</td>
+                    </tr>
+                    <tr>
+                        <td>32K</td>
+                        <td>~$0.08</td>
+                        <td>~$2.40</td>
+                    </tr>
+                    <tr>
+                        <td>100K</td>
+                        <td>~$0.25</td>
+                        <td>~$7.50</td>
+                    </tr>
+                    <tr>
+                        <td>200K</td>
+                        <td>~$0.50</td>
+                        <td>~$15.00</td>
+                    </tr>
+                    <tr>
+                        <td>1M</td>
+                        <td>~$2.50</td>
+                        <td>~$75.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>
+            At 1M context, a 30-turn coding session costs $75. Most of those tokens are noise the model barely
+            attends to. A smart agent at 32K would cost $2.40 and probably produce better results.
+        </p>
+
+        <h3>Cost of Self-Hosted Inference</h3>
+
+        <div class="code-example">
+Self-hosted Qwen 3B on A100 ($1.10/hr):
+  4K context:   ~2700 tasks/hour  &rarr; $0.0004/task
+  32K context:  ~500 tasks/hour   &rarr; $0.002/task
+
+Self-hosted 70B on 4x A100 ($4.40/hr):
+  4K context:   ~200 tasks/hour   &rarr; $0.022/task
+  32K context:  ~50 tasks/hour    &rarr; $0.088/task
+  128K context: ~10 tasks/hour    &rarr; $0.440/task</div>
+
+        <h3>The Cost-Performance Sweet Spot</h3>
+
+        <div class="code-example">
+Approach                                  Cost        Quality
+Bigger model + bigger context (brute)     $$$$$       Diminishing returns past 100K
+Same model + smarter agent behavior       $$          Often better than brute force
+Small model + RLVR + smart context mgmt   $           Best value for production</div>
+
+        <div class="note-block">
+            <strong>The honest conclusion:</strong> Past 100K tokens, you're paying exponentially more for
+            linearly diminishing returns. The economically rational approach is to <strong>invest in smarter
+            context management</strong> (post-training + agent scaffolding) rather than bigger context windows.
+            A 32K agent that compacts well beats a 200K agent that wastes context.
+        </div>
+
+        <hr class="section-break">
+
+        <h2>5. What Reasoning Over Long Context Actually Means</h2>
+
+        <p>
+            With the mechanics and costs established, let's address what everyone is actually chasing:
+            making models <strong>reason across</strong> long context, not just hold it.
+        </p>
+
+        <h3>Long-Horizon Tasks: The Motivation</h3>
+
+        <p>
+            <strong>Long-horizon tasks</strong> require many sequential steps, decisions, or
+            intermediate sub-goals before reaching a final outcome. "Reasoning over" them means the model must
+            plan, track state, and make coherent decisions across that entire chain.
+        </p>
+
+        <div class="quantization-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domain</th>
+                        <th>Short-Horizon</th>
+                        <th>Long-Horizon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Coding</td>
+                        <td>"Fix this typo"</td>
+                        <td>"Build a REST API with auth, DB, tests, and deploy it"</td>
+                    </tr>
+                    <tr>
+                        <td>Math</td>
+                        <td>"What is 2+3?"</td>
+                        <td>"Prove this theorem using 15 intermediate lemmas"</td>
+                    </tr>
+                    <tr>
+                        <td>Agents</td>
+                        <td>"Search the web"</td>
+                        <td>"Research a topic, synthesize findings, write a report, iterate on feedback"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>Why It's Hard for LLMs</h4>
+
+        <ol>
+            <li><strong>Error compounding:</strong> A small mistake in step 3 of 20 derails everything downstream.</li>
+            <li><strong>State tracking:</strong> The model must remember what it has done, what remains, and what intermediate results it produced.</li>
+            <li><strong>Planning under uncertainty:</strong> Early decisions constrain later options.</li>
+            <li><strong>Credit assignment:</strong> When the final answer is wrong, it's hard to identify <em>which</em> step failed.</li>
+        </ol>
+
+        <h3>The Difference Between "Holds" and "Reasons Across"</h3>
+
+        <p>
+            This is the crux. Many models support 128K tokens. The question is what happens to information
+            at various positions:
+        </p>
+
+        <div class="code-example">
+Model that HOLDS long context:
+  &check; Can regurgitate text from position 60K if asked "what was in file X?"
+  &cross; Does NOT spontaneously use info from position 60K when generating code at position 120K
+
+Model that REASONS ACROSS long context:
+  &check; While generating code at position 120K, attention heads actively pull
+    information from position 60K because it's relevant
+  &check; Does this without being explicitly told "look at file X"
+  &check; Does this even when the connection is implicit (same variable name,
+    compatible type signature, related business logic)</div>
+
+        <h3>What "Reasoning Across" Looks Like in Code</h3>
 
         <h4>Cross-File Causal Tracing</h4>
 
@@ -455,7 +862,7 @@ def login(request):
 
         <p>
             <strong>This is what "lost in the middle" kills.</strong> A weaker model sees File B, generates
-            a fix like <code>if user is None: return error</code> &mdash; which is correct but shallow. A
+            a fix like <code>if user is None: return error</code>, which is correct but shallow. A
             model reasoning across full context also notices that <code>get_user</code> should probably raise
             <code>UserNotFoundError</code> instead of returning <code>None</code>, because 6 other call sites
             (also in context from earlier grep results) all assume it returns a valid user.
@@ -474,81 +881,30 @@ def login(request):
 
         <p>
             This is <strong>not</strong> stored in any single file. It emerges from reasoning across the
-            <strong>aggregate</strong> context. When the model then generates new code, it should follow
-            these patterns &mdash; not because it was told to, but because it <strong>inferred</strong>
-            them from the context.
-        </p>
-
-        <p>
-            A model that can't reason across long context will generate code that is locally correct but
-            <strong>stylistically alien</strong> to the codebase.
-        </p>
-
-        <h4>Consistency Maintenance Across Edits</h4>
-
-        <p>
-            Say the model needs to rename <code>user_id</code> to <code>account_id</code> across the codebase. It:
-        </p>
-
-        <ul>
-            <li>Finds 23 occurrences across 11 files</li>
-            <li>Must change ALL 23, not 20</li>
-            <li>Must change them in type definitions, function signatures, database queries, test assertions, API schemas, and migration files</li>
-            <li>Must NOT change the string <code>"user_id"</code> in a comment explaining the old schema</li>
-        </ul>
-
-        <p>
-            This requires <strong>holding all 23 occurrences in working memory simultaneously</strong> and
-            reasoning about each one's semantic role. Miss one and you've introduced a bug. Change a wrong
-            one and you've introduced a different bug.
+            <strong>aggregate</strong> context. A model that can't do this generates code that is locally
+            correct but <strong>stylistically alien</strong> to the codebase.
         </p>
 
         <h4>Multi-Step Plan Coherence</h4>
 
         <div class="code-example">
-Step 1: Add new column to User model        → produces migration
-Step 2: Update UserSchema to include field   → must match the column type from step 1
-Step 3: Update create_user service           → must use the schema from step 2
-Step 4: Update API endpoint                  → must match the service signature from step 3
-Step 5: Add test                             → must test the endpoint from step 4 with
+Step 1: Add new column to User model        &rarr; produces migration
+Step 2: Update UserSchema to include field   &rarr; must match the column type from step 1
+Step 3: Update create_user service           &rarr; must use the schema from step 2
+Step 4: Update API endpoint                  &rarr; must match the service signature from step 3
+Step 5: Add test                             &rarr; must test the endpoint from step 4 with
                                                 the schema from step 2 using the model from step 1</div>
 
         <p>
             By step 5, the model is writing test code that must be <strong>simultaneously consistent with
-            decisions made in steps 1-4</strong>, all of which are in the context from earlier turns. If the
-            model "forgets" that it used <code>account_id</code> in step 1 and writes <code>user_id</code>
-            in the step 5 test, <strong>the entire chain breaks</strong>.
-        </p>
-
-        <h3>The Difference Between "Holds" and "Reasons Across"</h3>
-
-        <p>
-            This is the crux. Many models support 128K tokens. The question is what happens to information
-            at various positions:
-        </p>
-
-        <div class="code-example">
-Model that HOLDS long context:
-  ✓ Can regurgitate text from position 60K if asked "what was in file X?"
-  ✗ Does NOT spontaneously use info from position 60K when generating code at position 120K
-
-Model that REASONS ACROSS long context:
-  ✓ While generating code at position 120K, attention heads actively pull
-    information from position 60K because it's relevant
-  ✓ Does this without being explicitly told "look at file X"
-  ✓ Does this even when the connection is implicit (same variable name,
-    compatible type signature, related business logic)</div>
-
-        <p>
-            The difference is whether the model's <strong>attention patterns during generation</strong>
-            actually reach back and meaningfully integrate distant information, versus just having it
-            present but functionally ignored.
+            decisions made in steps 1-4</strong>. If the model "forgets" that it used <code>account_id</code>
+            in step 1 and writes <code>user_id</code> in the step 5 test, <strong>the entire chain breaks</strong>.
         </p>
 
         <h3>Why This Is So Hard (The Non-Obvious Part)</h3>
 
         <p>
-            The real difficulty isn't memory &mdash; it's <strong>relevance detection at scale</strong>.
+            The real difficulty isn't memory. It's <strong>relevance detection at scale</strong>.
         </p>
 
         <p>
@@ -563,12 +919,6 @@ Model that REASONS ACROSS long context:
             <li>Do this <strong>for every token it generates</strong></li>
         </ol>
 
-        <p>
-            This is a needle-in-a-haystack problem <strong>at every single generation step</strong>, not
-            just once. And the "needle" changes for every token &mdash; the relevant context for choosing
-            a function name is different from the relevant context for choosing its arguments.
-        </p>
-
         <div class="code-example">
 Generating: token = generate_token(user.?????)
 
@@ -578,245 +928,30 @@ To decide this next token, the model must:
 - Recall project convention (positions 5K, 12K, 31K): always uses model attributes directly
 - Ignore 99.5% of everything else in context
 
-→ Output: "email_address"</div>
+&rarr; Output: "email_address"</div>
 
-        <h3>Summary: What "Reasons Across Long Context for Coding" Claims</h3>
-
-        <ol>
-            <li><strong>The agentic loop</strong> gathers the right files into context (tool use + search strategy)</li>
-            <li><strong>The model</strong> attends to information across the full accumulated context &mdash; not just the most recent file</li>
-            <li><strong>Cross-references</strong> are made between distant parts of the context without explicit prompting</li>
-            <li><strong>Generated code</strong> is consistent with patterns, types, names, and conventions observed anywhere in the context, not just locally</li>
-            <li><strong>Multi-step edits</strong> maintain coherence from first change to last</li>
-            <li><strong>Causal chains</strong> spanning multiple files are traced correctly</li>
-        </ol>
-
-        <div class="note-block">
-            <strong>Bottom Line:</strong> It's the combination of the agentic scaffolding (getting the right info
-            into context) and the model's actual attention quality over that context (using the info once it's there)
-            that makes it work.
-        </div>
-
-        <h3>Implications for Fine-Tuning & Evaluation</h3>
+        <h3>How Models Address Long-Horizon Reasoning</h3>
 
         <ul>
-            <li><strong>Evaluation is hard.</strong> You can't test "long context reasoning for code" with a simple needle-in-a-haystack test. You need:
-                <ul>
-                    <li>Multi-file edit consistency benchmarks</li>
-                    <li>Cross-file bug localization tasks</li>
-                    <li>"Apply this pattern codebase-wide" tasks</li>
-                    <li>Multi-step refactoring that must maintain correctness at each step</li>
-                </ul>
-            </li>
-            <li><strong>Post-training (RLHF/RL) matters</strong> &mdash; supervised fine-tuning teaches the model what good code looks like locally, but RL teaches it to <strong>maintain coherence across the full context</strong>.</li>
+            <li><strong>Chain-of-thought (CoT):</strong> Explicit step-by-step reasoning reduces the per-step difficulty.</li>
+            <li><strong>Tree/graph search (ToT, GoT):</strong> Explore multiple reasoning paths, backtrack when stuck.</li>
+            <li><strong>Reinforcement learning (GRPO, PPO):</strong> Train models to get reward for correct <em>final</em> answers, forcing them to learn robust multi-step strategies. This is what DeepSeek-R1 and OpenAI's o1/o3 do.</li>
+            <li><strong>Process reward models (PRMs):</strong> Give reward at <em>each step</em>, not just the final answer, so the model learns which intermediate steps are good.</li>
+            <li><strong>Decomposition:</strong> Break the long task into sub-tasks, solve each, then compose.</li>
         </ul>
 
-        <hr class="section-break">
-
-        <h2>4. Why 200K Context and Not 1M? &mdash; And Why 100K Is Enough</h2>
-
-        <h3>The Problem: Bigger Context &ne; Better Reasoning</h3>
-
-        <div class="quantization-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Context Length</th>
-                        <th>Needle Retrieval</th>
-                        <th>Reasoning Quality</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>4K</td>
-                        <td>~99%</td>
-                        <td>excellent</td>
-                    </tr>
-                    <tr>
-                        <td>32K</td>
-                        <td>~97%</td>
-                        <td>very good</td>
-                    </tr>
-                    <tr>
-                        <td>100K</td>
-                        <td>~90%</td>
-                        <td>good</td>
-                    </tr>
-                    <tr>
-                        <td>200K</td>
-                        <td>~85%</td>
-                        <td>acceptable</td>
-                    </tr>
-                    <tr>
-                        <td>500K</td>
-                        <td>~60%</td>
-                        <td>degraded</td>
-                    </tr>
-                    <tr>
-                        <td>1M</td>
-                        <td>~40%</td>
-                        <td>significantly degraded</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <p>
-            Going from 200K to 1M doesn't give 5x useful context &mdash; it gives ~800K tokens the model
-            <strong>barely attends to</strong>. Three forces make larger context impractical:
-        </p>
-
-        <p>
-            <strong>Cost:</strong> At 1M context, a 30-turn coding session costs ~$36 vs ~$7 at 200K (5x).
-            Most of those extra tokens are noise.
-        </p>
-
-        <p>
-            <strong>Latency:</strong> Attention is O(n&sup2;). Doubling context = 4x compute. 200K&rarr;1M =
-            <strong>25x attention cost</strong>. Prefill jumps from ~3-5s to ~15-30s per turn, making an
-            agentic loop unusable.
-        </p>
-
-        <p>
-            <strong>Training:</strong> Training on 1M-length sequences costs 62,500x more per sample than 4K.
-            And finding millions of high-quality 1M-token documents with genuine long-range dependencies is
-            nearly impossible.
-        </p>
-
-        <h3>The Solution: Smart Agents Beat Big Context</h3>
-
-        <h4>Problem: Current agents waste most of their context</h4>
-
-        <div class="code-example">
-Typical 56K token session breakdown:
-  System prompt + instructions:       3K   ✓ needed
-  Relevant source files:             7.5K  ✓ needed
-  Grep results:                       3K   ~60% useful
-  Irrelevant file (wrong lead):      1.5K  ✗ wasted
-  Model's stale reasoning history:   12K   ✗ redundant after acting on it
-  Tool call formatting overhead:      4K   ✗ pure overhead
-  Old conversation turns (verbatim): 25K   ✗ mostly stale
-  ─────────────────────────────────────────
-  Total:                             56K
-  Actually needed for the fix:       ~12K  ← only 21% is signal</div>
-
-        <h4>Solution 1: Surgical Retrieval &mdash; Read functions, not files</h4>
-
-        <div class="code-example">
-Dumb:   Read all of user_service.py (2000 lines)      → ~8K tokens
-Smart:  Read lines 145-178 (the one relevant function) → ~200 tokens
-                                                         40x reduction</div>
-
-        <p>
-            <strong>Why it works:</strong> The agent already knows (from the stack trace or grep) which function
-            matters. Reading the whole file dumps 1800 lines of noise into context that competes for attention
-            with the 30 lines that matter.
-        </p>
-
-        <h4>Solution 2: Context Eviction &mdash; Proactively discard stale information</h4>
-
-        <div class="code-example">
-Turn 3:  Read models/user.py to understand schema     → 800 tokens in context
-Turn 5:  Already used that info to write the fix
-
-Current: Keep the full file verbatim forever           → 800 tokens wasted
-Smart:   Compress to "User model: id, email_address, created_at"  → 20 tokens
-                                                         40x reduction</div>
-
-        <p>
-            <strong>Why it works:</strong> After you've acted on information, you rarely need it verbatim. A
-            summary preserves the decision-relevant facts while freeing context for new information. Current
-            agents only compress when hitting limits &mdash; smart agents compress proactively.
-        </p>
-
-        <h4>Solution 3: Structured Memory &mdash; Notes over verbatim copies</h4>
-
-        <div class="code-example">
-Current (raw context):
-  Full file stored in conversation history  → 2000 tokens per file
-  Degrades as it drifts further from attention window
-
-Optimized (structured scratchpad):
-  {
-    "file": "models/user.py",
-    "facts": ["email_address: str", "uses SQLAlchemy", "has created_at"],
-    "re_read_lines": "145-150"    ← pointer to re-read if needed
-  }
-  → 30 tokens, and exact lines are one tool call away</div>
-
-        <p>
-            <strong>Why it works:</strong> Gives the agent an external "notebook" instead of relying on attention
-            over raw tokens. The model decides what's important, writes it down concisely, and can re-fetch
-            details on demand.
-        </p>
-
-        <h4>Solution 4: Plan Before Reading &mdash; Avoid wrong leads entirely</h4>
-
-        <div class="code-example">
-Dumb:   "auth broken" → reads auth.py, user.py, session.py, middleware.py,
-        config.py, database.py → discovers only auth.py + user.py mattered
-        Cost: 6 file reads × ~2K = 12K tokens, 4 were wasted
-
-Smart:  "auth broken" → reads stack trace (200 tokens) → thinks "crash is in
-        login() calling get_user(), need those two files only" → reads 2 files
-        Cost: 2 file reads × ~2K = 4K tokens, 0 wasted</div>
-
-        <p>
-            <strong>Why it works:</strong> 200 tokens of planning saves 8K tokens of unnecessary reads. The model
-            spends attention budget thinking about what to retrieve rather than dumping everything and hoping
-            attention sorts it out.
-        </p>
-
-        <h3>The Core Principle</h3>
-
-        <div class="code-example">
-Unlimited context → lazy agent → dump everything → hope attention finds signal
-                                                    (it often doesn't)
-
-Tight context     → disciplined agent → precise retrieval → every token earns its place
-                                                             (attention concentrated on signal)</div>
-
         <div class="note-block">
-            <strong>Key Insight:</strong> A <strong>100K agent that's selective will outperform a 1M agent
-            that's sloppy</strong> because:
-            <ul>
-                <li>Higher signal-to-noise ratio &rarr; attention works better on what's there</li>
-                <li>Less "lost in the middle" because there's less middle</li>
-                <li>Faster per-turn &rarr; more iterations possible &rarr; better refinement</li>
-                <li>Cheaper per turn &rarr; can afford longer sessions</li>
-            </ul>
-            This mirrors <strong>human working memory</strong>: we hold ~7 items. That constraint forces us to
-            organize, prioritize, and abstract &mdash; producing better reasoning than trying to hold everything at once.
+            <strong>Key Insight:</strong> Supervised fine-tuning alone struggles with long-horizon reasoning because it
+            only imitates. RL lets the model <em>discover</em> better strategies through exploration. The gap between
+            models that can chain 5 steps vs. 50 steps reliably is exactly the frontier of "reasoning models" right now.
         </div>
 
-        <h3>Where the Field Is Heading</h3>
-
-        <div class="code-example">
-Phase 1 (2023): "Make context bigger"     → brute force, GPT-4 128K, Gemini 1M
-Phase 2 (2024): "Make context smarter"    → better attention training, YaRN, RoPE scaling
-Phase 3 (2025+): "Make agents leaner"     → use less context more effectively
-                  ├── Surgical retrieval   (read functions, not files)
-                  ├── Active eviction      (discard stale context proactively)
-                  ├── Structured memory    (notes > verbatim copies)
-                  ├── Plan-then-retrieve   (think before reading)
-                  └── Parallel targeted reads (speculative tool use)</div>
-
-        <div class="note-block">
-            <strong>The Endgame:</strong> An agent that navigates a million-file codebase using a 50K context
-            window, because it knows exactly where to look and what to remember. The next breakthrough won't
-            be "2M context" &mdash; it'll be "same quality at 64K with 10x less cost and 5x less latency."
-        </div>
-
-        <hr class="section-break">
-
-        <h2>5. How Agentic Coding Tools Achieve Long-Context Reasoning</h2>
+        <h3>How Agentic Tools Put It All Together</h3>
 
         <p>
             No vector database. No knowledge graph. No external memory. Just a flat conversation where the
             <strong>model is simultaneously the retriever, the planner, and the reasoner</strong>.
         </p>
-
-        <h3>The Architecture: Everything Is a Conversation</h3>
 
         <div class="code-example">
 Msg 1:  [system]     System prompt + project instructions         (~3K tokens)
@@ -837,21 +972,7 @@ Msg 11: [assistant]  "Fixed. Here's what I changed..."</div>
             coherent fix.
         </p>
 
-        <h3>Mechanism 1: The Model IS the Retriever</h3>
-
-        <div class="code-example">
-RAG pipeline:
-  Query → Embedding model → Vector search → Top-K chunks → LLM generates
-  Problem: Embedding model and LLM are DIFFERENT models.
-           Retriever doesn't know what the generator will need.
-           Selection is based on surface similarity, not causal reasoning.
-
-Agentic approach:
-  Question → Model thinks "crash is in login(), which calls get_user()" → Grep
-           → Model reads result, thinks "defined in user.py, need to check return type" → Read
-           → The SAME model choosing what to retrieve will use what it retrieves.</div>
-
-        <p>The critical difference:</p>
+        <h4>The Model IS the Retriever</h4>
 
         <div class="code-example">
 RAG retriever:     "This text is 0.87 similar to the query"     (statistical)
@@ -860,31 +981,26 @@ Agentic retriever: "The crash is in login() calling get_user(),
 
         <p>
             No embedding approximation. No similarity threshold. The model reasons about code dependencies
-            and retrieves based on <strong>understanding</strong>, not pattern matching.
+            and retrieves based on <strong>understanding</strong>, not pattern matching. And the same model
+            choosing what to retrieve will use what it retrieves.
         </p>
 
-        <h3>Mechanism 2: Iterative Context Building</h3>
-
-        <p>
-            The agent doesn't load everything at once. Understanding is built turn by turn:
-        </p>
+        <h4>Iterative Context Building</h4>
 
         <div class="code-example">
-Turn 1: Read error       → "login endpoint crashes with NoneType"
-Turn 2: Read auth.py     → "user.email fails because user is None"
-Turn 3: Grep get_user    → "get_user is in services/user.py, returns .first()"
-Turn 4: Read user.py     → ".first() returns None when no match, no error raised"
-Turn 5: Read tests       → "tests expect UserNotFoundError — but it's never raised"</div>
+Turn 1: Read error       &rarr; "login endpoint crashes with NoneType"
+Turn 2: Read auth.py     &rarr; "user.email fails because user is None"
+Turn 3: Grep get_user    &rarr; "get_user is in services/user.py, returns .first()"
+Turn 4: Read user.py     &rarr; ".first() returns None when no match, no error raised"
+Turn 5: Read tests       &rarr; "tests expect UserNotFoundError, but it's never raised"</div>
 
         <p>
             Each turn refines understanding. By turn 5, the model has a complete causal chain in context AND
             has been building its mental model incrementally. This is fundamentally better than dumping 5 files
-            cold &mdash; the <strong>order of discovery</strong> helps the model organize information.
+            cold. The <strong>order of discovery</strong> helps the model organize information.
         </p>
 
-        <h3>Mechanism 3: Automatic Context Compression</h3>
-
-        <p>When context approaches the limit, older messages get summarized:</p>
+        <h4>Automatic Context Compression</h4>
 
         <div class="code-example">
 Before (approaching limit):
@@ -895,7 +1011,7 @@ After compression:
     "Investigated auth bug. get_user() returns None instead of raising.
      Fixed routes/auth.py and services/user.py. User asked to update tests."
   Messages 16-30: Full verbatim content                    (~90K tokens)
-  Total: ~98K — back under budget</div>
+  Total: ~98K, back under budget</div>
 
         <p>
             This mirrors what attention does naturally (recent = high attention, old = low attention), but
@@ -903,77 +1019,35 @@ After compression:
             180K tokens.
         </p>
 
-        <h3>Mechanism 4: Ground Truth Over Approximation</h3>
+        <hr class="section-break">
 
-        <p>Every tool result is <strong>actual file content</strong>, not an embedding or summary:</p>
-
-        <div class="code-example">
-Vector RAG:     Retrieves chunk that's 0.89 similar. Maybe correct. Maybe stale index.
-Claude Code:    Reads the actual file right now. Always current. Exact syntax.</div>
-
-        <p>
-            For code, this matters enormously &mdash; a single wrong character (<code>.email</code> vs
-            <code>.email_address</code>) breaks everything. Embeddings can't distinguish these; direct
-            file reads can.
-        </p>
-
-        <h3>What Attention Does During Generation</h3>
-
-        <p>When generating an edit, the model's attention simultaneously reaches:</p>
+        <h2>6. Where the Field Is Heading</h2>
 
         <div class="code-example">
-Position ~500    (system prompt):   "write safe, secure code"        → error handling style
-Position ~1200   (user message):    "fix the auth bug"               → intent
-Position ~5000   (grep results):    "get_user at user.py:152"        → function location
-Position ~8000   (user.py source):  "return ...first()"              → knows it returns Optional
-Position ~12000  (auth.py source):  "user.email"                     → the crash point
-Position ~14000  (test file):       "assert raises(UserNotFoundError)"→ expected behavior
-
-All positions attended to simultaneously at every generated token.</div>
+Phase 1 (2023): "Make context bigger"     &rarr; brute force, GPT-4 128K, Gemini 1M
+Phase 2 (2024): "Make context smarter"    &rarr; better attention training, YaRN, RoPE scaling
+Phase 3 (2025+): "Make agents leaner"     &rarr; use less context more effectively
+                  &boxvr;&boxh; Surgical retrieval   (read functions, not files)
+                  &boxvr;&boxh; Active eviction      (discard stale context proactively)
+                  &boxvr;&boxh; Structured memory    (notes &gt; verbatim copies)
+                  &boxvr;&boxh; Plan-then-retrieve   (think before reading)
+                  &boxur;&boxh; Compaction as a learnable skill (RLVR trains when to compress)</div>
 
         <p>
-            A model "good at long context" = attention heads at position 15000 successfully assign high
-            weight to relevant tokens at positions 500, 5000, 8000, 12000, 14000 &mdash; without being
-            told which positions to look at.
+            The endgame is not "2M context." It's an agent that navigates a million-file codebase using a
+            50K context window, because it knows exactly where to look and what to remember. The next
+            breakthrough won't be bigger windows. It'll be <strong>same quality at 64K with 10x
+            less cost and 5x less latency</strong>.
         </p>
 
-        <h3>The Design Tradeoff</h3>
-
-        <div class="comparison-table">
-            <div class="comparison-column">
-                <h5>What this approach gives up</h5>
-                <ul>
-                    <li>No persistence across sessions (re-explores each time)</li>
-                    <li>No pre-indexed codebase (must search fresh)</li>
-                    <li>Each tool call has latency (not instant retrieval)</li>
-                </ul>
-            </div>
-            <div class="comparison-column">
-                <h5>What this approach gains</h5>
-                <ul>
-                    <li>Zero setup &mdash; works on any codebase immediately</li>
-                    <li>Always-fresh reads &mdash; no stale index</li>
-                    <li>100% ground truth &mdash; actual file contents, not approximations</li>
-                    <li>Retrieval guided by reasoning, not statistical similarity</li>
-                    <li>Simple architecture &mdash; no external systems to maintain</li>
-                </ul>
-            </div>
+        <div class="note-block">
+            <strong>Bottom Line:</strong> Context length is determined by architecture (positional encodings,
+            attention cost, KV cache). It can be extended at different training stages, each at vastly different
+            costs. But the most impactful and accessible approach is to make the model smarter within its
+            existing window, through post-training (SFT/RLVR) and agent-level strategies. A disciplined
+            32K agent that compacts, extracts, and plans will outperform a sloppy 200K agent on real tasks,
+            at a fraction of the cost.
         </div>
-
-        <h3>Summary</h3>
-
-        <div class="code-example">
-How agentic coding tools achieve long-context reasoning:
-
-1. ARCHITECTURE:   Flat conversation. No hidden memory. No vector DB.
-2. RETRIEVAL:      The model IS the retriever — reasons about what to read.
-3. BUILDING:       Context built iteratively, each turn refining understanding.
-4. COMPRESSION:    Old context summarized when approaching limits.
-5. GROUND TRUTH:   Tool results are actual file contents, not approximations.
-6. ATTENTION:      At generation, model attends across ALL accumulated context.
-
-Works because the model is good enough to:
-  plan retrieval → execute it → reason across all results simultaneously</div>
 
         <hr class="section-break">
 
@@ -989,8 +1063,32 @@ Works because the model is good enough to:
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Long-horizon reasoning</td>
-                        <td>Planning and executing across many dependent steps without error compounding</td>
+                        <td>RoPE (Rotary Position Embedding)</td>
+                        <td>Encodes position as rotation angle; works within training range, degrades outside it</td>
+                    </tr>
+                    <tr>
+                        <td>YaRN / NTK scaling</td>
+                        <td>Scale RoPE frequency base instead of positions; better local resolution, still needs fine-tuning</td>
+                    </tr>
+                    <tr>
+                        <td>O(n&sup2;) attention cost</td>
+                        <td>Why doubling context = 4x compute, making 1M context 25x costlier than 200K</td>
+                    </tr>
+                    <tr>
+                        <td>KV cache</td>
+                        <td>Stored Key/Value vectors per token per layer; 327 KB/token for 70B model, main memory bottleneck</td>
+                    </tr>
+                    <tr>
+                        <td>GQA (Grouped Query Attention)</td>
+                        <td>Share KV heads across query heads to reduce KV cache size (e.g., 64 query &rarr; 8 KV heads)</td>
+                    </tr>
+                    <tr>
+                        <td>Flash Attention</td>
+                        <td>Exact full attention with O(n) memory via tiled computation. No quality loss. Not sparse attention.</td>
+                    </tr>
+                    <tr>
+                        <td>Sparse Attention</td>
+                        <td>Local + global + random patterns. O(n) cost but drops some connections. Quality loss.</td>
                     </tr>
                     <tr>
                         <td>Lost in the middle</td>
@@ -999,6 +1097,18 @@ Works because the model is good enough to:
                     <tr>
                         <td>Effective vs. claimed context</td>
                         <td>Architectural support &ne; actual retrieval/reasoning ability at that length</td>
+                    </tr>
+                    <tr>
+                        <td>Training distribution mismatch</td>
+                        <td>Model never practiced attending to position 50K if trained on 4K docs</td>
+                    </tr>
+                    <tr>
+                        <td>Context trilemma</td>
+                        <td>Long + Quality + Efficient: pick at most two</td>
+                    </tr>
+                    <tr>
+                        <td>Long-horizon reasoning</td>
+                        <td>Planning and executing across many dependent steps without error compounding</td>
                     </tr>
                     <tr>
                         <td>Cross-file causal tracing</td>
@@ -1017,10 +1127,6 @@ Works because the model is good enough to:
                         <td>Rewarding each reasoning step, not just the final answer</td>
                     </tr>
                     <tr>
-                        <td>Agentic context accumulation</td>
-                        <td>Iteratively gathering the right information into context via tool use</td>
-                    </tr>
-                    <tr>
                         <td>Surgical retrieval</td>
                         <td>Reading only the relevant function/lines instead of entire files</td>
                     </tr>
@@ -1037,52 +1143,16 @@ Works because the model is good enough to:
                         <td>Spending tokens thinking about what to read before reading anything</td>
                     </tr>
                     <tr>
-                        <td>Signal-to-noise ratio</td>
-                        <td>The % of context tokens that actually contribute to the current generation</td>
-                    </tr>
-                    <tr>
-                        <td>O(n&sup2;) attention cost</td>
-                        <td>Why doubling context = 4x compute, making 1M context 25x costlier than 200K</td>
-                    </tr>
-                    <tr>
-                        <td>RoPE</td>
-                        <td>Encodes position as rotation angle; works within training range, degrades outside it</td>
-                    </tr>
-                    <tr>
-                        <td>Position interpolation</td>
-                        <td>Scale positions down to fit trained range; trades resolution for extrapolation</td>
-                    </tr>
-                    <tr>
-                        <td>YaRN / NTK scaling</td>
-                        <td>Scale RoPE frequency base instead of positions; better local resolution</td>
-                    </tr>
-                    <tr>
-                        <td>KV cache</td>
-                        <td>Stored Key/Value vectors per token per layer; ~327 KB/token for 70B model</td>
-                    </tr>
-                    <tr>
-                        <td>GQA</td>
-                        <td>Share KV heads across query heads to reduce KV cache size</td>
-                    </tr>
-                    <tr>
-                        <td>Training distribution mismatch</td>
-                        <td>Model never practiced attending to position 50K if trained on 4K docs</td>
-                    </tr>
-                    <tr>
-                        <td>Context trilemma</td>
-                        <td>Long + Quality + Efficient &mdash; pick at most two</td>
-                    </tr>
-                    <tr>
                         <td>Model-as-retriever</td>
-                        <td>The generating model also decides what to retrieve, replacing separate search</td>
-                    </tr>
-                    <tr>
-                        <td>Iterative context building</td>
-                        <td>Understanding built turn-by-turn; order of discovery helps organize information</td>
+                        <td>The generating model also decides what to retrieve, replacing separate embedding-based search</td>
                     </tr>
                     <tr>
                         <td>Automatic context compression</td>
                         <td>Summarize old turns when approaching limits; honest version of attention decay</td>
+                    </tr>
+                    <tr>
+                        <td>Prompt caching</td>
+                        <td>Cache repeated prefixes server-side to avoid reprocessing the same system prompt every turn</td>
                     </tr>
                 </tbody>
             </table>
