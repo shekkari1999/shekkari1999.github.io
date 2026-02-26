@@ -80,74 +80,87 @@
     \href{mailto:shekkari.akhil@gmail.com}{shekkari.akhil@gmail.com} \textbar\
     +1 (425) 426-8292
 \end{center}
-\vspace{-0.55cm}
+\vspace{-0.4cm}
 
 %-----------SUMMARY-----------
 \section{Summary}
+\vspace{2pt}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{
-    \item AI engineer with 3+ years of industry experience shipping RAG pipelines, LLM evaluation systems, and ML models to production. Deep hands-on expertise in \textbf{LLM post-training} (RLHF, GRPO), \textbf{agentic systems} (tool use, multi-step reasoning, MCP), and \textbf{inference optimization} (KV-cache, paged attention, Triton kernels).
+    \item \textbf{AI Engineer} with 3+ years of industry experience building and deploying \textbf{production LLM systems}. Specialized in Agents, post-training, and inference optimization, with a focus on evaluation and scalable system design.
   }
 \end{itemize}
-\vspace{-0.55cm}
+\vspace{-0.45cm}
 
 %-----------EXPERIENCE-----------
 \section{Experience}
+\vspace{2pt}
   \resumeSubHeadingListStart
 
     \resumeSubheadingSingle
-      {AI Engineer \textbar\ Atrium \textbar\ Silver Spring, USA}{June 2025 to August 2025}
+      {AI Engineer \textbar\ Atrium \textbar\ Silver Spring, USA}{June 2025 - August 2025}
       \resumeItemListStart
-        \resumeItem{Automated \textbf{Statistical Analysis Plan (SAP)} generation from clinical trial documents for Pfizer's team, reducing drafting time by \textbf{up to 60\%}.}
-        \resumeItem{Evaluated knowledge graphs, naive chunking, and semantic chunking strategies; benchmarked \textbf{embedding models} (OpenAI, BiomedBERT, Cohere) and \textbf{hybrid retrieval} (dense + BM25 sparse), and selected the best-performing RAG configuration on internal test sets.}
+        \resumeItem{Automated Statistical Analysis Plan  generation from clinical trial documents for \textbf{Pfizer's team}, reducing drafting time by up to \textbf{60\%}.}
+        \resumeItem{Evaluated knowledge graphs, naive chunking, and semantic chunking strategies; benchmarked \textbf{embedding models} (OpenAI) and \textbf{hybrid retrieval} (dense + BM25 sparse), and selected the best-performing RAG configuration on internal test sets.}
         \resumeItem{Built a custom \textbf{LLM-as-a-Judge} evaluation system with structured rubrics scoring completeness, guideline adherence, and hallucination detection against ground truth SAPs, achieving \textbf{82\% precision} and \textbf{78\% recall}.}
-        \resumeItem{Ran \textbf{50+ prompt experiments} (temperature, system prompts, few-shot examples, input formatting), improving generation consistency by \textbf{20\%} and reducing manual revision cycles by \textbf{30\%}.}
+        \resumeItem{Conducted multiple prompt experiments improving generation consistency by \textbf{20\%} and reducing manual revision cycles by \textbf{30\%}.}
       \resumeItemListEnd
 
+    \vspace{2pt}
+
     \resumeSubheadingSingle
-      {Software Developer \textbar\ Tezo \textbar\ India}{July 2021 to July 2024}
+      {Machine Learning Engineer \textbar\ Tezo \textbar\ India}
+      {July 2021 - July 2024}
       \resumeItemListStart
-        \resumeItem{Built a \textbf{RAG-powered chatbot} over SharePoint repositories, giving \textbf{200+ employees} a unified search interface across \textbf{10k+ internal documents} with sub-second retrieval.}
-        \resumeItem{Engineered a \textbf{semantic search pipeline} (embeddings + vector DB) reducing document lookup time by \textbf{60\%}, and added \textbf{LLM-based summarization} cutting manager review time by \textbf{35\%}.}
-        \resumeItem{Trained \textbf{ML models} for insurance policy scoring and fraud detection, improving fraud recall by \textbf{15\%} and enabling earlier intervention across the claims pipeline.}
-        \resumeItem{Containerized and deployed all services with \textbf{Docker + CI/CD} on secure on-prem infrastructure with \textbf{99.5\% uptime}.}
+        \resumeItem{ Built a \textbf{RAG} powered chatbot over SharePoint repositories, giving \textbf{200+} employees a unified search interface across \textbf{1,000+} internal documents with sub-second retrieval.}
+        \resumeItem{Engineered a  \textbf{semantic search} pipeline (embeddings + vector DB) reducing document lookup time by \textbf{60\%}, and added LLM-based summarization cutting manager review time by \textbf{35\%}.}
+        \resumeItem{Optimized \textbf{chunking} and \textbf{retrieval} by benchmarking chunk sizes, overlap strategies, and hybrid search, improving answer relevance and reducing hallucination rates across document types.}
+        \resumeItem{Built an \textbf{evaluation} pipeline to measure RAG output quality tracking faithfulness, retrieval relevance, and hallucination rates across queries, enabling data-driven iteration on the retrieval and generation stages.}
+        \resumeItem{\textbf{Trained ML models} for insurance policy scoring and fraud detection, improving fraud recall by \textbf{15\%} and enabling earlier intervention across the claims pipeline.}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
-\vspace{-0.15cm}
+\vspace{-0.45cm}
 
 %-----------PROJECTS-----------
 \section{Projects}
+\vspace{-0.5pt}
 \resumeSubHeadingListStart
 
   \resumeProjectHeading
-      {\textbf{AI Agent Framework} {\small\href{https://github.com/shekkari1999/Agents}{GitHub}}}{2025}
+      {\textbf{RL Post-Training for LLM Reasoning at Scale} {\small\href{https://github.com/shekkari1999/reasoning}{GitHub}}}{2025}
       \resumeItemListStart
-        \resumeItem{Built a \textbf{multi-step reasoning agent} from scratch: agentic loop with function calling, \textbf{MCP integration} for external tool servers, Pydantic-validated structured outputs, and sliding-window memory with compaction.}
-        \resumeItem{Implemented \textbf{5+ tools} (web search, code execution, multi-format file handling) with callback-driven observability and session persistence via FastAPI.}
-        \resumeItem{\textbf{LoRA fine-tuned Qwen 3B} for chat and function calling using \textbf{QLoRA} (4-bit NormalFloat), then replaced the OpenAI backbone with the fine-tuned model as the agent's reasoning engine.}
-        \resumeItem{Evaluated on the \textbf{GAIA benchmark} (GPT-4o vs Claude vs fine-tuned Qwen), achieving competitive scores on Level 1 to 3 multi-step tasks.}
+        \resumeItem{Post-trained \textbf{Qwen-2.5} into a reasoning model in raw PyTorch, reproducing a DeepSeek-R1-style pipeline: supervised fine-tuning on chain-of-thought traces followed by \textbf{GRPO} reinforcement learning to elicit long-horizon reasoning without a learned critic.}
+        \resumeItem{Scaled \textbf{RL} training across multiple GPUs using \textbf{FSDP} with mixed precision and gradient accumulation; overlapped rollout generation and policy updates via \textbf{NCCL} to maximize hardware utilization.}
+        \resumeItem{\textbf{Profiled} distributed training with \textbf{Nsight Systems} and \textbf{Nsight Compute}, diagnosing all-reduce communication stalls and CUDA kernel launch overhead to reduce idle time and improve GPU efficiency.}
+        \resumeItem{\textbf{Evaluated performance} on GSM8K and MATH using a SymPy-based symbolic equivalence harness, observing consistent gains over the base model after SFT and GRPO.}
       \resumeItemListEnd
 
-  \resumeProjectHeading
-      {\textbf{Building a Reasoning LLM} {\small\href{https://github.com/shekkari1999/reasoning}{GitHub}}}{2025}
-      \resumeItemListStart
-        \resumeItem{Implemented the full \textbf{post-training pipeline} to turn a base LLM (Qwen-2.5) into a reasoning model: inference-time scaling, self-refinement, and \textbf{GRPO reinforcement learning} from raw PyTorch (no TRL).}
-        \resumeItem{Scaled training with \textbf{FSDP} and \textbf{gradient accumulation} across multiple GPUs; implemented \textbf{data, tensor, and pipeline parallelism} strategies for efficient rollout generation and policy updates.}
-        \resumeItem{Built custom inference engine with \textbf{KV-cache} and sampling, plus a math evaluation harness with \textbf{SymPy symbolic equivalence} on GSM8K and MATH benchmarks. Implemented \textbf{chain-of-thought, self-consistency}, and self-refinement.}
-      \resumeItemListEnd
+  \vspace{2pt}
 
   \resumeProjectHeading
-      {\textbf{Mini Inference Engine} {\small\href{https://github.com/shekkari1999/mini-Inference-engine-from-scratch}{GitHub}}}{2025}
-      \resumeItemListStart
-        \resumeItem{Built a modular LLM inference engine with \textbf{naive, streaming (online softmax), and Triton-fused attention} kernels, benchmarked across 4K to 16K token prefill and decode workloads.}
-        \resumeItem{Designed \textbf{paged KV-cache} (on-demand allocation, zero fragmentation) achieving \textbf{O(T) memory} vs O(T\textsuperscript{2}) for naive. Quantified Triton kernel-fusion speedups over Python page loops.}
-      \resumeItemListEnd
+    {\textbf{LLM Inference Engine from Scratch} {\small\href{https://github.com/shekkari1999/mini-Inference-engine-from-scratch}{GitHub}}}{2025}
+    \resumeItemListStart
+      \resumeItem{Built a modular \textbf{inference engine} with interchangeable attention backends: naive O(T\textsuperscript{2}), streaming O(T) with online softmax, and a \textbf{Triton}-fused FlashAttention kernel with tiled memory access.}
+      \resumeItem{Implemented \textbf{paged KV}-cache with on-demand allocation, reducing peak memory from O(T\textsuperscript{2}) to O(T) compared to contiguous caching.}
+      \resumeItem{Benchmarked \textbf{prefill} and \textbf{decode} throughput across \textbf{4K--16K} context lengths, quantifying Triton kernel-fusion speedups over Python-level implementations.}
+      \resumeItem{Profiled GPU kernels to characterize memory-bound vs compute-bound regimes and measured global memory throughput relative to \textbf{roofline} limits.}
+    \resumeItemListEnd
+
+  \vspace{2pt}
+
+  \resumeProjectHeading
+    {\textbf{AI Agent Framework} {\small\href{https://github.com/shekkari1999/Agents}{GitHub}}}{2025}
+    \resumeItemListStart
+      \resumeItem{Built a \textbf{multi-step reasoning agent from scratch} with function calling, \textbf{MCP} integration for external tool servers, Pydantic-validated structured outputs, sliding-window memory with compaction, and evaluated on the \textbf{GAIA} benchmark.}
+    \resumeItemListEnd
 
 \resumeSubHeadingListEnd
+\vspace{-0.45cm}
 
 %-----------SKILLS-----------
 \section{Technical Skills}
+\vspace{2pt}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{
     \item \textbf{Languages \& Frameworks:} Python, PyTorch, Triton, SQL, Pydantic, FastAPI, Gradio, LangChain, LlamaIndex
@@ -157,10 +170,11 @@
     \item \textbf{Infrastructure:} Docker, Kubernetes, AWS SageMaker, Azure ML, Snowflake, GitHub Actions, CI/CD
   }
 \end{itemize}
-\vspace{-0.55cm}
+\vspace{-0.45cm}
 
 %-----------EDUCATION-----------
 \section{Education}
+\vspace{2pt}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{
     \item \textbf{University of Maryland, College Park} \hfill Expected May 2026 \\
