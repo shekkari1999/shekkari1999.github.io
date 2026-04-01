@@ -937,43 +937,43 @@
                 </div>
             </div>
 
-            <!-- Spotlight: Distributed Training -->
+            <!-- Spotlight: LLM Inference Engine -->
             <div class="project-spotlight">
                 <div class="spotlight-top">
-                    <h3 style="color: #c96b30;">Distributed Training from First Principles</h3>
+                    <h3 style="color: #c96b30;">LLM Inference Engine from Scratch</h3>
                     <span class="project-label">New</span>
                 </div>
                 <div class="spotlight-body">
                     <div class="spotlight-text">
-                        <p>Most engineers use FSDP or DeepSpeed as black boxes. Built pipeline parallelism from scratch using raw NCCL primitives to understand how distributed training actually works under the hood.</p>
+                        <p>Commercial inference engines like vLLM and TGI are powerful but opaque. Built a full inference engine from scratch to understand every layer of the serving stack &mdash; from kernel-level attention to request scheduling.</p>
                         <ul class="detail-list">
-                            <li><strong>Pipeline scheduling:</strong> Implemented both <strong>GPipe</strong> and <strong>1F1B</strong> scheduling with stage-wise model partitioning and micro-batch execution</li>
-                            <li><strong>NCCL primitives:</strong> Built distributed infrastructure using core <strong>send/recv</strong>, <strong>broadcast</strong>, and <strong>all-reduce</strong> to synchronize activations and gradients</li>
-                            <li><strong>Benchmarking:</strong> 1F1B improved pipeline utilization by <strong>~3%</strong>, reduced communication overhead by <strong>~4%</strong>, and idle bubbles by <strong>~4%</strong></li>
-                            <li><strong>Extending:</strong> Adding <strong>tensor parallelism</strong> alongside pipeline parallelism for hybrid <strong>3D parallel</strong> training architectures</li>
+                            <li><strong>FlashAttention:</strong> <strong>Triton</strong>-fused attention kernels with <strong>paged KV-cache</strong>, achieving <strong>2.3x speedup</strong> over Python-level implementations on 4K&ndash;16K token workloads</li>
+                            <li><strong>Speculative decoding:</strong> Qwen3-0.6B draft model with Qwen3-4B as verifier, reducing autoregressive decoding latency by <strong>~28%</strong> and increasing throughput by <strong>~1.4x</strong></li>
+                            <li><strong>Dynamic batching:</strong> Request scheduler for concurrent inference, improving GPU utilization by <strong>22%</strong> and sustaining <strong>1.6x</strong> higher tokens/sec vs sequential decoding</li>
+                            <li><strong>GPU profiling:</strong> <strong>Nsight Compute</strong> to identify memory-bound bottlenecks; optimized tiling and memory access to reach <strong>~78%</strong> of peak HBM bandwidth on A100</li>
                         </ul>
                         <div class="spotlight-footer">
                             <a href="https://github.com/shekkari1999" target="_blank" class="github-btn"><i class="fab fa-github"></i> View on GitHub</a>
-                            <span style="font-size:0.82em; color:#888;">4-stage transformer pipeline across <strong style="color:#2d2926;">4 GPUs</strong> &middot; Raw NCCL &middot; No DeepSpeed/FSDP</span>
+                            <span style="font-size:0.82em; color:#888;"><strong style="color:#2d2926;">2.3x speedup</strong> &middot; Speculative decoding &middot; ~78% peak HBM bandwidth on <strong style="color:#2d2926;">A100</strong></span>
                         </div>
                     </div>
                     <div class="spotlight-sidebar">
                         <div class="spotlight-stack">
                             <div class="stack-item"><i class="fab fa-python"></i> Python</div>
                             <div class="stack-item"><i class="fas fa-fire"></i> PyTorch</div>
-                            <div class="stack-item"><i class="fas fa-network-wired"></i> NCCL</div>
-                            <div class="stack-item"><i class="fas fa-microchip"></i> Multi-GPU</div>
-                            <div class="stack-item"><i class="fas fa-cubes"></i> Transformers</div>
+                            <div class="stack-item"><i class="fas fa-bolt"></i> Triton</div>
                             <div class="stack-item"><i class="fas fa-microchip"></i> CUDA</div>
+                            <div class="stack-item"><i class="fas fa-memory"></i> KV Cache</div>
+                            <div class="stack-item"><i class="fas fa-tachometer-alt"></i> Nsight</div>
                         </div>
-                        <div class="sidebar-label">Pipeline Flow</div>
+                        <div class="sidebar-label">Serving Stack</div>
                         <div class="spotlight-pipeline">
-                            <span class="pipeline-step">Partition Model</span>
-                            <span class="pipeline-step">Micro-Batch</span>
-                            <span class="pipeline-step">Forward Pass</span>
-                            <span class="pipeline-step">Backward Pass</span>
-                            <span class="pipeline-step">All-Reduce</span>
-                            <span class="pipeline-step">Update Weights</span>
+                            <span class="pipeline-step">Request In</span>
+                            <span class="pipeline-step">Dynamic Batch</span>
+                            <span class="pipeline-step">FlashAttention</span>
+                            <span class="pipeline-step">KV-Cache</span>
+                            <span class="pipeline-step">Speculative Decode</span>
+                            <span class="pipeline-step">Stream Tokens</span>
                         </div>
                     </div>
                 </div>
