@@ -17,7 +17,7 @@
 \usepackage[english]{babel}
 \usepackage{tabularx}
 \input{glyphtounicode}
-\usepackage[a4paper, top=0.3in, left=0.5in, right=0.5in, bottom=0.3in]{geometry}
+\usepackage[letterpaper, top=0.25in, left=0.5in, right=0.5in, bottom=0.25in]{geometry}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -42,7 +42,7 @@
 % Custom commands
 \newcommand{\resumeItem}[1]{
   \item\small{
-    {#1 \vspace{-3pt}}
+    {#1 \vspace{-4pt}}
   }
 }
 
@@ -50,6 +50,14 @@
   \vspace{-2pt}\item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubheadingDouble}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
     \end{tabular*}\vspace{-7pt}
 }
 
@@ -64,7 +72,7 @@
 
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=-2pt]}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
 %-------------------------------------------
@@ -74,17 +82,17 @@
 \begin{center}
     \textbf{\Huge \scshape Akhil Shekkari} \\ \vspace{1pt}
     \small
-    \href{https://shekkari1999.github.io}{Portfolio} \textbar\
-    \href{https://github.com/shekkari1999}{GitHub} \textbar\
-    \href{https://www.linkedin.com/in/akhilshekkari/}{LinkedIn} \textbar\
+    +1 (425) 426-8292 \textbar\
     \href{mailto:shekkari.akhil@gmail.com}{shekkari.akhil@gmail.com} \textbar\
-    +1 (425) 426-8292
+    \href{https://www.linkedin.com/in/akhilshekkari/}{linkedin} \textbar\
+    \href{https://github.com/shekkari1999}{github} \textbar\
+    \href{https://shekkari1999.github.io}{portfolio}
 \end{center}
-\vspace{-0.4cm}
+\vspace{-0.45cm}
 
 %-----------SUMMARY-----------
 \section{Summary}
-\vspace{2pt}
+\vspace{1pt}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{
     \item \textbf{AI Engineer} with 3+ years of industry experience building and deploying \textbf{production LLM systems}. Specialized in \textbf{Agents}, \textbf{large scale training}, and \textbf{inference optimization}, with a focus on evaluation and scalable system design.
@@ -94,11 +102,12 @@
 
 %-----------EXPERIENCE-----------
 \section{Experience}
-\vspace{2pt}
+\vspace{1pt}
   \resumeSubHeadingListStart
 
-    \resumeSubheadingSingle
-      {AI Engineer \textbar\ Atrium \textbar\ Silver Spring, USA}{June 2025 - August 2025}
+    \resumeSubheadingDouble
+      {Atrium}{Jun 2025 - Aug 2025}
+      {AI Engineer}{Silver Spring, USA}
       \resumeItemListStart
         \resumeItem{Co-authored a \textbf{peer-reviewed publication} in Clinical Trials (SAGE) titled \textit{Leveraging Generative AI to Transform Statistical Analysis Plan Authoring in Clinical Trials}.}
         \resumeItem{\textbf{Automated Statistical Analysis Plan} generation from clinical trial documents for \textbf{Pfizer's} team, reducing drafting time by \textbf{60\%}.}
@@ -107,11 +116,9 @@
         \resumeItem{Conducted multiple ablations improving generation consistency by \textbf{25\%} and reducing manual revision cycles by \textbf{33\%}.}
       \resumeItemListEnd
 
-    \vspace{2pt}
-
-    \resumeSubheadingSingle
-      {Machine Learning Engineer \textbar\ Tezo \textbar\ India}
-      {July 2021 - July 2024}
+    \resumeSubheadingDouble
+      {Tezo}{Jul 2021 - Jul 2024}
+      {Machine Learning Engineer}{India}
       \resumeItemListStart
         \resumeItem{Designed a \textbf{RAG} powered chatbot over SharePoint repositories, giving \textbf{200+} employees a unified search interface across \textbf{1,000+} internal documents with sub-second retrieval.}
         \resumeItem{Engineered \textbf{semantic search} pipeline (embeddings + vector DB) reducing document lookup time by \textbf{61\%}, and added LLM-based summarization cutting manager review time by \textbf{37\%}.}
@@ -129,15 +136,13 @@
 \resumeSubHeadingListStart
 
   \resumeProjectHeading
-    {\textbf{Distributed Training from First Principles} {\small\href{https://github.com/shekkari1999}{GitHub}}}{2026}
+    {\textbf{Distributed Training from First Principles} \textbar\ {\small\href{https://github.com/shekkari1999}{Github}}}{2026}
     \resumeItemListStart
       \resumeItem{Implemented GPipe and 1F1B pipeline scheduling on a \textbf{multi-GPU transformer pipeline} with stage-wise model partitioning and micro-batch execution for scalable distributed training.}
       \resumeItem{Built \textbf{distributed training infrastructure} using core NCCL primitives (send/recv, broadcast, all-reduce) to synchronize activations and gradients across pipeline stages during forward and backward passes.}
       \resumeItem{\textbf{Benchmarked GPipe vs 1F1B scheduling} on a 4-stage transformer pipeline across 4 GPUs; 1F1B improved pipeline utilization by \textbf{\textasciitilde3\%} and reduced communication overhead by \textbf{\textasciitilde4\%}, idle bubbles by \textbf{\textasciitilde4\%} overlapping forward and backward micro-batches.}
       \resumeItem{Extending the distributed training framework to support \textbf{tensor parallelism} alongside pipeline parallelism, targeting hybrid \textbf{3D parallel} training architectures.}
     \resumeItemListEnd
-
-  \vspace{2pt}
 
   \resumeProjectHeading
     {\textbf{LLM Inference Engine from Scratch}}{2026}
@@ -148,10 +153,8 @@
       \resumeItem{Profiled \textbf{GPU kernels} with Nsight Compute to identify memory-bound bottlenecks; optimized tiling and memory access patterns to reach \textbf{\textasciitilde78\%} of peak HBM bandwidth on A100.}
     \resumeItemListEnd
 
-  \vspace{2pt}
-
   \resumeProjectHeading
-    {\textbf{Multi-Agent Reasoning System with GRPO} {\small\href{https://github.com/shekkari1999}{GitHub}}}{2025}
+    {\textbf{Multi-Agent Reasoning System with GRPO} \textbar\ {\small\href{https://github.com/shekkari1999}{Github}}}{2025}
     \resumeItemListStart
       \resumeItem{Designed and built a modular \textbf{multi-agent GRPO system} (Planner, Executor, Verifier, Memory) with tool-grounded reasoning, supporting up to \textbf{20 decisions/query} (4 rollouts \texttimes\ 5 turns) and delivering a \textbf{+300\%} exploration gain over single-trajectory RL.}
       \resumeItem{Engineered an end-to-end data pipeline to normalize, merge, and parquet-export \textbf{DeepMath-103K + FlashRAG-NQ} into a unified \textbf{182,190-sample} training corpus with balanced coverage (56.5\% math, 43.5\% QA).}
@@ -164,7 +167,7 @@
 
 %-----------SKILLS-----------
 \section{Technical Skills}
-\vspace{2pt}
+\vspace{1pt}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{
     \item \textbf{Languages \& Frameworks:} Python, PyTorch, Triton, SQL, Pydantic, FastAPI, Gradio, LangChain, LlamaIndex
@@ -178,11 +181,11 @@
 
 %-----------EDUCATION-----------
 \section{Education}
-\vspace{2pt}
+\vspace{1pt}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{
     \item \textbf{University of Maryland, College Park} \hfill May 2026 \\
-          Master of Science in Applied Machine Learning \\
+          \textit{Master of Science, Applied Machine Learning} \\
           \textbf{Coursework:} Deep Learning, NLP, Advanced ML, Reinforcement Learning, Optimization, Probability \& Statistics
   }
 \end{itemize}
