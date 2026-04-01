@@ -213,6 +213,63 @@
             gap: 5px;
         }
 
+        /* ── Publication Banner ── */
+        .pub-banner {
+            background: #fff;
+            border: 2px solid #c96b30;
+            border-radius: 14px;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .pub-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(201,107,48,0.12);
+        }
+        .pub-icon {
+            font-size: 1.6em;
+            color: #c96b30;
+            flex-shrink: 0;
+        }
+        .pub-content { flex: 1; }
+        .pub-label {
+            font-size: 0.68em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #c96b30;
+            margin-bottom: 4px;
+        }
+        .pub-title {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #2d2926;
+            line-height: 1.4;
+        }
+        .pub-venue {
+            font-size: 0.82em;
+            color: #888;
+            margin-top: 2px;
+        }
+        .pub-link {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #c96b30;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.82em;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .pub-link:hover { background: #b85d28; }
+
         /* ── Section ── */
         .section { padding: 28px 0; }
         .section-title {
@@ -708,6 +765,7 @@
             }
             .hero-text h1 { font-size: 2em; }
             .hero-featured { width: 100%; }
+            .pub-banner { flex-direction: column; text-align: center; gap: 12px; }
 
             .section { padding: 20px 0; }
             .section-title { font-size: 1.4em; }
@@ -764,6 +822,17 @@
                 </a>
             </div>
         </section>
+
+        <!-- Publication Highlight -->
+        <div class="pub-banner">
+            <div class="pub-icon"><i class="fas fa-scroll"></i></div>
+            <div class="pub-content">
+                <div class="pub-label">Peer-Reviewed Publication</div>
+                <div class="pub-title">Leveraging Generative AI to Transform Statistical Analysis Plan Authoring in Clinical Trials</div>
+                <div class="pub-venue">Clinical Trials (SAGE) &middot; 2025</div>
+            </div>
+            <a href="https://journals.sagepub.com/doi/abs/10.1177/17407745261422365" target="_blank" class="pub-link"><i class="fas fa-external-link-alt"></i> Read Paper</a>
+        </div>
 
         <!-- My Best Past Work -->
         <section class="section">
