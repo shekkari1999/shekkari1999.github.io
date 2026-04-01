@@ -344,9 +344,9 @@
             <span class="overview-num">01</span>
             <div class="overview-info">
                 <div class="overview-title">Built from Scratch</div>
-                <div class="overview-desc">Agents, reasoning models, inference engines, and apps built from the ground up</div>
+                <div class="overview-desc">Agents, distributed training, inference engines, and apps built from the ground up</div>
             </div>
-            <span class="overview-count">4 projects</span>
+            <span class="overview-count">5 projects</span>
             <i class="fas fa-arrow-right overview-arrow"></i>
         </a>
         <a href="#finetuning" class="overview-row">
@@ -378,7 +378,7 @@
                 <span class="stack-num">01</span>
                 <div>
                     <div class="stack-title">Built from Scratch</div>
-                    <div class="stack-desc">Agents, reasoning models, inference engines, and apps built from the ground up</div>
+                    <div class="stack-desc">Agents, distributed training, inference engines, and apps built from the ground up</div>
                 </div>
             </div>
             <div class="stack-cards">
@@ -406,17 +406,17 @@
                 <div class="project-card">
                     <div class="card-header">
                         <div class="card-header-left">
-                            <h3>Building a Reasoning LLM from Scratch</h3>
+                            <h3>Distributed Training from First Principles</h3>
                             <div class="card-tags">
-                                <span>PyTorch</span><span>GRPO</span><span>SymPy</span><span>Hugging Face</span><span>CUDA</span><span>W&amp;B</span>
+                                <span>PyTorch</span><span>NCCL</span><span>Multi-GPU</span><span>Pipeline Parallelism</span><span>CUDA</span>
                             </div>
                         </div>
                         <span class="card-label">New</span>
                     </div>
                     <div class="card-body">
-                        <p>Models like DeepSeek-R1 and OpenAI o1 show that reasoning ability emerges through deliberate post-training, but these pipelines are proprietary and poorly documented.</p>
-                        <p>Implemented the complete post-training pipeline to turn a base LLM (Qwen-2.5) into a reasoning model. Built a custom inference engine with KV-cache and temperature/top-p sampling. Created a math evaluation harness with SymPy-based symbolic equivalence checking. Implemented inference-time scaling (chain-of-thought, self-consistency via majority voting, self-refinement with log-probability scoring). Trained the model using GRPO reinforcement learning from scratch: rollout sampling, group-relative advantage normalization, clipped policy gradient with KL penalty.</p>
-                        <p><span class="card-result"><i class="fas fa-check"></i> Evaluated on GSM8K &amp; MATH benchmarks &middot; GRPO from raw PyTorch (no TRL) &middot; Runs on single GPU</span></p>
+                        <p>Most engineers use FSDP or DeepSpeed as black boxes. Understanding distributed training requires implementing the communication primitives and scheduling algorithms from scratch.</p>
+                        <p>Implemented GPipe and 1F1B pipeline scheduling on a multi-GPU transformer pipeline with stage-wise model partitioning and micro-batch execution. Built distributed training infrastructure using core NCCL primitives (send/recv, broadcast, all-reduce) to synchronize activations and gradients across pipeline stages.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> 1F1B improved pipeline utilization by ~3% &middot; Reduced communication overhead by ~4% &middot; Extending to tensor parallelism for hybrid 3D parallel training</span></p>
                     </div>
                     <div class="card-footer">
                         <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
@@ -426,17 +426,37 @@
                 <div class="project-card">
                     <div class="card-header">
                         <div class="card-header-left">
-                            <h3>Mini Inference Engine</h3>
+                            <h3>Multi-Agent Reasoning System with GRPO</h3>
                             <div class="card-tags">
-                                <span>Python</span><span>PyTorch</span><span>CUDA</span><span>KV Cache</span><span>Quantization</span>
+                                <span>PyTorch</span><span>GRPO</span><span>QLoRA</span><span>Hugging Face</span><span>W&amp;B</span>
+                            </div>
+                        </div>
+                        <span class="card-label">New</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Single-trajectory RL limits exploration and tool-use diversity. Multi-agent architectures with group-relative policy optimization unlock richer reasoning strategies.</p>
+                        <p>Designed and built a modular multi-agent GRPO system (Planner, Executor, Verifier, Memory) with tool-grounded reasoning, supporting up to 20 decisions/query (4 rollouts &times; 5 turns). Engineered a data pipeline merging DeepMath-103K + FlashRAG-NQ into a unified 182,190-sample training corpus. Implemented 4-bit QLoRA fine-tuning for a 1.5B policy model, training only 1.10% of parameters.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> +300% exploration gain over single-trajectory RL &middot; Reward: 29% &rarr; 87% &middot; Loss decreased by 97.7%</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="card-header">
+                        <div class="card-header-left">
+                            <h3>LLM Inference Engine from Scratch</h3>
+                            <div class="card-tags">
+                                <span>Python</span><span>PyTorch</span><span>Triton</span><span>CUDA</span><span>KV Cache</span>
                             </div>
                         </div>
                         <span class="card-label">New</span>
                     </div>
                     <div class="card-body">
                         <p>Commercial inference engines like vLLM and TGI are powerful but opaque &mdash; understanding how LLM serving actually works requires building one from the ground up.</p>
-                        <p>Built a mini inference engine from scratch covering the full serving stack: tokenization, KV-cache management, batching strategies, and basic quantization. Designed to demystify what happens between receiving a prompt and streaming back tokens.</p>
-                        <p><span class="card-result"><i class="fas fa-check"></i> End-to-end from-scratch implementation &middot; KV-cache &amp; batching &middot; Deep understanding of LLM serving internals</span></p>
+                        <p>Built a modular inference engine with Triton-fused FlashAttention kernels and paged KV-cache, achieving 2.3x speedup on 4K&ndash;16K token workloads. Implemented speculative decoding using Qwen3-0.6B draft model with Qwen3-4B as verifier, reducing decoding latency by ~28%. Designed a dynamic batching and request scheduler improving GPU utilization by 22%.</p>
+                        <p><span class="card-result"><i class="fas fa-check"></i> 2.3x speedup &middot; ~28% latency reduction via speculative decoding &middot; ~78% peak HBM bandwidth on A100</span></p>
                     </div>
                     <div class="card-footer">
                         <a href="https://github.com/shekkari1999" target="_blank" class="github-link"><i class="fab fa-github"></i> View Code</a>

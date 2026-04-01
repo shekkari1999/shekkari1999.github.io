@@ -1,0 +1,191 @@
+%-------------------------
+% Resume — Akhil Shekkari
+% Targeted: Applied AI Engineer roles
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+\usepackage[a4paper, top=0.3in, left=0.5in, right=0.5in, bottom=0.3in]{geometry}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-6pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-6pt}]
+
+% ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-3pt}}
+  }
+}
+
+\newcommand{\resumeSubheadingSingle}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      #1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Akhil Shekkari} \\ \vspace{1pt}
+    \small
+    \href{https://shekkari1999.github.io}{Portfolio} \textbar\
+    \href{https://github.com/shekkari1999}{GitHub} \textbar\
+    \href{https://www.linkedin.com/in/akhilshekkari/}{LinkedIn} \textbar\
+    \href{mailto:shekkari.akhil@gmail.com}{shekkari.akhil@gmail.com} \textbar\
+    +1 (425) 426-8292
+\end{center}
+\vspace{-0.4cm}
+
+%-----------SUMMARY-----------
+\section{Summary}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{
+    \item \textbf{AI Engineer} with 3+ years of industry experience building and deploying \textbf{production LLM systems}. Specialized in \textbf{Agents}, \textbf{large scale training}, and \textbf{inference optimization}, with a focus on evaluation and scalable system design.
+  }
+\end{itemize}
+\vspace{-0.45cm}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+\vspace{2pt}
+  \resumeSubHeadingListStart
+
+    \resumeSubheadingSingle
+      {AI Engineer \textbar\ Atrium \textbar\ Silver Spring, USA}{June 2025 - August 2025}
+      \resumeItemListStart
+        \resumeItem{Co-authored a \textbf{peer-reviewed publication} in Clinical Trials (SAGE) titled \textit{Leveraging Generative AI to Transform Statistical Analysis Plan Authoring in Clinical Trials}.}
+        \resumeItem{\textbf{Automated Statistical Analysis Plan} generation from clinical trial documents for \textbf{Pfizer's} team, reducing drafting time by \textbf{60\%}.}
+        \resumeItem{Evaluated \textbf{knowledge graphs}, naive and semantic chunking strategies; benchmarked \textbf{embedding models}, \textbf{rerankers}, and \textbf{HyDE} then selected a RAG configuration that improved retrieval relevance by \textbf{18\%} over baseline.}
+        \resumeItem{Built a custom \textbf{LLM-as-a-Judge} evaluation system with structured rubrics scoring completeness, guideline adherence, and hallucination detection against ground truth SAPs, achieving \textbf{82\% precision} and \textbf{78\% recall}.}
+        \resumeItem{Conducted multiple ablations improving generation consistency by \textbf{25\%} and reducing manual revision cycles by \textbf{33\%}.}
+      \resumeItemListEnd
+
+    \vspace{2pt}
+
+    \resumeSubheadingSingle
+      {Machine Learning Engineer \textbar\ Tezo \textbar\ India}
+      {July 2021 - July 2024}
+      \resumeItemListStart
+        \resumeItem{Designed a \textbf{RAG} powered chatbot over SharePoint repositories, giving \textbf{200+} employees a unified search interface across \textbf{1,000+} internal documents with sub-second retrieval.}
+        \resumeItem{Engineered \textbf{semantic search} pipeline (embeddings + vector DB) reducing document lookup time by \textbf{61\%}, and added LLM-based summarization cutting manager review time by \textbf{37\%}.}
+        \resumeItem{Optimized \textbf{chunking and retrieval} by benchmarking chunk sizes, overlap strategies, and hybrid search, improving answer relevance and reducing hallucination rates across document types.}
+        \resumeItem{Worked on \textbf{evaluation pipeline} to measure RAG output quality, tracking faithfulness, retrieval relevance, and hallucination rates across queries, enabling iteration on the retrieval and generation stages based on measured metrics.}
+        \resumeItem{\textbf{Trained ML models} for insurance policy scoring and fraud detection, improving fraud recall by \textbf{12\%} and enabling earlier intervention across the claims pipeline.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+\vspace{-0.45cm}
+
+%-----------PROJECTS-----------
+\section{Projects}
+\vspace{-0.5pt}
+\resumeSubHeadingListStart
+
+  \resumeProjectHeading
+    {\textbf{Distributed Training from First Principles} {\small\href{https://github.com/shekkari1999}{GitHub}}}{2026}
+    \resumeItemListStart
+      \resumeItem{Implemented GPipe and 1F1B pipeline scheduling on a \textbf{multi-GPU transformer pipeline} with stage-wise model partitioning and micro-batch execution for scalable distributed training.}
+      \resumeItem{Built \textbf{distributed training infrastructure} using core NCCL primitives (send/recv, broadcast, all-reduce) to synchronize activations and gradients across pipeline stages during forward and backward passes.}
+      \resumeItem{\textbf{Benchmarked GPipe vs 1F1B scheduling} on a 4-stage transformer pipeline across 4 GPUs; 1F1B improved pipeline utilization by \textbf{\textasciitilde3\%} and reduced communication overhead by \textbf{\textasciitilde4\%}, idle bubbles by \textbf{\textasciitilde4\%} overlapping forward and backward micro-batches.}
+      \resumeItem{Extending the distributed training framework to support \textbf{tensor parallelism} alongside pipeline parallelism, targeting hybrid \textbf{3D parallel} training architectures.}
+    \resumeItemListEnd
+
+  \vspace{2pt}
+
+  \resumeProjectHeading
+    {\textbf{LLM Inference Engine from Scratch}}{2026}
+    \resumeItemListStart
+      \resumeItem{Built a modular inference engine with \textbf{Triton}-fused FlashAttention kernels and \textbf{paged KV-cache}, achieving \textbf{2.3x speedup} over Python-level implementations on 4K--16K token workloads.}
+      \resumeItem{Implemented \textbf{speculative decoding} using a Qwen3 - 0.6B draft model with Qwen3 - 4B as the target verifier, reducing autoregressive decoding latency by \textbf{\textasciitilde28\%} and increasing token throughput by \textbf{\textasciitilde1.4\texttimes} on long-context workloads.}
+      \resumeItem{Designed a \textbf{dynamic batching and request scheduler} to serve concurrent inference requests, improving GPU utilization by \textbf{22\%} and sustaining \textbf{1.6\texttimes} higher tokens/sec compared to naive sequential decoding.}
+      \resumeItem{Profiled \textbf{GPU kernels} with Nsight Compute to identify memory-bound bottlenecks; optimized tiling and memory access patterns to reach \textbf{\textasciitilde78\%} of peak HBM bandwidth on A100.}
+    \resumeItemListEnd
+
+  \vspace{2pt}
+
+  \resumeProjectHeading
+    {\textbf{Multi-Agent Reasoning System with GRPO} {\small\href{https://github.com/shekkari1999}{GitHub}}}{2025}
+    \resumeItemListStart
+      \resumeItem{Designed and built a modular \textbf{multi-agent GRPO system} (Planner, Executor, Verifier, Memory) with tool-grounded reasoning, supporting up to \textbf{20 decisions/query} (4 rollouts \texttimes\ 5 turns) and delivering a \textbf{+300\%} exploration gain over single-trajectory RL.}
+      \resumeItem{Engineered an end-to-end data pipeline to normalize, merge, and parquet-export \textbf{DeepMath-103K + FlashRAG-NQ} into a unified \textbf{182,190-sample} training corpus with balanced coverage (56.5\% math, 43.5\% QA).}
+      \resumeItem{Implemented \textbf{4-bit QLoRA} fine-tuning for a 1.5B policy model with LoRA, training only \textbf{1.10\%} of parameters for efficient RL adaptation.}
+      \resumeItem{Achieved strong pilot training gains: average reward improved from \textbf{29\% to 87\%} while loss decreased by \textbf{97.7\%} in initial GRPO runs.}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-0.45cm}
+
+%-----------SKILLS-----------
+\section{Technical Skills}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{
+    \item \textbf{Languages \& Frameworks:} Python, PyTorch, Triton, SQL, Pydantic, FastAPI, Gradio, LangChain, LlamaIndex
+    \vspace{-0.2cm}
+    \item \textbf{ML \& Training:} LoRA/QLoRA, FSDP, Hugging Face Transformers, Unsloth, W\&B, ClearML, Scikit-learn, Megatron, Deepspeed
+    \vspace{-0.2cm}
+    \item \textbf{Infrastructure:} Docker, Kubernetes, AWS SageMaker, Azure ML, Snowflake, GitHub Actions, CI/CD
+  }
+\end{itemize}
+\vspace{-0.45cm}
+
+%-----------EDUCATION-----------
+\section{Education}
+\vspace{2pt}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{
+    \item \textbf{University of Maryland, College Park} \hfill May 2026 \\
+          Master of Science in Applied Machine Learning \\
+          \textbf{Coursework:} Deep Learning, NLP, Advanced ML, Reinforcement Learning, Optimization, Probability \& Statistics
+  }
+\end{itemize}
+
+%-------------------------------------------
+\end{document}
